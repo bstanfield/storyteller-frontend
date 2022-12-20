@@ -19,38 +19,42 @@ const images = [
 ];
 
 const textInput = scale({
-  padding: "8px 9px 8px 9px",
+  padding: "16px 60px 16px 24px",
   border: `1px solid ${colors.slate}`,
-  borderRadius: 2,
-  marginRight: 12,
+  borderRadius: 8,
   fontFamily: fonts.monospace,
   "&::placeholder": {
     fontFamily: fonts.monospace,
   },
+  color: colors.slate,
+  fontSize: 20,
+  width: '100%',
+  maxWidth: 300,
+  marginBottom: 18,
 });
 
 export default function Index() {
-  const [key, setKey] = useState("");
+  const [room, setRoom] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if (success) {
-      window.location.href = `/${key}`;
+      window.location.href = `/${room}`;
     }
   }, [success]);
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      checkKey(key);
+    if (e.room === "Enter") {
+      checkRoom(room);
     }
   };
 
-  const checkKey = async (key) => {
-    const res = await fetch(`${ENDPOINT}/secret?key=${key}`);
+  const checkRoom = async (room) => {
+    const res = await fetch(`${ENDPOINT}/secret?room=${room}`);
     const data = await res.json();
     if (data.error) {
-      alert("Invalid key");
-      setKey("");
+      alert("Invalid room");
+      setRoom("");
     } else {
       setSuccess(true);
     }
@@ -58,9 +62,9 @@ export default function Index() {
 
   const handleChange = (i) => {
     if (i.nativeEvent.data) {
-      return setKey(key + i.nativeEvent.data);
+      return setRoom(room + i.nativeEvent.data);
     } else if (i.nativeEvent.data === null) {
-      return setKey(key.slice(0, -1));
+      return setRoom(room.slice(0, -1));
     }
   };
 
@@ -87,29 +91,21 @@ export default function Index() {
       >
         <img css={{ marginBottom: -30, width: 300 }} src="https://storyteller.imgix.net/storyteller-logo.png?w=450"></img>
         <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
-        {/* <input
-          autoFocus
-          onKeyDown={handleKeyDown}
-          css={textInput}
-          value={key}
-          onChange={(i) => handleChange(i)}
-          placeholder="Your key"
-          type="text"
-        ></input>
-        <Button
-          props={{
-            onClickFn: () => checkKey(key),
-            darkmode: false,
-            text: "Enter",
-            icon: { name: "enter-outline", size: 16 },
-          }}
-        /> */}
 
         <h3>Create a new game</h3>
         <button>Create game</button>
 
         <h3>Or, join an existing game</h3>
-        <button className="btn-purple">Join game</button>
+        <input
+          autoFocus
+          onRoomDown={handleKeyDown}
+          css={textInput}
+          value={room}
+          onChange={(i) => handleChange(i)}
+          placeholder="Your room"
+          type="text"
+        ></input>
+            <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>
         </div>
         </div>
         <div

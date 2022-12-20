@@ -1,19 +1,13 @@
 /** @jsx jsx */
 
 import { jsx } from "@emotion/react";
-import Game from "../components/game";
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT, formatScores } from "../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
 import styles from "../lib/boardStyles";
 import Header from "../components/header";
-import Popup from "../components/popup";
-import Metadata from "../components/metadata";
 import Button from "../components/button";
-import PuzzleSelector from "../components/puzzleSelector";
-import DateSelector from "../components/DateSelector";
-import Nav from "../components/nav";
 import { useRouter } from 'next/router'
 
 export default function Room() {
@@ -231,171 +225,171 @@ export default function Room() {
           </div>
           {name ? (
             <p>
-              Joining puzzle as <b>{name}</b>...
+              Joining as <b>{name}</b>...
             </p>
           ) : (
-            <p>Loading puzzle...</p>
+            <p>Loading...</p>
           )}
         </div>
       </div>
     );
   } else {
-    return (
-      <div css={styles.appBackground(darkmode)}>
-        <Header props={{ isLoading: false, room }} />
+    // return (
+    //   <div css={styles.appBackground(darkmode)}>
+    //     <Header props={{ isLoading: false, room }} />
 
-        {name && showFinishScreen && (
-          <Popup>
-            <h1>Crossword solved!</h1>
-            {scores && (
-              <ul css={styles.scores}>
-                {formatScores(timestamp, completedAtTimestamp, scores)}
-              </ul>
-            )}
-            <br />
-            <Button
-              props={{
-                onClickFn: () => setShowFinishScreen(false),
-                darkmode: false,
-                text: "Back to puzzle",
-                icon: { name: "arrow-back-circle", size: 16 },
-              }}
-            />
-          </Popup>
-        )}
-        {!name && (
-          <Popup>
-            <h1>Enter a username</h1>
-            <p>
-              Must be <strong>6 or fewer</strong> letters.
-            </p>
-            <br />
-            <input
-              autoFocus
-              onKeyDown={handleKeyDown}
-              css={styles.textInput}
-              value={input}
-              onChange={(i) => handleChange(i)}
-              placeholder="Username"
-              type="text"
-            ></input>
-            <Button
-              props={{
-                onClickFn: () => checkName(input),
-                darkmode: false,
-                text: "Save",
-                icon: { name: "checkmark-circle", size: 16 },
-              }}
-            />
-            {error && (
-              <p css={{ fontSize: 14, padding: 0, color: "red" }}>
-                Too many letters!
-              </p>
-            )}
-          </Popup>
-        )}
+    //     {name && showFinishScreen && (
+    //       <Popup>
+    //         <h1>Crossword solved!</h1>
+    //         {scores && (
+    //           <ul css={styles.scores}>
+    //             {formatScores(timestamp, completedAtTimestamp, scores)}
+    //           </ul>
+    //         )}
+    //         <br />
+    //         <Button
+    //           props={{
+    //             onClickFn: () => setShowFinishScreen(false),
+    //             darkmode: false,
+    //             text: "Back to puzzle",
+    //             icon: { name: "arrow-back-circle", size: 16 },
+    //           }}
+    //         />
+    //       </Popup>
+    //     )}
+    //     {!name && (
+    //       <Popup>
+    //         <h1>Enter a username</h1>
+    //         <p>
+    //           Must be <strong>6 or fewer</strong> letters.
+    //         </p>
+    //         <br />
+    //         <input
+    //           autoFocus
+    //           onKeyDown={handleKeyDown}
+    //           css={styles.textInput}
+    //           value={input}
+    //           onChange={(i) => handleChange(i)}
+    //           placeholder="Username"
+    //           type="text"
+    //         ></input>
+    //         <Button
+    //           props={{
+    //             onClickFn: () => checkName(input),
+    //             darkmode: false,
+    //             text: "Save",
+    //             icon: { name: "checkmark-circle", size: 16 },
+    //           }}
+    //         />
+    //         {error && (
+    //           <p css={{ fontSize: 14, padding: 0, color: "red" }}>
+    //             Too many letters!
+    //           </p>
+    //         )}
+    //       </Popup>
+    //     )}
 
-        {/* Causing issue on-reload in Safari */}
-        {/* <Shortcuts props={{ show: showSidePanel, darkmode }} /> */}
-        <Nav props={{ darkmode, setDarkmode, players, socketConnection }} />
-        <div css={styles.appContainer}>
-          <main>
-            <Metadata props={{ data }} />
-            <Game
-              props={{
-                filledAtTimestamp,
-                completedAtTimestamp,
-                socketConnection,
-                data,
-                room,
-                scores,
-                setScores,
-                clientId,
-                timestamp,
-                timer,
-                guestHighlights,
-                players,
-                nametagLocations,
-                nametagData,
-                loading,
-                focus,
-                setFocus,
-                darkmode,
-                setDarkmode,
-                name,
-                setName,
-                showFinishScreen,
-                setShowFinishScreen,
-                showFinishScreen,
-                hoveredClue,
-                setHoveredClue,
-                showIncorrect,
-                setShowIncorrect,
-                initialGuesses,
-                guestInputChange,
-                setGuestInputChange,
-              }}
-            />
+    //     {/* Causing issue on-reload in Safari */}
+    //     {/* <Shortcuts props={{ show: showSidePanel, darkmode }} /> */}
+    //     <Nav props={{ darkmode, setDarkmode, players, socketConnection }} />
+    //     <div css={styles.appContainer}>
+    //       <main>
+    //         <Metadata props={{ data }} />
+    //         <Game
+    //           props={{
+    //             filledAtTimestamp,
+    //             completedAtTimestamp,
+    //             socketConnection,
+    //             data,
+    //             room,
+    //             scores,
+    //             setScores,
+    //             clientId,
+    //             timestamp,
+    //             timer,
+    //             guestHighlights,
+    //             players,
+    //             nametagLocations,
+    //             nametagData,
+    //             loading,
+    //             focus,
+    //             setFocus,
+    //             darkmode,
+    //             setDarkmode,
+    //             name,
+    //             setName,
+    //             showFinishScreen,
+    //             setShowFinishScreen,
+    //             showFinishScreen,
+    //             hoveredClue,
+    //             setHoveredClue,
+    //             showIncorrect,
+    //             setShowIncorrect,
+    //             initialGuesses,
+    //             guestInputChange,
+    //             setGuestInputChange,
+    //           }}
+    //         />
 
-            <div css={{ marginTop: 6 }}>
-              {/* <span
-                css={{ marginRight: 8 }}
-                onClick={() => setShowSidePanel(showSidePanel ? false : true)}
-              >
-                <Button
-                  props={{
-                    darkmode,
-                    text: "Shortcuts",
-                    icon: { name: "flash", size: 14 },
-                  }}
-                />
-              </span> */}
+    //         <div css={{ marginTop: 6 }}>
+    //           {/* <span
+    //             css={{ marginRight: 8 }}
+    //             onClick={() => setShowSidePanel(showSidePanel ? false : true)}
+    //           >
+    //             <Button
+    //               props={{
+    //                 darkmode,
+    //                 text: "Shortcuts",
+    //                 icon: { name: "flash", size: 14 },
+    //               }}
+    //             />
+    //           </span> */}
 
-              <span css={{ marginRight: 8 }}>
-                <DateSelector
-                  props={{
-                    darkmode,
-                    socketConnection,
-                    dateRange,
-                    setDateRange,
-                  }}
-                />
-              </span>
+    //           <span css={{ marginRight: 8 }}>
+    //             <DateSelector
+    //               props={{
+    //                 darkmode,
+    //                 socketConnection,
+    //                 dateRange,
+    //                 setDateRange,
+    //               }}
+    //             />
+    //           </span>
 
-              <PuzzleSelector
-                props={{
-                  room,
-                  darkmode,
-                  dateRange,
-                  socketConnection,
-                }}
-              />
+    //           <PuzzleSelector
+    //             props={{
+    //               room,
+    //               darkmode,
+    //               dateRange,
+    //               socketConnection,
+    //             }}
+    //           />
 
-              <p
-                css={{
-                  display: "inline-block",
-                  fontSize: 14,
-                  paddingLeft: 12,
-                  paddingRight: 4,
-                }}
-              >
-                Playing as <strong>{name || "anon"}</strong>
-              </p>
-              <a
-                css={{
-                  fontSize: 14,
-                  color: darkmode ? "#8e8e8e" : "blue",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
-                onClick={() => setName(false)}
-              >
-                edit
-              </a>
-            </div>
-          </main>
-        </div>
-      </div>
-    );
+    //           <p
+    //             css={{
+    //               display: "inline-block",
+    //               fontSize: 14,
+    //               paddingLeft: 12,
+    //               paddingRight: 4,
+    //             }}
+    //           >
+    //             Playing as <strong>{name || "anon"}</strong>
+    //           </p>
+    //           <a
+    //             css={{
+    //               fontSize: 14,
+    //               color: darkmode ? "#8e8e8e" : "blue",
+    //               textDecoration: "underline",
+    //               cursor: "pointer",
+    //             }}
+    //             onClick={() => setName(false)}
+    //           >
+    //             edit
+    //           </a>
+    //         </div>
+    //       </main>
+    //     </div>
+    //   </div>
+    // );
   }
 }
