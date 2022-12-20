@@ -124,8 +124,8 @@ export default function Room() {
       setInitialGuesses(data);
     });
 
-    connection.on("board", (board) => {
-      setData(board);
+    connection.on("data", (gameData) => {
+      setData(gameData);
     });
 
     connection.on("loading", (boolean) => {
@@ -214,6 +214,9 @@ export default function Room() {
     }
   };
 
+  console.log('data: ', data);
+  console.log('loading: ', loading);
+  console.log('connection: ', socketConnection);
   if (!data || loading || !socketConnection) {
     return (
       <div css={[styles.appBackground(darkmode), { height: "100vh" }]}>
@@ -234,6 +237,11 @@ export default function Room() {
       </div>
     );
   } else {
+    return (
+      <div>
+        <h1>{room}</h1>
+      </div>
+    )
     // return (
     //   <div css={styles.appBackground(darkmode)}>
     //     <Header props={{ isLoading: false, room }} />
