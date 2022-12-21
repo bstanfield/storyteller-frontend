@@ -7,6 +7,7 @@ import TextInput from "../components/TextInput";
 import Header from "../components/header";
 import Card from "../components/card";
 import { spacing } from "../styles/theme";
+import Link from "next/link";
 
 const images = [
   'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
@@ -89,8 +90,9 @@ export default function Index() {
             <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
 
             <h3>Create a new game</h3>
-            <button>Create game</button>
-
+            <Link href="/create/username">
+              <button>Create game</button>
+            </Link>
             <br />
             <br />
 

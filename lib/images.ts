@@ -1,6 +1,9 @@
 const IMAGE_SERVER = 'https://storyteller.imgix.net/';
 
-export function staticImageUrl(imagePath: string, options?: { url?: string }){
+export function staticImageUrl(
+  imagePath: string,
+  options?: { url?: string, w?: number }
+){
   const url = new URL(options?.url || IMAGE_SERVER);
 
   delete options?.url;
@@ -14,7 +17,7 @@ export function staticImageUrl(imagePath: string, options?: { url?: string }){
 
   if (options) {
     for (const [key, value] of Object.entries(options)) {
-      searchParams.set(key, value);
+      searchParams.set(key, value.toString());
     }
   }
 

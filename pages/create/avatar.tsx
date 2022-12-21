@@ -4,27 +4,21 @@ import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
 import { scale, fonts, colors, ENDPOINT } from "../../lib/helpers";
 import Header from "../../components/header";
-import Card from "../../components/card";
-import { spacing } from "../../styles/theme";
+import Flex from "../../components/layout/Flex";
+import Link from "next/link";
 
-const images = [];
+const avatars = [
+  'purple',
+  'pink',
+  'green',
+  'gray',
+  'brown',
+  'teal',
+  'yellow',
+  'blue'
+];
 
-const textInput = scale({
-  padding: "16px 60px 16px 24px",
-  border: `1px solid ${colors.slate}`,
-  borderRadius: 8,
-  fontFamily: fonts.monospace,
-  "&::placeholder": {
-    fontFamily: fonts.monospace,
-  },
-  color: colors.slate,
-  fontSize: 20,
-  width: '100%',
-  maxWidth: 300,
-  marginBottom: 18,
-});
-
-export default function Index() {
+export default function Avatar() {
   const [name, setName] = useState('');
   return (
     <Fragment>
@@ -41,20 +35,27 @@ export default function Index() {
           css={{
             textAlign: "center",
             margin: "auto",
-            width: 400
+            width: 900
           }}
         >
-          <h1>What's your name?</h1>
-          <p>Create a new game</p>
-          <input
-            autoFocus
-            css={textInput}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter a name"
-            type="text"
-          ></input>
-          <button>Save</button>
+          <h1>Hi, Name.</h1>
+          <h1>Choose an avatar:</h1>
+          <div css={{ display: 'flex', justifyContent: 'space-between' }}>
+            {avatars.map(avatar => (
+              <Link href="/create/invite" css={{ textDecoration: 'none !important' }}>
+                <div
+                  css={{
+                    borderRadius: '100%',
+                    width: 80,
+                    height: 80,
+                    backgroundColor: avatar,
+                    cursor: 'pointer',
+                  }}
+                />
+              </Link>
+            ))}
+          </div>
+          <h3>Tap an avatar to select it.</h3>
         </div>
       </div>
     </Fragment>
