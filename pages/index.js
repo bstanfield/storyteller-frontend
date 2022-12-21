@@ -3,6 +3,7 @@
 import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
 import { scale, fonts, colors, ENDPOINT } from "../lib/helpers";
+import TextInput from "../components/TextInput";
 import Header from "../components/header";
 import Card from "../components/card";
 import { spacing } from "../styles/theme";
@@ -18,21 +19,6 @@ const images = [
   'davidiskray_colorful_space_organic_spaceships_fantasy_space_sta_71d286a7-37c5-43e2-ae37-d3e7e0c7c138.png',
   'BrandonMc_A_medieval_anthropomorphic_ragdoll_calico_cat_wizard__e50274ac-cd5c-41d5-b6bf-51e37567dd21.png',
 ];
-
-const textInput = scale({
-  padding: "16px 60px 16px 24px",
-  border: `1px solid ${colors.slate}`,
-  borderRadius: 8,
-  fontFamily: fonts.monospace,
-  "&::placeholder": {
-    fontFamily: fonts.monospace,
-  },
-  color: colors.slate,
-  fontSize: 20,
-  width: '100%',
-  maxWidth: 300,
-  marginBottom: 18,
-});
 
 export default function Index() {
   const [room, setRoom] = useState("");
@@ -109,15 +95,13 @@ export default function Index() {
             <br />
 
             <h3>Or, join an existing game</h3>
-            <input
+            <TextInput
               autoFocus
-              onKeyDown={handleKeyDown}
-              css={textInput}
+              // onKeyDown={handleKeyDown}
               value={room}
               onChange={(i) => handleChange(i)}
               placeholder="Your room"
-              type="text"
-            ></input>
+            />
             <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>
             <p>Playing as <a href="">{username}</a></p>
           </div>
