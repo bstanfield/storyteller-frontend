@@ -14,38 +14,14 @@ export default function Room() {
   const [room, setRoom] = useState(null);
   const [data, setData] = useState(false);
   const [socketConnection, setSocketConnection] = useState(false);
-  const [scores, setScores] = useState(undefined);
   const [clientId, setClientId] = useState(false);
-  const [timestamp, setTimestamp] = useState(false);
-  const [selectedSquare, setSelectedSquare] = useState(false);
-  const [highlightedSquares, setHighlightedSquares] = useState([]);
-  const [completedAtTimestamp, setCompletedAtTimestamp] = useState(false);
-  const [filledAtTimestamp, setFilledAtTimestamp] = useState(false);
-  const [timer, setTimer] = useState(false);
-  const [guestHighlights, setGuestHighlights] = useState(false);
   const [players, setPlayers] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [nametagLocations, setNametagLocations] = useState([]);
-  const [nametagData, setNametagData] = useState([]);
-  const [focus, setFocus] = useState(false);
-  const [dateRange, setDateRange] = useState(false);
-  const [darkmode, setDarkmode] = useState(false);
-  const [hoveredClue, setHoveredClue] = useState(false);
-  const [showIncorrect, setShowIncorrect] = useState(false);
-  const [initialGuesses, setInitialGuesses] = useState([]);
-  const [guestInputChange, setGuestInputChange] = useState([]);
-  const [puzzleQuery, setPuzzleQuery] = useState(false);
+  const [username, setUsername] = useState(false);
 
-  // Username
-  const [name, setName] = useState(false);
-  // Username logic
-  const [input, setInput] = useState("");
-  const [error, setError] = useState(false);
-
-  const [showSidePanel, setShowSidePanel] = useState(false);
-
-  // Finish screen
-  const [showFinishScreen, setShowFinishScreen] = useState(false);
+  useEffect(() => {
+    setUsername(localStorage.getItem("username"));
+  }, [])
 
   // Search query hook
   const router = useRouter();
@@ -60,12 +36,6 @@ export default function Room() {
   }, [router])
 
   useEffect(() => {
-    if (socketConnection && puzzleQuery) {
-      socketConnection.send({ type: 'newPuzzle', value: { query: puzzleQuery } })
-    }
-  }, [puzzleQuery])
-
-  useEffect(() => {
     const path = window.location.pathname;
     let room = false;
     if (path) {
@@ -78,28 +48,21 @@ export default function Room() {
 
     smoothscroll.polyfill();
 
-    // Good
     connection.on("reject", () => {
       window.location.href = `/`;
     });
 
-    // Good
     connection.on("connect", () => {
       connection.emit("join", room);
 
       // Attempting to fix tab unfocus issue
-      if (name) {
-        connection.emit("name", name);
+      if (username) {
+        connection.emit("name", username);
       }
     });
 
     connection.on("id", (id) => {
       setClientId(id);
-
-      // Attempting to fix tab unfocus issue
-      if (name) {
-        connection.emit("name", name);
-      }
     });
 
     // Sends board time once on connect
@@ -161,31 +124,6 @@ export default function Room() {
       }
     });
 
-    // Good
-    connection.on("newHighlight", (data) => {
-      let filteredHighlights = {};
-
-      // Grab first square of every guest highlight to place nametag
-      let nametags = [];
-      let nametagLookup = [];
-      for (const [key, value] of Object.entries(data)) {
-        if (value.room === room) {
-          filteredHighlights[key] = value;
-
-          nametags.push(value.squares[0]);
-          nametagLookup.push({
-            id: value.id,
-            location: value.squares[0],
-            name: value.name,
-            color: value.color,
-          });
-        }
-      }
-      setGuestHighlights(filteredHighlights);
-      setNametagLocations(nametags);
-      setNametagData(nametagLookup);
-    });
-
     return () => connection.disconnect();
   }, []);
 
@@ -217,18 +155,18 @@ export default function Room() {
   console.log('data: ', data);
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
-  if (!data || loading || !socketConnection) {
+  if (loading || !socketConnection) {
     return (
-      <div css={[styles.appBackground(darkmode), { height: "100vh" }]}>
+      <div css={[styles.appBackground(), { height: "100vh" }]}>
         <Header props={{ isLoading: true }} />
         <div css={styles.loadingSpinner}>
           <div css={styles.loadingRing}>
             <div></div>
             <div></div>
           </div>
-          {name ? (
+          {username ? (
             <p>
-              Joining as <b>{name}</b>...
+              Joining as <b>{username}</b>...
             </p>
           ) : (
             <p>Loading...</p>
@@ -238,166 +176,13 @@ export default function Room() {
     );
   } else {
     return (
-      <div>
-        <h1>{room}</h1>
+      <div css={{ textAlign: 'center' }}>
+        <br />
+        <br />
+        <h1>Welcome to {room} room</h1>
+        <h2>You're socket ID is {clientId}</h2>
+        <h2>Your username is {username}</h2>
       </div>
     )
-    // return (
-    //   <div css={styles.appBackground(darkmode)}>
-    //     <Header props={{ isLoading: false, room }} />
-
-    //     {name && showFinishScreen && (
-    //       <Popup>
-    //         <h1>Crossword solved!</h1>
-    //         {scores && (
-    //           <ul css={styles.scores}>
-    //             {formatScores(timestamp, completedAtTimestamp, scores)}
-    //           </ul>
-    //         )}
-    //         <br />
-    //         <Button
-    //           props={{
-    //             onClickFn: () => setShowFinishScreen(false),
-    //             darkmode: false,
-    //             text: "Back to puzzle",
-    //             icon: { name: "arrow-back-circle", size: 16 },
-    //           }}
-    //         />
-    //       </Popup>
-    //     )}
-    //     {!name && (
-    //       <Popup>
-    //         <h1>Enter a username</h1>
-    //         <p>
-    //           Must be <strong>6 or fewer</strong> letters.
-    //         </p>
-    //         <br />
-    //         <input
-    //           autoFocus
-    //           onKeyDown={handleKeyDown}
-    //           css={styles.textInput}
-    //           value={input}
-    //           onChange={(i) => handleChange(i)}
-    //           placeholder="Username"
-    //           type="text"
-    //         ></input>
-    //         <Button
-    //           props={{
-    //             onClickFn: () => checkName(input),
-    //             darkmode: false,
-    //             text: "Save",
-    //             icon: { name: "checkmark-circle", size: 16 },
-    //           }}
-    //         />
-    //         {error && (
-    //           <p css={{ fontSize: 14, padding: 0, color: "red" }}>
-    //             Too many letters!
-    //           </p>
-    //         )}
-    //       </Popup>
-    //     )}
-
-    //     {/* Causing issue on-reload in Safari */}
-    //     {/* <Shortcuts props={{ show: showSidePanel, darkmode }} /> */}
-    //     <Nav props={{ darkmode, setDarkmode, players, socketConnection }} />
-    //     <div css={styles.appContainer}>
-    //       <main>
-    //         <Metadata props={{ data }} />
-    //         <Game
-    //           props={{
-    //             filledAtTimestamp,
-    //             completedAtTimestamp,
-    //             socketConnection,
-    //             data,
-    //             room,
-    //             scores,
-    //             setScores,
-    //             clientId,
-    //             timestamp,
-    //             timer,
-    //             guestHighlights,
-    //             players,
-    //             nametagLocations,
-    //             nametagData,
-    //             loading,
-    //             focus,
-    //             setFocus,
-    //             darkmode,
-    //             setDarkmode,
-    //             name,
-    //             setName,
-    //             showFinishScreen,
-    //             setShowFinishScreen,
-    //             showFinishScreen,
-    //             hoveredClue,
-    //             setHoveredClue,
-    //             showIncorrect,
-    //             setShowIncorrect,
-    //             initialGuesses,
-    //             guestInputChange,
-    //             setGuestInputChange,
-    //           }}
-    //         />
-
-    //         <div css={{ marginTop: 6 }}>
-    //           {/* <span
-    //             css={{ marginRight: 8 }}
-    //             onClick={() => setShowSidePanel(showSidePanel ? false : true)}
-    //           >
-    //             <Button
-    //               props={{
-    //                 darkmode,
-    //                 text: "Shortcuts",
-    //                 icon: { name: "flash", size: 14 },
-    //               }}
-    //             />
-    //           </span> */}
-
-    //           <span css={{ marginRight: 8 }}>
-    //             <DateSelector
-    //               props={{
-    //                 darkmode,
-    //                 socketConnection,
-    //                 dateRange,
-    //                 setDateRange,
-    //               }}
-    //             />
-    //           </span>
-
-    //           <PuzzleSelector
-    //             props={{
-    //               room,
-    //               darkmode,
-    //               dateRange,
-    //               socketConnection,
-    //             }}
-    //           />
-
-    //           <p
-    //             css={{
-    //               display: "inline-block",
-    //               fontSize: 14,
-    //               paddingLeft: 12,
-    //               paddingRight: 4,
-    //             }}
-    //           >
-    //             Playing as <strong>{name || "anon"}</strong>
-    //           </p>
-    //           <a
-    //             css={{
-    //               fontSize: 14,
-    //               color: darkmode ? "#8e8e8e" : "blue",
-    //               textDecoration: "underline",
-    //               cursor: "pointer",
-    //             }}
-    //             onClick={() => setName(false)}
-    //           >
-    //             edit
-    //           </a>
-    //         </div>
-    //       </main>
-    //     </div>
-    //   </div>
-    // );
   }
 }

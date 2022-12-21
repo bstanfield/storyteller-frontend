@@ -36,10 +36,19 @@ const textInput = scale({
 export default function Index() {
   const [room, setRoom] = useState("");
   const [success, setSuccess] = useState(false);
+  const [username, setUsername] = useState(false);
+
+  useEffect(() => {
+    setUsername(localStorage.getItem("username"));
+  }, [])
 
   useEffect(() => {
     if (success) {
-      window.location.href = `/${room}`;
+      if (username) {
+        window.location.href = `/${room}`;
+      } else {
+        window.location.href = `/username?room=${room}`;
+      }
     }
   }, [success]);
 
@@ -95,10 +104,13 @@ export default function Index() {
         <h3>Create a new game</h3>
         <button>Create game</button>
 
+        <br />
+        <br />
+            
         <h3>Or, join an existing game</h3>
         <input
           autoFocus
-          onRoomDown={handleKeyDown}
+          onKeyDown={handleKeyDown}
           css={textInput}
           value={room}
           onChange={(i) => handleChange(i)}
@@ -106,6 +118,7 @@ export default function Index() {
           type="text"
         ></input>
             <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>
+            <p>Playing as <a href="">{username}</a></p>
         </div>
         </div>
         <div
