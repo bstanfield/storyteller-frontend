@@ -5,8 +5,8 @@ import { scale } from '../lib/helpers'
 import { useEffect, useState } from 'react'
 
 const cardStyles = (slug) => scale({
-  width: 250,
-  height: 380,
+  width: [200, 200, 200, 224, 248],
+  aspectRatio: '1 / 1.5',
   backgroundColor: 'black',
   borderRadius: 14,
   backgroundImage: `url('https://storyteller.imgix.net/cards/${slug}?w=500')`,

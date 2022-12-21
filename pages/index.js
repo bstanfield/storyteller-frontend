@@ -5,6 +5,7 @@ import { jsx } from "@emotion/react";
 import { scale, fonts, colors, ENDPOINT } from "../lib/helpers";
 import Header from "../components/header";
 import Card from "../components/card";
+import { spacing } from "../styles/theme";
 
 const images = [
   'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
@@ -85,53 +86,55 @@ export default function Index() {
           display: 'flex'
         }}
       >
-      <div
-        css={{
-          width: '60%',
-          height: ' 100%',
-        }}
-      >
-      <div
-        css={{
-          textAlign: "center",
-          margin: "auto",
-          width: 400
-        }}
-      >
-        <img css={{ marginBottom: -30, width: 300 }} src="https://storyteller.imgix.net/storyteller-logo.png?w=450"></img>
-        <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
+        <div
+          css={{
+            width: '60%',
+            height: ' 100%',
+          }}
+        >
+          <div
+            css={{
+              textAlign: "center",
+              margin: "auto",
+              width: 400
+            }}
+          >
+            <img css={{ marginBottom: -30, width: 300 }} src="https://storyteller.imgix.net/storyteller-logo.png?w=450"></img>
+            <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
 
-        <h3>Create a new game</h3>
-        <button>Create game</button>
+            <h3>Create a new game</h3>
+            <button>Create game</button>
 
-        <br />
-        <br />
-            
-        <h3>Or, join an existing game</h3>
-        <input
-          autoFocus
-          onKeyDown={handleKeyDown}
-          css={textInput}
-          value={room}
-          onChange={(i) => handleChange(i)}
-          placeholder="Your room"
-          type="text"
-        ></input>
+            <br />
+            <br />
+
+            <h3>Or, join an existing game</h3>
+            <input
+              autoFocus
+              onKeyDown={handleKeyDown}
+              css={textInput}
+              value={room}
+              onChange={(i) => handleChange(i)}
+              placeholder="Your room"
+              type="text"
+            ></input>
             <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>
             <p>Playing as <a href="">{username}</a></p>
-        </div>
+          </div>
         </div>
         <div
           css={{
-            width: '40%',
             height: '100vh',
           }}
         >
-          <br />
-          <br />
-          <br />
-          <br />
-          <Card slug={images[5]} />
+          <div css={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gridGap: spacing.default,
+            gridTemplateRows: 'masonry',
+          }}>
+            {images.map(image => <Card slug={image} />)}
+          </div>
         </div>
       </div>
     </Fragment>
