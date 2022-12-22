@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
-import { useRouter } from 'next/router';
-import { TESTING_INVITEES, TESTING_SAMPLE_HAND } from '../../config/constants';
+import { TESTING_IMAGES, TESTING_INVITEES, TESTING_SAMPLE_HAND } from '../../config/constants';
 import Hand from '../../components/game/Hand';
 import Avatar from '../../components/game/Avatar';
 import Flex from "../../components/layout/Flex";
 import GameLayout from "../../components/layout/GameLayout";
+import EnterClue from "../../components/lightbox/EnterClue";
 import { spacing } from "../../styles/theme";
 
 export default function Game() {
@@ -24,9 +24,6 @@ export default function Game() {
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
   }, [])
-
-  // Search query hook
-  const router = useRouter();
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -58,28 +55,6 @@ export default function Game() {
       setClientId(id);
     });
 
-    // Sends board time once on connect
-    connection.on("timestamp", (time) => {
-      setTimestamp(time);
-    });
-
-    // Perhaps this should just be passed as a property of "scores"?
-    connection.on("completed", (time) => {
-      if (time) {
-        setCompletedAtTimestamp(time);
-      }
-    });
-
-    connection.on("filled", (time) => {
-      if (time) {
-        setFilledAtTimestamp(time);
-      }
-    });
-
-    connection.on("guesses", (data) => {
-      setInitialGuesses(data);
-    });
-
     connection.on("data", (gameData) => {
       setData(gameData);
     });
@@ -89,22 +64,8 @@ export default function Game() {
     });
 
     // Good
-    connection.on("inputChange", (data) => {
-      setGuestInputChange(data);
-    });
-
-    // Good
     connection.on("newPlayer", (data) => {
       setPlayers(data);
-    });
-
-    // Sends at end of game to show guest scores
-    // Good for now...
-    connection.on("scores", (data) => {
-      setScores(data);
-      if (data && data.incorrects && data.incorrects.length == 0) {
-        setShowFinishScreen(true);
-      }
     });
 
     return () => connection.disconnect();
@@ -154,6 +115,7 @@ export default function Game() {
             <Avatar key={index} username={invitee.username} avatarUrl={invitee.avatarUrl} score={1} />
           ))}
         </Flex>
+        {/* <EnterClue handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
       </div>
     )
   }

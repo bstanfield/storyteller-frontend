@@ -8,6 +8,7 @@ import HowToPlay from "../HowToPlay";
 import Menu from "../svg/Menu";
 import Overlay from "./Overlay";
 import Link from "next/link";
+import Home from "../svg/Home";
 
 function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
   const [showHowToPlay, toggleHowToPlay] = useState(false);
@@ -16,10 +17,11 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
       <HowToPlay handleClose={() => toggleHowToPlay(false)} />
       : (
         <Overlay handleClose={handleClose}>
+          <h1 css={{ textAlign: 'center', paddingTop: spacing.large }}>MENU</h1>
           <div css={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
             <Link href="/">
               <Flex align='center'>
-                <OpenBook />
+                <Home />
                 <h2 css={{ marginLeft: spacing.xSmall }}>
                   Create new game
                 </h2>
