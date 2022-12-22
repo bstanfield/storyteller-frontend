@@ -7,19 +7,22 @@ import { staticImageUrl } from '../lib/images'
 import Card from './Card';
 import Flex from './layout/Flex';
 
+
 const MAX_ROTATIONAL_ANGLE = 16;
 
 // alt (Math.pow(index, 2)) - ((handSize - 1) * index) + 30;
 function topForIndex(index, handSize) {
-  return (6 * Math.pow(index, 2)) - (6 * (handSize - 1) * index) + handSize * 12;
+  return (handSize - 1) * Math.pow(index - ((handSize - 1) / 2), 2)
+  // return (6 * Math.pow(index, 2)) - (6 * (handSize - 1) * index) + handSize * 12;
 }
 
 function angleForIndex(index, handSize) {
-  return (32 / (handSize - 1)) * index - 16
+  return (MAX_ROTATIONAL_ANGLE * 2 / (handSize - 1)) * index - MAX_ROTATIONAL_ANGLE
 }
 
 export default function Hand({ cards }: { cards: string[] }) {
 
+  console.log(cards.map((c, i) => topForIndex(i, cards.length)))
   return (
     <div css={{ width: '100%' }}>
       <Flex
