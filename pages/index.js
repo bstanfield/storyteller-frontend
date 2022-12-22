@@ -23,6 +23,7 @@ export default function Index() {
   const [game, setGame] = useState("");
   const [validGameCode, setValidGameCode] = useState(false);
   const [username, setUsername] = useState(false);
+  const [validNewGame, setValidNewGame] = useState(false);
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
@@ -37,6 +38,16 @@ export default function Index() {
       }
     }
   }, [validGameCode]);
+
+  useEffect(() => {
+    if (validNewGame) {
+      if (username) {
+        window.location.href = `/create/invite?game=${game}`;
+      } else {
+        window.location.href = `/create/username?game=${game}`;
+      }
+    }
+  }, [validNewGame]);
 
   const checkGame = async (game) => {
     const res = await fetch(`${ENDPOINT}/secret?game=${game}`);
@@ -57,7 +68,7 @@ export default function Index() {
       alert("Error creating game");
     }
     setGame(data.slug);
-    setValidGameCode(true);
+    setValidNewGame(true);
   };
 
   return (
