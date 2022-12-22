@@ -3,11 +3,11 @@
 import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
-import { ENDPOINT, formatScores } from "../lib/helpers";
+import { ENDPOINT, formatScores } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
 import styles from "../lib/boardStyles";
-import Header from "../components/header";
-import Button from "../components/button";
+import Header from "../../components/header";
+import Button from "../../components/button";
 import { useRouter } from 'next/router'
 
 export default function Room() {
@@ -48,9 +48,9 @@ export default function Room() {
 
     smoothscroll.polyfill();
 
-    connection.on("reject", () => {
-      window.location.href = `/`;
-    });
+    // connection.on("reject", () => {
+    //   window.location.href = `/`;
+    // });
 
     connection.on("connect", () => {
       connection.emit("join", room);
