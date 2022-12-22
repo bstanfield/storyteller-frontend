@@ -5,9 +5,6 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT, formatScores } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
-import styles from "../lib/boardStyles";
-import Header from "../../components/header";
-import Button from "../../components/button";
 import { useRouter } from 'next/router'
 
 export default function Room() {
@@ -157,10 +154,9 @@ export default function Room() {
   console.log('connection: ', socketConnection);
   if (loading || !socketConnection) {
     return (
-      <div css={[styles.appBackground(), { height: "100vh" }]}>
-        <Header props={{ isLoading: true }} />
-        <div css={styles.loadingSpinner}>
-          <div css={styles.loadingRing}>
+      <div css={[{ height: "100vh" }]}>
+        <div>
+          <div>
             <div></div>
             <div></div>
           </div>

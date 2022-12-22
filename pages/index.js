@@ -33,7 +33,7 @@ export default function Index() {
   useEffect(() => {
     if (success) {
       if (username) {
-        window.location.href = `/${room}`;
+        window.location.href = `/game/${room}`;
       } else {
         window.location.href = `/username?room=${room}`;
       }
