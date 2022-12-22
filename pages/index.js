@@ -1,11 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { useEffect, useState, Fragment } from "react";
-import { jsx } from "@emotion/react";
 import { ENDPOINT } from "../lib/helpers";
 import TextInput from "../components/TextInput";
 import Header from "../components/header";
-import Card from "../components/Card";
+import Card from "../components/game/Card";
 import { spacing } from "../styles/theme";
 import Link from "next/link";
 

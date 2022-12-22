@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { scale } from '../styles/scale';
-import { staticImageUrl } from '../lib/images';
-import Smile from '../components/svg/Smile';
-import { spacing } from '../styles/theme';
+import { scale } from '../../styles/scale';
+import { staticImageUrl } from '../../lib/images';
+import Smile from '../svg/Smile';
+import { spacing } from '../../styles/theme';
 
 const avatarStyle = scale({
   width: [80, 80, 90, 90],

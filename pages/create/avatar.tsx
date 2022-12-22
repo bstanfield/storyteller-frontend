@@ -1,18 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState, Fragment } from "react";
-import { jsx } from "@emotion/react";
+import { Fragment } from "react";
 import Header from "../../components/header";
-import Avatar from "../../components/Avatar";
+import Avatar from "../../components/game/Avatar";
 import Link from "next/link";
 import { spacing } from "../../styles/theme";
 import { TESTING_IMAGES } from "../../config/constants";
 import Flex from "../../components/layout/Flex";
-import CreateGameNav from "../../components/layout/CreateGameLayout";
 import CreateGameLayout from "../../components/layout/CreateGameLayout";
 
 export default function ChooseAvatar() {
-  const [name, setName] = useState('');
   return (
     <Fragment>
       <Header />

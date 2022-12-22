@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { jsx } from '@emotion/react'
-import { scale } from '../styles/scale';
+import { scale } from '../../styles/scale';
 import { useEffect, useState } from 'react'
-import { staticImageUrl } from '../lib/images'
-import { CARD_WIDTHS } from '../config/constants';
+import { staticImageUrl } from '../../lib/images'
+import { CARD_WIDTHS } from '../../config/constants';
 
 const cardStyles = (slug) => scale({
   width: CARD_WIDTHS,

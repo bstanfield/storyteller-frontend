@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState, Fragment } from "react";
-import { jsx } from "@emotion/react";
+import { Fragment } from "react";
 import Header from "../../components/header";
 import TextInput from "../../components/TextInput";
 import Flex from "../../components/layout/Flex";
 import { spacing } from "../../styles/theme";
-import Avatar from "../../components/Avatar";
+import Avatar from "../../components/game/Avatar";
 import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, TESTING_INVITEES } from "../../config/constants";
 import CreateGameLayout from "../../components/layout/CreateGameLayout";
 

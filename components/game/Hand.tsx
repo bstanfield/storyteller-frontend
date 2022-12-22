@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { scale } from '../styles/scale';
+import { scale } from '../../styles/scale';
 import Card from './Card';
-import Flex from './layout/Flex';
-import { CARD_WIDTHS } from '../config/constants';
+import Flex from '../layout/Flex';
+import { CARD_WIDTHS } from '../../config/constants';
 
 
 // this mostly works for hands between 5-7 cards large.
