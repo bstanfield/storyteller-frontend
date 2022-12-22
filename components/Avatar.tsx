@@ -20,8 +20,7 @@ export default function Avatar(
     { avatarUrl?: string, username?: string, score?: number }
 ) {
 
-  // has image or no image
-  return avatarUrl && username ? (
+  return avatarUrl ? (
     <div>
       <div
         css={[avatarStyle, {
@@ -31,9 +30,11 @@ export default function Avatar(
 
         }]}
       />
-      <p css={[boldText, { marginTop: spacing.small }]}>
-        {username}
-      </p>
+      {username &&
+        <p css={[boldText, { marginTop: spacing.small }]}>
+          {username}
+        </p>
+      }
       {score && <p css={boldText}>{score}</p>}
     </div>
   ) : (
