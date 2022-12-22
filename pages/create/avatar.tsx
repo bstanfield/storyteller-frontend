@@ -8,6 +8,7 @@ import Link from "next/link";
 import { spacing } from "../../styles/theme";
 import { TESTING_IMAGES } from "../../config/constants";
 import Flex from "../../components/layout/Flex";
+import CreateGameNav from "../../components/layout/CreateGameNav";
 
 export default function ChooseAvatar() {
   const [name, setName] = useState('');
@@ -46,4 +47,13 @@ export default function ChooseAvatar() {
       </div>
     </Fragment>
   );
+}
+
+ChooseAvatar.getLayout = function getLayout(page) {
+  return (
+    <div>
+      <CreateGameNav />
+      {page}
+    </div>
+  )
 }
