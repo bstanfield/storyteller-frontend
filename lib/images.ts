@@ -24,6 +24,5 @@ export function staticImageUrl(
   url.pathname = `/${imagePath}`;
   url.search = searchParams.toString();
   
-  console.log(url.toString())
   return url.toString();
 }

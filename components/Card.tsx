@@ -21,11 +21,12 @@ const cardStyles = (slug) => scale({
   }
 })
 
-export default function Card(props) {
+export default function Card({ slug, className }: { slug: string, className?: any }) {
 
   return (
     <div
-      css={cardStyles(props.slug)}
+      css={cardStyles(slug)}
+      className={className}
     >
     </div>
   )

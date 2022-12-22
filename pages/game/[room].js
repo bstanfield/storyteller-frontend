@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT, formatScores } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import { TESTING_SAMPLE_HAND } from '../../config/constants';
+import Hand from '../../components/Hand';
 
 export default function Room() {
   const [room, setRoom] = useState(null);
@@ -141,20 +143,12 @@ export default function Room() {
     }
   };
 
-  const handleChange = (i) => {
-    if (i.nativeEvent.data) {
-      return setInput(input + i.nativeEvent.data);
-    } else if (i.nativeEvent.data === null) {
-      return setInput(input.slice(0, -1));
-    }
-  };
-
   console.log('data: ', data);
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
   if (loading || !socketConnection) {
     return (
-      <div css={[{ height: "100vh" }]}>
+      <div css={[{ height: "100vh", width: '100%' }]}>
         <div>
           <div>
             <div></div>
@@ -173,11 +167,10 @@ export default function Room() {
   } else {
     return (
       <div css={{ textAlign: 'center' }}>
-        <br />
-        <br />
         <h1>Welcome to {room} room</h1>
         <h2>You're socket ID is {clientId}</h2>
         <h2>Your username is {username}</h2>
+        <Hand cards={TESTING_SAMPLE_HAND} />
       </div>
     )
   }

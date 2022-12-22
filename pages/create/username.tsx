@@ -30,7 +30,7 @@ export default function Username() {
           <TextInput
             autofocus
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(i) => setName(i)}
             placeholder="Enter a name"
           />
           <Link href="/create/avatar">

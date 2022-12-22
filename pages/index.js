@@ -5,7 +5,7 @@ import { jsx } from "@emotion/react";
 import { ENDPOINT } from "../lib/helpers";
 import TextInput from "../components/TextInput";
 import Header from "../components/header";
-import Card from "../components/card";
+import Card from "../components/Card";
 import { spacing } from "../styles/theme";
 import Link from "next/link";
 
@@ -40,12 +40,6 @@ export default function Index() {
     }
   }, [success]);
 
-  const handleKeyDown = (e) => {
-    if (e.room === "Enter") {
-      checkRoom(room);
-    }
-  };
-
   const checkRoom = async (room) => {
     const res = await fetch(`${ENDPOINT}/secret?room=${room}`);
     const data = await res.json();
@@ -54,14 +48,6 @@ export default function Index() {
       setRoom("");
     } else {
       setSuccess(true);
-    }
-  };
-
-  const handleChange = (i) => {
-    if (i.nativeEvent.data) {
-      return setRoom(room + i.nativeEvent.data);
-    } else if (i.nativeEvent.data === null) {
-      return setRoom(room.slice(0, -1));
     }
   };
 
@@ -99,9 +85,8 @@ export default function Index() {
             <h3>Or, join an existing game</h3>
             <TextInput
               autoFocus
-              // onKeyDown={handleKeyDown}
               value={room}
-              onChange={(i) => handleChange(i)}
+              onChange={(i) => setRoom(i)}
               placeholder="Your room"
             />
             <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>

@@ -12,6 +12,7 @@ export const colors = {
   offwhite: "#f5f5f5",
   error: "#e61818",
   success: "green",
+  input: '#6A6788',
 };
 
 export const spacing = {
