@@ -14,4 +14,20 @@ export const TESTING_IMAGES = [
 ]
 
 export const TESTING_SAMPLE_HAND = TESTING_IMAGES.slice(0, 6);
+
+export const TESTING_INVITEES = [
+  {
+    avatarUrl: 'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
+    username: 'ben',
+  },
+  {
+    avatarUrl: 'TenderlySharp_Pixel_art_is_too_good_for_you_e345c77c-abf1-4d46-acb7-be9e56d6ea88.png',
+    username: 'scott',
+  },
+  {
+    avatarUrl: 'karurosu_bread_75a51dfc-f9ca-448e-9485-843629e37a6b.png',
+    username: 'cyndi',
+  },
+];
+
 export const CARD_WIDTHS = [160, 160, 216, 232];

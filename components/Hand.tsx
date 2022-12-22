@@ -1,14 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/react'
 import { scale } from '../styles/scale';
-import { useEffect, useState } from 'react'
-import { staticImageUrl } from '../lib/images'
 import Card from './Card';
 import Flex from './layout/Flex';
 import { CARD_WIDTHS } from '../config/constants';
 
 
+// this mostly works for hands between 5-7 cards large.
+// no guarantees for smaller or larger hand sizes!
 const MAX_ROTATIONAL_ANGLE = 16;
 
 // alt (Math.pow(index, 2)) - ((handSize - 1) * index) + 30;
@@ -23,8 +22,6 @@ function angleForIndex(index, handSize) {
 }
 
 export default function Hand({ cards }: { cards: string[] }) {
-
-  console.log(cards.map((c, i) => topForIndex(i, cards.length)))
   return (
     <div css={{ width: '100%' }}>
       <Flex
@@ -33,12 +30,12 @@ export default function Hand({ cards }: { cards: string[] }) {
           position: 'relative',
           maxWidth: '90%',
           width: CARD_WIDTHS.map(width => width * cards.length),
+          aspectRatio: '4/1',
           margin: 'auto',
           boxSizing: 'border-box'
         })}
       >
         {cards.map((card, index) => {
-          // const middleIndex = (cards.length + 1) / 2;
           const position = index;
           const rotationAngle = angleForIndex(index, cards.length);
           const topOffset = topForIndex(index, cards.length);
@@ -52,7 +49,7 @@ export default function Hand({ cards }: { cards: string[] }) {
                 position: 'absolute',
                 transform: `rotate(${rotationAngle}deg)`,
                 '&:hover': {
-                  transform: `rotate(${rotationAngle}deg)`
+                  transform: `rotate(${rotationAngle}deg) scale(1.02)`
                 }
               })}
             />

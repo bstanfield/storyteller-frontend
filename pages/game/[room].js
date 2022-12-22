@@ -6,15 +6,18 @@ import socketIOClient from "socket.io-client";
 import { ENDPOINT, formatScores } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
 import { useRouter } from 'next/router';
-import { TESTING_SAMPLE_HAND } from '../../config/constants';
+import { TESTING_INVITEES, TESTING_SAMPLE_HAND } from '../../config/constants';
 import Hand from '../../components/Hand';
+import Avatar from '../../components/Avatar';
+import Flex from "../../components/layout/Flex";
+import { spacing } from "../../styles/theme";
 
 export default function Room() {
   const [room, setRoom] = useState(null);
   const [data, setData] = useState(false);
   const [socketConnection, setSocketConnection] = useState(false);
   const [clientId, setClientId] = useState(false);
-  const [players, setPlayers] = useState(false);
+  const [players, setPlayers] = useState(TESTING_INVITEES);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState(false);
 
@@ -166,11 +169,26 @@ export default function Room() {
     );
   } else {
     return (
-      <div css={{ textAlign: 'center' }}>
+      <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
         <h1>Welcome to {room} room</h1>
         <h2>You're socket ID is {clientId}</h2>
         <h2>Your username is {username}</h2>
         <Hand cards={TESTING_SAMPLE_HAND} />
+        <Flex
+          justify='space-between'
+          css={{
+            margin: `${spacing.large}px auto`,
+            gap: spacing.default,
+            width: 'fit-content',
+            position: 'absolute',
+            left: '50%',
+            transform: 'translate(-50%)',
+            bottom: spacing.medium,
+          }}>
+          {players.map(invitee => (
+            <Avatar username={invitee.username} avatarUrl={invitee.avatarUrl} score={1} />
+          ))}
+        </Flex>
       </div>
     )
   }

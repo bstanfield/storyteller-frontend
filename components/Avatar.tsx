@@ -1,21 +1,23 @@
 /** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/react'
 import { scale } from '../styles/scale';
-import { useEffect, useState } from 'react'
-import { staticImageUrl } from '../lib/images'
+import { staticImageUrl } from '../lib/images';
 import Smile from '../components/svg/Smile';
+import { spacing } from '../styles/theme';
 
 const avatarStyle = scale({
-  width: [80, 80, 90, 110],
+  width: [80, 80, 90, 90],
   aspectRatio: '1 / 1',
   borderRadius: '100%',
 });
 
 
+const boldText = { textTransform: 'uppercase', fontWeight: 700, margin: 0 };
+
+
 export default function Avatar(
-  { avatarUrl, username }:
-    { avatarUrl?: string, username?: string }
+  { avatarUrl, username, score }:
+    { avatarUrl?: string, username?: string, score?: number }
 ) {
 
   // has image or no image
@@ -29,7 +31,10 @@ export default function Avatar(
 
         }]}
       />
-      <p>{username}</p>
+      <p css={[boldText, { marginTop: spacing.small }]}>
+        {username}
+      </p>
+      {score && <p css={boldText}>{score}</p>}
     </div>
   ) : (
     <div>
