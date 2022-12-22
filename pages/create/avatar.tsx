@@ -8,7 +8,8 @@ import Link from "next/link";
 import { spacing } from "../../styles/theme";
 import { TESTING_IMAGES } from "../../config/constants";
 import Flex from "../../components/layout/Flex";
-import CreateGameNav from "../../components/layout/CreateGameNav";
+import CreateGameNav from "../../components/layout/CreateGameLayout";
+import CreateGameLayout from "../../components/layout/CreateGameLayout";
 
 export default function ChooseAvatar() {
   const [name, setName] = useState('');
@@ -51,9 +52,8 @@ export default function ChooseAvatar() {
 
 ChooseAvatar.getLayout = function getLayout(page) {
   return (
-    <div>
-      <CreateGameNav />
+    <CreateGameLayout>
       {page}
-    </div>
+    </CreateGameLayout>
   )
 }

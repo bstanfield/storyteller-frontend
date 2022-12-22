@@ -7,7 +7,7 @@ export default function HowToPlay({ handleClose }: { handleClose: () => void }) 
   return (
     <Lightbox handleClose={handleClose}>
       <div css={{ maxWidth: 600, margin: 'auto' }}>
-        <h1 css={{ textAlign: 'center', margin: spacing.medium }}>How to play</h1>
+        <h1 css={{ textAlign: 'center', margin: spacing.xLarge }}>How to play</h1>
         <h2>1. Create the riddle</h2>
         <p>The storyteller looks at the 6 cards in their hand. They select one that inspires them (without revealing it), and then enter a clue to describe the card.</p>
         <p>Each other player then selects, from 6 cards in their hand, a card that they feel best illustrates the clue given by the storyteller. All the cards, including the storyteller’s original card, are shuffled together and displayed.</p>

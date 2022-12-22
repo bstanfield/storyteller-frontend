@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, Fragment } from "react";
 import Header from "../../components/header";
+import CreateGameLayout from "../../components/layout/CreateGameLayout";
 import TextInput from "../../components/TextInput";
 
 export default function Username() {
@@ -40,4 +41,12 @@ export default function Username() {
       </div>
     </Fragment>
   );
+}
+
+Username.getLayout = function getLayout(page) {
+  return (
+    <CreateGameLayout>
+      {page}
+    </CreateGameLayout>
+  )
 }

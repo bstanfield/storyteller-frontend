@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { spacing } from "../../styles/theme";
 import OpenBook from "../svg/OpenBook";
 import Flex from "./Flex";
 import HowToPlay from "../HowToPlay";
 
-export default function CreateGameNav() {
+export function CreateGameNav() {
   const [showHowToPlay, toggleHowToPlay] = useState(false);
 
   return (
@@ -28,6 +28,15 @@ export default function CreateGameNav() {
             <h3>Create a game</h3>
           </Flex>
         )}
+    </div>
+  )
+}
+
+export default function CreateGameLayout({ children }: { children: ReactNode }) {
+  return (
+    <div>
+      <CreateGameNav />
+      {children}
     </div>
   )
 }

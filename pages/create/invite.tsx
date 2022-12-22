@@ -8,6 +8,7 @@ import Flex from "../../components/layout/Flex";
 import { spacing } from "../../styles/theme";
 import Avatar from "../../components/Avatar";
 import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, TESTING_INVITEES } from "../../config/constants";
+import CreateGameLayout from "../../components/layout/CreateGameLayout";
 
 const invitees = TESTING_INVITEES;
 
@@ -65,4 +66,12 @@ export default function Invite() {
       </div>
     </Fragment>
   );
+}
+
+Invite.getLayout = function getLayout(page) {
+  return (
+    <CreateGameLayout>
+      {page}
+    </CreateGameLayout>
+  )
 }

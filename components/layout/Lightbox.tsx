@@ -9,9 +9,9 @@ export default function Lightbox(
     { handleClose: () => void, children: ReactNode }
 ) {
   return (
-    <div css={{ position: 'absolute', width: '100%', backdropFilter: 'blur(12px)', overflowY: 'scroll' }}>
+    <div css={{ position: 'absolute', width: '100%', backdropFilter: 'blur(30px)', overflowY: 'scroll', backgroundColor: 'rgba(4, 1, 38, 0.5)', zIndex: 2, height: '100%', minHeight: '100vh' }}>
       <div
-        css={{ position: 'absolute', top: spacing.medium, right: spacing.medium, cursor: 'pointer' }}
+        css={{ position: 'absolute', top: spacing.large, left: spacing.large, cursor: 'pointer' }}
         onClick={handleClose}
       >
         <Close />
