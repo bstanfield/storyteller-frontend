@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 
-import { jsx } from "@emotion/react";
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
-import { ENDPOINT, formatScores } from "../../lib/helpers";
+import { ENDPOINT } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
 import { useRouter } from 'next/router';
 import { TESTING_INVITEES, TESTING_SAMPLE_HAND } from '../../config/constants';
 import Hand from '../../components/Hand';
 import Avatar from '../../components/Avatar';
 import Flex from "../../components/layout/Flex";
+import GameLayout from "../../components/layout/GameLayout";
 import { spacing } from "../../styles/theme";
 
-export default function Room() {
-  const [room, setRoom] = useState(null);
+export default function Game() {
+  const [game, setGame] = useState(null);
   const [data, setData] = useState(false);
   const [socketConnection, setSocketConnection] = useState(false);
   const [clientId, setClientId] = useState(false);
@@ -29,20 +29,11 @@ export default function Room() {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.query.puzzle) {
-      setPuzzleQuery(router.query.puzzle);
-
-      // Now, remove URL param
-      router.replace(`/${room}?puzzle`, `/${room}`, { shallow: true });
-    }
-  }, [router])
-
-  useEffect(() => {
     const path = window.location.pathname;
-    let room = false;
+    let game = false;
     if (path) {
-      room = path.split("/")[1];
-      setRoom(room);
+      game = path.split("/")[2];
+      setGame(game);
     }
 
     const connection = socketIOClient(ENDPOINT);
@@ -55,7 +46,7 @@ export default function Room() {
     // });
 
     connection.on("connect", () => {
-      connection.emit("join", room);
+      connection.emit("join", game);
 
       // Attempting to fix tab unfocus issue
       if (username) {
@@ -95,16 +86,6 @@ export default function Room() {
 
     connection.on("loading", (boolean) => {
       setLoading(boolean);
-
-      // Reset stuff
-      setFocus(false);
-      setHighlightedSquares([]);
-      setHoveredClue(false);
-      setSelectedSquare(false);
-      setGuestHighlights(false);
-      setShowIncorrect(false);
-      setFilledAtTimestamp(false);
-      setCompletedAtTimestamp(false);
     });
 
     // Good
@@ -129,26 +110,10 @@ export default function Room() {
     return () => connection.disconnect();
   }, []);
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      checkName(input);
-    }
-  };
-
-  // IMPORTANT TODO: remove guesses from <Square/>
-  const checkName = (name) => {
-    if (name.length <= 6) {
-      setName(input);
-      localStorage.setItem("username", input);
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
-
   console.log('data: ', data);
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
+
   if (loading || !socketConnection) {
     return (
       <div css={[{ height: "100vh", width: '100%' }]}>
@@ -170,9 +135,9 @@ export default function Room() {
   } else {
     return (
       <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-        <h1>Welcome to {room} room</h1>
-        <h2>You're socket ID is {clientId}</h2>
-        <h2>Your username is {username}</h2>
+        <h1>Welcome to game {game}</h1>
+        <h3>Socket ID: {clientId}</h3>
+        <h3>Username: {username}</h3>
         <Hand cards={TESTING_SAMPLE_HAND} />
         <Flex
           justify='space-between'
@@ -192,4 +157,12 @@ export default function Room() {
       </div>
     )
   }
+}
+
+Game.getLayout = function getLayout(page) {
+  return (
+    <GameLayout>
+      {page}
+    </GameLayout>
+  )
 }

@@ -2,7 +2,7 @@
 
 import { jsx } from '@emotion/react'
 import { scale } from '../styles/scale';
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const buttonStyles = (inactive, darkmode, backgroundColor) => scale({
   display: 'inline-block',

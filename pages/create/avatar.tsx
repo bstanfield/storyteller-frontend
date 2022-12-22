@@ -3,23 +3,17 @@
 import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
 import Header from "../../components/header";
-import Flex from "../../components/layout/Flex";
+import Avatar from "../../components/Avatar";
 import Link from "next/link";
 import { spacing } from "../../styles/theme";
 import queryString from "query-string";
+import { TESTING_IMAGES } from "../../config/constants";
+import Flex from "../../components/layout/Flex";
+import CreateGameNav from "../../components/layout/CreateGameLayout";
+import CreateGameLayout from "../../components/layout/CreateGameLayout";
+export default function ChooseAvatar() {
+  const [name, setName] = useState('');
 
-const avatars = [
-  'purple',
-  'pink',
-  'green',
-  'gray',
-  'brown',
-  'teal',
-  'yellow',
-  'blue'
-];
-
-export default function Avatar() {
   const [username, setUsername] = useState('');
   const [playerId, setPlayerId] = useState('');
   const [gameId, setGameId] = useState<any>('');
@@ -57,24 +51,27 @@ export default function Avatar() {
         >
           <h1>Hi, {username}.</h1>
           <h1>Choose an avatar:</h1>
-          <div css={{ display: 'flex', justifyContent: 'space-between', margin: `${spacing.medium}px 0px` }}>
-            {avatars.map(avatar => (
-              <Link href={`/create/invite?game=${gameId}`} css={{ textDecoration: 'none !important' }}>
-                <div
-                  css={{
-                    borderRadius: '100%',
-                    width: 80,
-                    height: 80,
-                    backgroundColor: avatar,
-                    cursor: 'pointer',
-                  }}
-                />
+          <Flex wrap justify='space-around' css={{ margin: `${spacing.medium}px 0px` }}>
+            {TESTING_IMAGES.slice(1, 7).map(avatar => (
+              <Link
+                href={`/create/invite?game=${gameId}`}
+                css={{ textDecoration: 'none !important', border: 'none', '&:hover': { border: 'none' } }}
+              >
+                <Avatar avatarUrl={avatar} />
               </Link>
             ))}
-          </div>
+          </Flex>
           <h3>Tap an avatar to select it.</h3>
         </div>
       </div>
     </Fragment >
   );
+}
+
+ChooseAvatar.getLayout = function getLayout(page) {
+  return (
+    <CreateGameLayout>
+      {page}
+    </CreateGameLayout>
+  )
 }

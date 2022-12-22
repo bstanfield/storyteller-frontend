@@ -3,6 +3,7 @@
 import { useEffect, useState, Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../../components/header";
+import CreateGameLayout from "../../components/layout/CreateGameLayout";
 import TextInput from "../../components/TextInput";
 import { ENDPOINT } from "../../lib/helpers";
 import queryString from "query-string";
@@ -65,4 +66,12 @@ export default function Username() {
       </div>
     </Fragment>
   );
+}
+
+Username.getLayout = function getLayout(page) {
+  return (
+    <CreateGameLayout>
+      {page}
+    </CreateGameLayout>
+  )
 }
