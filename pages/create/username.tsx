@@ -10,13 +10,13 @@ import queryString from "query-string";
 
 export default function Username() {
   const [name, setName] = useState('');
-  const [gameId, setGameId] = useState<any>('');
+  const [gameSlug, setGameSlug] = useState<any>('');
 
   // Get game id from url
   useEffect(() => {
     const parsed = queryString.parse(location.search);
     if (parsed.game) {
-      setGameId(parsed.game);
+      setGameSlug(parsed.game);
     }
   }, []);
 
@@ -31,7 +31,6 @@ export default function Username() {
         // Replace with cookie system later
         localStorage.setItem("username", data.username);
         localStorage.setItem("playerId", data.player_id);
-        window.location.href = `/create/avatar?game=${gameId}`;
       }
     }
   };
