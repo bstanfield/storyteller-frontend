@@ -4,7 +4,7 @@ import { useState } from "react";
 import { spacing } from "../../styles/theme";
 import OpenBook from "../svg/OpenBook";
 import Flex from "./Flex";
-import HowToPlay from "./HowToPlay";
+import HowToPlay from "../HowToPlay";
 
 export default function CreateGameNav() {
   const [showHowToPlay, toggleHowToPlay] = useState(false);

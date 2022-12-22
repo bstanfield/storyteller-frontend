@@ -1,18 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import { spacing } from "../../styles/theme";
-import Close from "../svg/Close";
-
+import { spacing } from "../styles/theme";
+import Lightbox from "./layout/Lightbox";
 
 export default function HowToPlay({ handleClose }: { handleClose: () => void }) {
   return (
-    <div css={{ position: 'absolute', width: '100%', backdropFilter: 'blur(12px)', overflowY: 'scroll' }}>
-      <div
-        css={{ position: 'absolute', top: spacing.medium, right: spacing.medium, cursor: 'pointer' }}
-        onClick={handleClose}
-      >
-        <Close />
-      </div>
+    <Lightbox handleClose={handleClose}>
       <div css={{ maxWidth: 600, margin: 'auto' }}>
         <h1 css={{ textAlign: 'center', margin: spacing.medium }}>How to play</h1>
         <h2>1. Create the riddle</h2>
@@ -53,6 +46,6 @@ export default function HowToPlay({ handleClose }: { handleClose: () => void }) 
           <button onClick={handleClose}>I get it now!</button>
         </div>
       </div>
-    </div>
+    </Lightbox>
   )
 }
