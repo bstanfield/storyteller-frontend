@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { spacing } from "../styles/theme";
-import Lightbox from "./layout/Lightbox";
+import Overlay from "./layout/Overlay";
 
 export default function HowToPlay({ handleClose }: { handleClose: () => void }) {
   return (
-    <Lightbox handleClose={handleClose}>
+    <Overlay handleClose={handleClose}>
       <div css={{ maxWidth: 600, margin: 'auto' }}>
         <h1 css={{ textAlign: 'center', margin: spacing.xLarge }}>How to play</h1>
         <h2>1. Create the riddle</h2>
@@ -46,6 +46,6 @@ export default function HowToPlay({ handleClose }: { handleClose: () => void }) 
           <button onClick={handleClose}>I get it now!</button>
         </div>
       </div>
-    </Lightbox>
+    </Overlay>
   )
 }

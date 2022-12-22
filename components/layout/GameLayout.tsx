@@ -6,7 +6,7 @@ import OpenBook from "../svg/OpenBook";
 import Flex from "./Flex";
 import HowToPlay from "../HowToPlay";
 import Menu from "../svg/Menu";
-import Lightbox from "./Lightbox";
+import Overlay from "./Overlay";
 import Link from "next/link";
 
 function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
@@ -15,7 +15,7 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
     showHowToPlay ?
       <HowToPlay handleClose={() => toggleHowToPlay(false)} />
       : (
-        <Lightbox handleClose={handleClose}>
+        <Overlay handleClose={handleClose}>
           <div css={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
             <Link href="/">
               <Flex align='center'>
@@ -32,7 +32,7 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
               </h2>
             </Flex>
           </div>
-        </Lightbox>
+        </Overlay>
       )
   )
 }

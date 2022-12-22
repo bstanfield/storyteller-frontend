@@ -42,6 +42,7 @@ export default function Hand({ cards }: { cards: string[] }) {
 
           return (
             <Card
+              key={index}
               slug={card}
               css={scale({
                 left: `${(position * (100 / cards.length))}%`,

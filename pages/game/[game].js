@@ -150,8 +150,8 @@ export default function Game() {
             transform: 'translate(-50%)',
             bottom: spacing.medium,
           }}>
-          {players.map(invitee => (
-            <Avatar username={invitee.username} avatarUrl={invitee.avatarUrl} score={1} />
+          {players.map((invitee, index) => (
+            <Avatar key={index} username={invitee.username} avatarUrl={invitee.avatarUrl} score={1} />
           ))}
         </Flex>
       </div>

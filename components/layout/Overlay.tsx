@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { spacing } from "../../styles/theme";
 import Close from "../svg/Close";
 
-export default function Lightbox(
+export default function Overlay(
   { handleClose, children }:
     { handleClose: () => void, children: ReactNode }
 ) {
