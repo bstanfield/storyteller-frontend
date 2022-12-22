@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import { scale, fonts, colors } from "../lib/helpers";
+import { scale } from '../styles/scale';
+import { colors, fonts } from '../styles/theme';
+import { spacing } from "../styles/theme";
 
 const textInput = scale({
-  padding: "16px 60px 16px 24px",
+  padding: spacing.default,
   border: `1px solid ${colors.slate}`,
   borderRadius: 8,
   fontFamily: fonts.monospace,

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { HTMLAttributes, ReactNode } from 'react';
-import { scale } from '../../lib/helpers';
+import { scale } from '../../styles/scale';
 
 export type FlexProps = {
   align?: string;

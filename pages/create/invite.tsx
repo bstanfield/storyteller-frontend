@@ -2,7 +2,6 @@
 
 import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
-import { scale, fonts, colors, ENDPOINT } from "../../lib/helpers";
 import Header from "../../components/header";
 import TextInput from "../../components/TextInput";
 import Flex from "../../components/layout/Flex";
@@ -57,7 +56,7 @@ export default function Invite() {
               readOnly
             />
           </Flex>
-          <Flex justify='space-between'>
+          <Flex justify='space-between' css={{ margin: `${spacing.large}px 0px` }}>
             {invitees.map(invitee => (
               <Avatar username={invitee.username} avatarUrl={invitee.avatarUrl} />
             ))}

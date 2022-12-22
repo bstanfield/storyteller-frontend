@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { jsx } from '@emotion/react'
-import { scale } from '../lib/helpers'
+import { scale } from '../styles/scale';
 import { useEffect, useState } from 'react'
 import { staticImageUrl } from '../lib/images'
 

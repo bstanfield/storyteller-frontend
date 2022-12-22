@@ -2,10 +2,10 @@
 
 import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
-import { scale, fonts, colors, ENDPOINT } from "../../lib/helpers";
 import Header from "../../components/header";
 import Flex from "../../components/layout/Flex";
 import Link from "next/link";
+import { spacing } from "../../styles/theme";
 
 const avatars = [
   'purple',
@@ -40,7 +40,7 @@ export default function Avatar() {
         >
           <h1>Hi, Name.</h1>
           <h1>Choose an avatar:</h1>
-          <div css={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div css={{ display: 'flex', justifyContent: 'space-between', margin: `${spacing.medium}px 0px` }}>
             {avatars.map(avatar => (
               <Link href="/create/invite" css={{ textDecoration: 'none !important' }}>
                 <div

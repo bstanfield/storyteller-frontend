@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Fragment } from "react";
 import { jsx } from "@emotion/react";
-import { scale, fonts, colors, ENDPOINT } from "../lib/helpers";
+import { ENDPOINT } from "../lib/helpers";
 import TextInput from "../components/TextInput";
 import Header from "../components/header";
 import Card from "../components/card";
