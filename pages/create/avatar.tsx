@@ -6,6 +6,7 @@ import Header from "../../components/header";
 import Flex from "../../components/layout/Flex";
 import Link from "next/link";
 import { spacing } from "../../styles/theme";
+import queryString from "query-string";
 
 const avatars = [
   'purple',
@@ -19,7 +20,23 @@ const avatars = [
 ];
 
 export default function Avatar() {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [playerId, setPlayerId] = useState('');
+  const [gameId, setGameId] = useState<any>('');
+
+  // Get game id from url
+  useEffect(() => {
+    const parsed = queryString.parse(location.search);
+    if (parsed.game) {
+      setGameId(parsed.game);
+    }
+  }, []);
+
+  useEffect(() => {
+    setUsername(localStorage.getItem("username"));
+    setPlayerId(localStorage.getItem("playerId"));
+  }, [])
+
   return (
     <Fragment>
       <Header />
@@ -38,11 +55,11 @@ export default function Avatar() {
             width: 900
           }}
         >
-          <h1>Hi, Name.</h1>
+          <h1>Hi, {username}.</h1>
           <h1>Choose an avatar:</h1>
           <div css={{ display: 'flex', justifyContent: 'space-between', margin: `${spacing.medium}px 0px` }}>
             {avatars.map(avatar => (
-              <Link href="/create/invite" css={{ textDecoration: 'none !important' }}>
+              <Link href={`/create/invite?game=${gameId}`} css={{ textDecoration: 'none !important' }}>
                 <div
                   css={{
                     borderRadius: '100%',
@@ -58,6 +75,6 @@ export default function Avatar() {
           <h3>Tap an avatar to select it.</h3>
         </div>
       </div>
-    </Fragment>
+    </Fragment >
   );
 }

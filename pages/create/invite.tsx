@@ -8,12 +8,22 @@ import Flex from "../../components/layout/Flex";
 import { spacing } from "../../styles/theme";
 import Avatar from "../../components/Avatar";
 import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, TESTING_INVITEES } from "../../config/constants";
+import queryString from "query-string";
 
 const invitees = TESTING_INVITEES;
 
 export default function Invite() {
   const emptyAvatarCount = MAX_PLAYER_COUNT - invitees.length;
   const emptyAvatars = Array(emptyAvatarCount).fill({});
+  const [gameId, setGameId] = useState<any>('');
+
+  // Get game id from url
+  useEffect(() => {
+    const parsed = queryString.parse(location.search);
+    if (parsed.game) {
+      setGameId(parsed.game);
+    }
+  }, []);
 
   return (
     <Fragment>
@@ -38,7 +48,7 @@ export default function Invite() {
           <Flex justify='center'>
             <h3 css={{ marginRight: spacing.default }}>Invite link:</h3>
             <TextInput
-              value="storyteller.ai/some-link"
+              value={`storyteller.ai/${gameId}`}
               readOnly
             />
           </Flex>

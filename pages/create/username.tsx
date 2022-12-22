@@ -1,12 +1,40 @@
 /** @jsxImportSource @emotion/react */
 
-import Link from "next/link";
 import { useEffect, useState, Fragment } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "../../components/header";
 import TextInput from "../../components/TextInput";
+import { ENDPOINT } from "../../lib/helpers";
+import queryString from "query-string";
 
 export default function Username() {
   const [name, setName] = useState('');
+  const [gameId, setGameId] = useState<any>('');
+
+  // Get game id from url
+  useEffect(() => {
+    const parsed = queryString.parse(location.search);
+    if (parsed.game) {
+      setGameId(parsed.game);
+    }
+  }, []);
+
+  const submitUsername = async (name) => {
+    if (name) {
+      const res = await fetch(`${ENDPOINT}/create/username?username=${name}`);
+      const data = await res.json();
+      if (data.error) {
+        alert("Error creating user");
+        setName('');
+      } else {
+        // Replace with cookie system later
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("playerId", data.player_id);
+        window.location.href = `/create/avatar?game=${gameId}`;
+      }
+    }
+  };
+
   return (
     <Fragment>
       <Header />
@@ -26,16 +54,13 @@ export default function Username() {
           }}
         >
           <h1>What's your name?</h1>
-          <p>Create a new game</p>
           <TextInput
             autofocus
             value={name}
             onChange={(i) => setName(i)}
             placeholder="Enter a name"
           />
-          <Link href="/create/avatar">
-            <button>Save</button>
-          </Link>
+          <button onClick={() => submitUsername(name)}>Save</button>
         </div>
       </div>
     </Fragment>

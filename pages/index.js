@@ -22,8 +22,8 @@ const images = [
 ];
 
 export default function Index() {
-  const [room, setRoom] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [game, setGame] = useState("");
+  const [validGameCode, setValidGameCode] = useState(false);
   const [username, setUsername] = useState(false);
 
   useEffect(() => {
@@ -31,24 +31,35 @@ export default function Index() {
   }, [])
 
   useEffect(() => {
-    if (success) {
+    if (validGameCode) {
       if (username) {
-        window.location.href = `/game/${room}`;
+        window.location.href = `/game/${game}`;
       } else {
-        window.location.href = `/username?room=${room}`;
+        window.location.href = `/create/username?game=${game}`;
       }
     }
-  }, [success]);
+  }, [validGameCode]);
 
-  const checkRoom = async (room) => {
-    const res = await fetch(`${ENDPOINT}/secret?room=${room}`);
+  const checkGame = async (game) => {
+    const res = await fetch(`${ENDPOINT}/secret?game=${game}`);
     const data = await res.json();
     if (data.error) {
-      alert("Invalid room");
-      setRoom("");
+      alert("Invalid game");
+      setGame("");
     } else {
-      setSuccess(true);
+      setGame(game);
+      setValidGameCode(true);
     }
+  };
+
+  const createGame = async () => {
+    const res = await fetch(`${ENDPOINT}/create`);
+    const data = await res.json();
+    if (data.error) {
+      alert("Error creating game");
+    }
+    setGame(data.slug);
+    setValidGameCode(true);
   };
 
   return (
@@ -76,20 +87,18 @@ export default function Index() {
             <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
 
             <h3>Create a new game</h3>
-            <Link href="/create/username">
-              <button>Create game</button>
-            </Link>
+            <button onClick={() => createGame()}>Create game</button>
             <br />
             <br />
 
             <h3>Or, join an existing game</h3>
             <TextInput
               autoFocus
-              value={room}
-              onChange={(i) => setRoom(i)}
-              placeholder="Your room"
+              value={game}
+              onChange={(i) => setGame(i)}
+              placeholder="Enter code"
             />
-            <button onClick={() => checkRoom(room)} className="btn-purple">Join game</button>
+            <button onClick={() => checkGame(game)} className="btn-purple">Join game</button>
             <p>Playing as <a href="">{username}</a></p>
           </div>
         </div>
