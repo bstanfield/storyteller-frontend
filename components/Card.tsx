@@ -4,9 +4,10 @@ import { jsx } from '@emotion/react'
 import { scale } from '../styles/scale';
 import { useEffect, useState } from 'react'
 import { staticImageUrl } from '../lib/images'
+import { CARD_WIDTHS } from '../config/constants';
 
 const cardStyles = (slug) => scale({
-  width: [200, 200, 200, 224, 248],
+  width: CARD_WIDTHS,
   aspectRatio: '1 / 1.5',
   backgroundColor: 'black',
   borderRadius: 14,

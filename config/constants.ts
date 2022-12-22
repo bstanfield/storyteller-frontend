@@ -14,3 +14,4 @@ export const TESTING_IMAGES = [
 ]
 
 export const TESTING_SAMPLE_HAND = TESTING_IMAGES.slice(0, 6);
+export const CARD_WIDTHS = [160, 160, 216, 232];
