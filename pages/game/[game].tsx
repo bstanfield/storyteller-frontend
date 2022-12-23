@@ -37,7 +37,7 @@ function getPhaseFromRoundData({
 
 export default function Game() {
   const [game, setGame] = useState(null);
-  const [socketConnection, setSocketConnection] = useState();
+  const [socketConnection, setSocketConnection] = useState<any>();
   const [clientId, setClientId] = useState(false);
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [playerId, setPlayerId] = useState<any>(false);
@@ -80,6 +80,10 @@ export default function Game() {
 
       connection.on("id", (id) => {
         setClientId(id);
+      });
+
+      connection.on("hand", (hand) => {
+        console.log('hand: ', hand);
       });
 
       connection.on("round", (data) => {
