@@ -31,6 +31,7 @@ export default function Username() {
         // Replace with cookie system later
         localStorage.setItem("username", data.username);
         localStorage.setItem("playerId", data.player_id);
+        window.location.href = `/create/avatar?game=${gameSlug}`;
       }
     }
   };

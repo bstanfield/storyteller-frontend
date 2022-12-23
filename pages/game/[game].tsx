@@ -15,11 +15,11 @@ import { spacing } from "../../styles/theme";
 export default function Game() {
   const [game, setGame] = useState(null);
   const [data, setData] = useState(false);
-  const [socketConnection, setSocketConnection] = useState(false);
+  const [socketConnection, setSocketConnection] = useState();
   const [clientId, setClientId] = useState(false);
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState(false);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
@@ -27,7 +27,7 @@ export default function Game() {
 
   useEffect(() => {
     const path = window.location.pathname;
-    let game = false;
+    let game = '';
     if (path) {
       game = path.split("/")[2];
       setGame(game);
@@ -45,7 +45,6 @@ export default function Game() {
     connection.on("connect", () => {
       connection.emit("join", game);
 
-      // Attempting to fix tab unfocus issue
       if (username) {
         connection.emit("name", username);
       }
@@ -68,8 +67,10 @@ export default function Game() {
       setPlayers(data);
     });
 
-    return () => connection.disconnect();
-  }, []);
+    return () => {
+      connection.disconnect();
+    }
+  }, [username]);
 
   console.log('data: ', data);
   console.log('loading: ', loading);

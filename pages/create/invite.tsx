@@ -10,6 +10,7 @@ import Avatar from "../../components/game/Avatar";
 import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, TESTING_INVITEES } from "../../config/constants";
 import CreateGameLayout from "../../components/layout/CreateGameLayout";
 import queryString from "query-string";
+import Link from "next/link";
 
 const invitees = TESTING_INVITEES;
 
@@ -95,7 +96,7 @@ export default function Invite() {
             ))}
           </Flex>
           {/* if invitees >= MIN_PLAYER_COUNT, enable button */}
-          <button>Start Game</button>
+          <Link href={`/game/${gameSlug}`}><button>Start Game</button></Link>
           {invitees.length < MIN_PLAYER_COUNT
             ? (
               <p>
