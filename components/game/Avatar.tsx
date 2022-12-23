@@ -16,12 +16,12 @@ const boldText = { textTransform: 'uppercase', fontWeight: 700, margin: 0 };
 
 
 export default function Avatar(
-  { avatarUrl, username, score }:
+  { avatarUrl, username, score, onClickFn }:
     { avatarUrl?: string, username?: string, score?: number }
 ) {
 
   return avatarUrl ? (
-    <div>
+    <div onClick={onClickFn}>
       <div
         css={[avatarStyle, {
           backgroundImage: `url(${staticImageUrl(`cards/${avatarUrl}`, { w: 160 })})`,

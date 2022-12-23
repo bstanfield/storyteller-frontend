@@ -12,20 +12,19 @@ import CreateGameLayout from "../../components/layout/CreateGameLayout";
 import queryString from "query-string";
 import Link from "next/link";
 
-const invitees = TESTING_INVITEES;
-
 const addPlayerToGame = async (gameSlug, playerId) => {
   const res = await fetch(`${ENDPOINT}/game/add-player?game_slug=${gameSlug}&player_id=${playerId}`);
   return res;
 }
 
 export default function Invite() {
-  const emptyAvatarCount = MAX_PLAYER_COUNT - invitees.length;
-  const emptyAvatars = Array(emptyAvatarCount).fill({});
   const [gameSlug, setGameSlug] = useState<any>(false);
   const [username, setUsername] = useState<any>(false);
   const [playerId, setPlayerId] = useState<any>(false);
   const [players, setPlayers] = useState<any>([]);
+
+  const emptyAvatarCount = MAX_PLAYER_COUNT - players.length;
+  const emptyAvatars = Array(emptyAvatarCount).fill({});
 
   // Get game id from url
   useEffect(() => {
@@ -42,22 +41,24 @@ export default function Invite() {
 
   useEffect(() => {
     if (playerId && gameSlug) {
-      // TODO: Prevent this from adding user multiple times
       addPlayerToGame(gameSlug, playerId);
     }
   }, [playerId, gameSlug]);
 
   useEffect(() => {
-    if (gameSlug) {
-      const getPlayersInGame = async () => {
-        const res = await fetch(`${ENDPOINT}/game/players?game_slug=${gameSlug}`);
-        const data = await res.json();
-        console.log('data: ', data);
-        setPlayers(data.players);
+    const intervalId = setInterval(() => {
+      if (gameSlug) {
+        const getPlayersInGame = async () => {
+          const res = await fetch(`${ENDPOINT}/game/players?game_slug=${gameSlug}`);
+          const data = await res.json();
+          console.log('data: ', data);
+          setPlayers(data.players);
+        }
+        // Get players in game
+        getPlayersInGame();
       }
-      // Get players in game
-      getPlayersInGame();
-    }
+    }, 5000);
+    return () => clearInterval(intervalId);
   }, [gameSlug]);
 
   return (
@@ -88,19 +89,19 @@ export default function Invite() {
             />
           </Flex>
           <Flex justify='space-between' css={{ margin: `${spacing.large}px 0px` }}>
-            {invitees.map((invitee, index) => (
-              <Avatar key={index} username={invitee.username} avatarUrl={invitee.avatarUrl} />
+            {players.map((player, index) => (
+              <Avatar key={index} username={player.name} avatarUrl={player.imgix_path} />
             ))}
-            {emptyAvatars.map((invitee, index) => (
+            {emptyAvatars.map((player, index) => (
               <Avatar key={index} />
             ))}
           </Flex>
-          {/* if invitees >= MIN_PLAYER_COUNT, enable button */}
+          {/* if players >= MIN_PLAYER_COUNT, enable button */}
           <Link href={`/game/${gameSlug}`}><button>Start Game</button></Link>
-          {invitees.length < MIN_PLAYER_COUNT
+          {players.length < MIN_PLAYER_COUNT
             ? (
               <p>
-                Need at least {MIN_PLAYER_COUNT - invitees.length} more player{MIN_PLAYER_COUNT - invitees.length > 1 ? 's' : ''}
+                Need at least {MIN_PLAYER_COUNT - players.length} more player{MIN_PLAYER_COUNT - players.length > 1 ? 's' : ''}
               </p>
             ) : (
               <p>{MAX_PLAYER_COUNT} player maximum.</p>

@@ -9,6 +9,16 @@ import queryString from "query-string";
 import { TESTING_IMAGES } from "../../config/constants";
 import Flex from "../../components/layout/Flex";
 import CreateGameLayout from "../../components/layout/CreateGameLayout";
+import { ENDPOINT } from "../../lib/helpers";
+
+// Write a function that adds an avatar to a player
+const addAvatarToPlayer = async (playerId, avatarId, gameId) => {
+  const res = await fetch(`${ENDPOINT}/create/avatar?player_id=${playerId}&avatar_id=${avatarId}`);
+  if (res.ok) {
+    alert('Avatar added to player!');
+    window.location.href = `/create/invite?game=${gameId}`;
+  }
+}
 
 export default function ChooseAvatar() {
   const [name, setName] = useState('');
@@ -16,6 +26,7 @@ export default function ChooseAvatar() {
   const [username, setUsername] = useState('');
   const [playerId, setPlayerId] = useState('');
   const [gameId, setGameId] = useState<any>('');
+  const [avatars, setAvatars] = useState<any>([]);
 
   // Get game id from url
   useEffect(() => {
@@ -23,6 +34,16 @@ export default function ChooseAvatar() {
     if (parsed.game) {
       setGameId(parsed.game);
     }
+  }, []);
+
+  useEffect(() => {
+    const getAvatars = async () => {
+      const res = await fetch(`${ENDPOINT}/avatars`);
+      const data = await res.json();
+      setAvatars(data.avatars);
+    }
+
+    getAvatars();
   }, []);
 
   useEffect(() => {
@@ -51,15 +72,12 @@ export default function ChooseAvatar() {
           <h1>Hi, {username}.</h1>
           <h1>Choose an avatar:</h1>
           <Flex wrap justify='space-around' css={{ margin: `${spacing.medium}px 0px` }}>
-            {TESTING_IMAGES.slice(1, 7).map(avatar => (
-              <Link
-                href={`/create/invite?game=${gameId}`}
-                css={{ textDecoration: 'none !important', border: 'none', '&:hover': { border: 'none' } }}
-              >
-                <Avatar avatarUrl={avatar} />
-              </Link>
+            {avatars?.map(avatar => (
+              <Avatar onClickFn={() => addAvatarToPlayer(playerId, avatar.id, gameId)} avatarUrl={avatar.imgix_path} />
             ))}
           </Flex>
+          <br />
+          <br />
           <h3>Tap an avatar to select it.</h3>
         </div>
       </div>
