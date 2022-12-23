@@ -1,4 +1,4 @@
-export type PlayerState = 'guessing' | 'done' | 'voting';
+export type PlayerState = 'choosing' | 'guessing' | 'done';
 
 export interface Player {
   playerId?: string, // uuid 

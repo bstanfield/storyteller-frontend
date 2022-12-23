@@ -72,8 +72,12 @@ export default function ChooseAvatar() {
           <h1>Hi, {username}.</h1>
           <h1>Choose an avatar:</h1>
           <Flex wrap justify='space-around' css={{ margin: `${spacing.medium}px 0px` }}>
-            {avatars?.map(avatar => (
-              <Avatar onClickFn={() => addAvatarToPlayer(playerId, avatar.id, gameId)} avatarUrl={avatar.imgix_path} />
+            {avatars?.map((avatar, index) => (
+              <Avatar
+                key={index}
+                handleAvatarClick={() => addAvatarToPlayer(playerId, avatar.id, gameId)}
+                avatarUrl={avatar.imgix_path}
+              />
             ))}
           </Flex>
           <br />

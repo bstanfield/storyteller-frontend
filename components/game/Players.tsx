@@ -17,6 +17,7 @@ export default function Players({ players, className }: { players: Player[], cla
             username={player.username}
             avatarUrl={player.avatarUrl}
             score={1}
+            state={player.state}
           />
         </div>
       ))}
