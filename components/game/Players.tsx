@@ -14,9 +14,9 @@ export default function Players({ players, className }: { players: Player[], cla
       {players.map((player, index) => (
         <div key={index} css={{ margin: `0px ${spacing.default}px` }}>
           <Avatar
-            username={player.username}
-            avatarUrl={player.avatarUrl}
-            score={1}
+            username={player.name}
+            avatarUrl={player.imgix_path}
+            score={player.score}
           />
         </div>
       ))}
