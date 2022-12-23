@@ -9,8 +9,10 @@ import Hand from '../../components/game/Hand';
 import Avatar from '../../components/game/Avatar';
 import Flex from "../../components/layout/Flex";
 import GameLayout from "../../components/layout/GameLayout";
-import EnterClue from "../../components/lightbox/EnterClue";
+import EnterClue from "../../components/game/lightbox/EnterClue";
+import ConfirmSelection from "../../components/game/lightbox/ConfirmSelection";
 import { spacing } from "../../styles/theme";
+import Players from "../../components/game/Players";
 
 export default function Game() {
   const [game, setGame] = useState(null);
@@ -101,26 +103,44 @@ export default function Game() {
         <h3>Socket ID: {clientId}</h3>
         <h3>Username: {username}</h3>
         <Hand cards={TESTING_SAMPLE_HAND} />
-        <Flex
-          justify='space-between'
-          css={{
-            margin: `${spacing.large}px auto`,
-            gap: spacing.default,
-            width: 'fit-content',
-            position: 'absolute',
-            left: '50%',
-            transform: 'translate(-50%)',
-            bottom: spacing.medium,
-          }}>
-          {players.map((invitee, index) => (
-            <Avatar key={index} username={invitee.username} avatarUrl={invitee.avatarUrl} score={1} />
-          ))}
-        </Flex>
+        <Players players={players} css={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translate(-50%)',
+          bottom: 0,
+          margin: `${spacing.large}px auto`,
+        }} />
         {/* <EnterClue handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
+        {/* <ConfirmSelection handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
       </div>
     )
   }
 }
+
+// if storyteller:
+// specific text + see your hand screen -- cards are clickable
+// click card -> enter clue lightbox √
+// jump to shared waiting screen
+// players are voting screen -- storyteller specific
+// jump to shared end screen
+
+// if guesser:
+// waiting for storyteller screen
+// choose card text + see hand screen -- cards are clickable
+// click card -> confirm card lightbox √
+// - if 3 person game
+// - choose one more card text + see hand screen -- cards are clickable
+// - click card -> confirm card lightbox √
+// jump to shared waiting screen
+// place your vote -- cards are clickable
+// click card -> confirm card lightbox √
+// your vote is in -- cards NOT clickable
+// jump to shared end screen
+
+// shared:
+// waiting for card selections -- cards NOT clickable
+// - some text changes between storyteller and guesser
+// end screen -- cards NOT clickable
 
 Game.getLayout = function getLayout(page) {
   return (

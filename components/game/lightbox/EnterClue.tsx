@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import Card from "../game/Card";
-import { spacing } from "../../styles/theme";
-import Overlay from "../layout/Overlay";
+import Card from "../Card";
+import { spacing } from "../../../styles/theme";
+import Overlay from "../../layout/Overlay";
 import { useState } from "react";
-import TextInput from "../TextInput";
-import Flex from "../layout/Flex";
+import TextInput from "../../TextInput";
+import Flex from "../../layout/Flex";
 
 export default function EnterClue({ slug, handleClose }: { slug: string, handleClose: () => void }) {
   const [clue, setClue] = useState('');

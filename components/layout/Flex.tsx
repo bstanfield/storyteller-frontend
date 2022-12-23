@@ -12,7 +12,7 @@ export type FlexProps = {
   inline?: boolean;
   direction?: string;
   mobileDirection?: string;
-  className?: string;
+  className?: any;
   gap?: number | string | (number | string)[];
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
