@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
-import Card from "../game/Card";
-import Overlay from "../layout/Overlay";
-import Flex from "../layout/Flex";
+import Card from "../Card";
+import Overlay from "../../layout/Overlay";
+import Flex from "../../layout/Flex";
 
-import { spacing } from "../../styles/theme";
+import { spacing } from "../../../styles/theme";
 
 export default function EnterClue({ slug, handleClose }: { slug: string, handleClose: () => void }) {
 
