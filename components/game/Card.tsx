@@ -3,6 +3,7 @@
 import { scale } from '../../styles/scale';
 import { staticImageUrl } from '../../lib/images'
 import { CARD_WIDTHS } from '../../config/constants';
+import { ReactNode } from 'react';
 
 const cardStyles = (slug, onClick) => scale({
   width: CARD_WIDTHS,
@@ -20,8 +21,13 @@ const cardStyles = (slug, onClick) => scale({
   }
 })
 
-export default function Card({ slug, onClick, className }
-  : { slug: string, onClick?: (slug: string) => void, className?: any }) {
+export default function Card({ slug, onClick, className, children }
+  : {
+    slug: string,
+    childre?: ReactNode,
+    onClick?: (slug: string) => void,
+    className?: any
+  }) {
 
   return (
     <div
@@ -33,6 +39,7 @@ export default function Card({ slug, onClick, className }
         }
       }}
     >
+      {children}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { TESTING_SAMPLE_HAND } from '../../config/constants';
-import Hand from './Hand';
+import FannedHand from './FannedHand';
 import { spacing } from '../../styles/theme';
 import { useState } from 'react';
 import ChooseCardLayout from '../layout/ChooseCardLayout';
@@ -24,8 +24,7 @@ export default function GuesserChooseCard({
 
   return (
     <ChooseCardLayout
-      preheaderText={!clue && 'Hang tight.'}
-      headerText={clue ? 'Pick two cards:' : 'Waiting for storyteller’s clue...'}
+      headerText={players.length === 3 ? 'Pick two cards:' : 'Pick one card:'}
       players={players}
       topMatter={clue && (
         <Clue storyteller={players[0].username} clue={clue} />
@@ -39,7 +38,7 @@ export default function GuesserChooseCard({
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <Hand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
+        <FannedHand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
       </div>
     </ChooseCardLayout>
   )

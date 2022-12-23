@@ -15,7 +15,7 @@ const glowyBox = {
   transform: 'translate(-50%)',
 }
 
-export default function GuesserChooseCard({
+export default function Clue({
   storyteller,
   clue,
 }: {
