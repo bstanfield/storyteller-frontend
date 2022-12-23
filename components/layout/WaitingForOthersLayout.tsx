@@ -28,7 +28,7 @@ export default function WaitingOnOthersLayout({
           margin: `${spacing.large}px auto`,
         }}
       />
-      <h3>Waiting on X players...</h3>
+      <h3 css={{ opacity: 0.5 }}>Waiting on X players...</h3>
       <div css={{ position: 'fixed', bottom: 0 }}>
         <FannedHand cards={TESTING_SAMPLE_HAND} />
       </div>

@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
-import smoothscroll from "smoothscroll-polyfill";
-import { TESTING_IMAGES, TESTING_INVITEES, TESTING_SAMPLE_HAND, TESTING_STORYTELLER } from '../../config/constants';
+import { TESTING_INVITEES, TESTING_SAMPLE_HAND, TESTING_STORYTELLER } from '../../config/constants';
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
@@ -13,21 +12,47 @@ import { spacing } from "../../styles/theme";
 import ChooseCardLayout from "../../components/layout/ChooseCardLayout";
 import FannedHand from "../../components/game/FannedHand";
 import Clue from "../../components/game/Clue";
-import LoadingSpinner from "../../components/svg/LoadingSpinner";
 import Voting from "../../components/game/Voting";
+import OtherPlayersAreVoting from "../../components/game/OtherPlayersAreVoting";
+
+function getPhaseFromRoundData({
+  isStoryteller,
+  clue,
+  completedAt,
+  playerStoryteller,
+}: {
+  isStoryteller: boolean,
+  clue: string,
+  completedAt: EpochTimeStamp,
+  playerStoryteller: string
+}) {
+  if (completedAt) {
+    return 'score'
+  }
+  if (clue) {
+    return 'choosing' // or voting if submissions are in / cards have been played
+  }
+  else return 'clue'
+}
 
 export default function Game() {
   const [game, setGame] = useState(null);
-  const [data, setData] = useState(false);
   const [socketConnection, setSocketConnection] = useState();
   const [clientId, setClientId] = useState(false);
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [playerId, setPlayerId] = useState<any>(false);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
-  const [clue, setClue] = useState('');
-  const [isStoryteller, setIsStoryteller] = useState(false);
-  const [vote, setVote] = useState('')
+
+  const [roundData, setRoundData] = useState({
+    isStoryteller: false,
+    clue: 'great clue',
+    completedAt: 0 as EpochTimeStamp,
+    playerStoryteller: ''
+  });
+  const [phase, setPhase] = useState('');
+  const [contenderCard, setContenderCard] = useState('');
+  const [vote, setVote] = useState('');
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -58,12 +83,21 @@ export default function Game() {
       });
 
       connection.on("round", (data) => {
-        //if playerStoryteller = playerId, then isStoryteller = true
         const { playerStoryteller, clue, completedAt } = data;
         if (playerStoryteller === playerId) {
-          setIsStoryteller(true);
+          setRoundData({
+            playerStoryteller,
+            clue,
+            completedAt,
+            isStoryteller: true
+          });
         } else {
-          setIsStoryteller(false);
+          setRoundData({
+            playerStoryteller,
+            clue,
+            completedAt,
+            isStoryteller: false
+          });
         }
       });
 
@@ -81,65 +115,56 @@ export default function Game() {
     }
   }, [playerId, game]);
 
-  console.log('data: ', data);
+  useEffect(() => {
+    const phase = getPhaseFromRoundData(roundData);
+    setPhase(phase);
+  }, [roundData]);
+
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
-
+  console.log('phase: ', phase);
 
   if (loading || !socketConnection) {
     return <div />
   }
 
-  const phase = 'voting';
-  const contendersSubmitted = true;
-  const votingSubmitted = vote;
-
-  // phases: 
-  // clue giving
-  // choosing cards
-  // voting
-  // scoring
-
-  // storyteller states:
-  // need to give clue
-  // gave clue && waiting for picks
-  // waiting for votes
-  // score screen
-
-  // guesser states:
-  // waiting on clue
-  // choosing cards
-  // voting
-  // score screen
-
   return (
     <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-      {isStoryteller && (
+      {roundData.isStoryteller && (
         phase === 'clue' ? (
-          <StorytellerChooseCard handleSubmitClue={clue => setClue(clue)} players={players} />
+          <StorytellerChooseCard
+            handleSubmitClue={clue => setRoundData({ ...roundData, clue })}
+            players={players}
+          />
         ) : phase === 'choosing' ? (
           <WaitingOnOthersLayout
             topMatter={(
               <div>
                 <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
-                <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{clue}”</h1>
+                <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
               </div>
             )}
-            headerText={clue}
+            headerText={roundData.clue}
             players={players}
           />
         ) : phase === 'voting' ? (
-          <div />
+          <OtherPlayersAreVoting
+            players={players}
+          />
         ) : <div />)}
-      {!isStoryteller && (
-        phase === 'choosing' && !contendersSubmitted ?
-          <GuesserChooseCard clue={clue} players={players} />
-          : phase === 'choosing' && contendersSubmitted ? (
+      {!roundData.isStoryteller && (
+        phase === 'choosing' && !contenderCard ?
+          <GuesserChooseCard
+            clue={roundData.clue}
+            players={players}
+            handleContenderSubmission={(slug) => setContenderCard(slug)}
+          />
+          : phase === 'choosing' && contenderCard ? (
             <WaitingOnOthersLayout
               topMatter={(
-                <Clue storyteller={TESTING_STORYTELLER.username} clue={clue} />
+                <Clue storyteller={TESTING_STORYTELLER.username} clue={roundData.clue} />
               )}
-              headerText={clue}
+              headerText={roundData.clue}
               players={players}
             />
           ) : phase === 'clue' ? (
@@ -156,7 +181,7 @@ export default function Game() {
             <Voting
               storyteller={players[0].name}
               players={players}
-              clue={clue}
+              clue={roundData.clue}
               handleSubmitVote={(slug) => setVote(slug)}
               vote={vote}
             />

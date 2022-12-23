@@ -12,9 +12,11 @@ import { Player } from '../../types';
 export default function GuesserChooseCard({
   clue,
   players,
+  handleContenderSubmission,
 }: {
   clue?: string,
   players: Player[],
+  handleContenderSubmission: (slug: string) => void;
 }) {
   const [imageToShow, setImageToShow] = useState('');
 
@@ -33,7 +35,7 @@ export default function GuesserChooseCard({
       {imageToShow &&
         <ConfirmSelection
           handleClose={() => setImageToShow('')}
-          handleSubmit={() => ''}
+          handleSubmit={() => handleContenderSubmission(imageToShow)}
           slug={imageToShow}
         />
       }
