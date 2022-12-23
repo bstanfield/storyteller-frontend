@@ -21,6 +21,7 @@ export default function Game() {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [clue, setClue] = useState('');
+  const [isStoryteller, setIsStoryteller] = useState(false);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -41,14 +42,23 @@ export default function Game() {
 
       connection.on("connect", () => {
         connection.emit("join", { player_id: playerId, game });
+
+        // Request round info
+        connection.emit("round", { game });
       });
 
       connection.on("id", (id) => {
         setClientId(id);
       });
 
-      connection.on("data", (gameData) => {
-        setData(gameData);
+      connection.on("round", (data) => {
+        //if playerStoryteller = playerId, then isStoryteller = true
+        const { playerStoryteller, clue, completedAt } = data;
+        if (playerStoryteller === playerId) {
+          setIsStoryteller(true);
+        } else {
+          setIsStoryteller(false);
+        }
       });
 
       connection.on("loading", (boolean) => {
@@ -68,8 +78,6 @@ export default function Game() {
   console.log('data: ', data);
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
-
-  const isStoryteller = true;
 
   if (loading || !socketConnection) {
     return <div />
