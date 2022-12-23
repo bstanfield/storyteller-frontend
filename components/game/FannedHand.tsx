@@ -21,7 +21,7 @@ function angleForIndex(index, handSize) {
   return (MAX_ROTATIONAL_ANGLE * 2 / (handSize - 1)) * index - MAX_ROTATIONAL_ANGLE
 }
 
-export default function Hand({ cards, handleCardClick }: { cards: string[], handleCardClick?: (slug: string) => void }) {
+export default function FannedHand({ cards, handleCardClick }: { cards: string[], handleCardClick?: (slug: string) => void }) {
   return (
     <div css={{ width: '100%' }}>
       <Flex

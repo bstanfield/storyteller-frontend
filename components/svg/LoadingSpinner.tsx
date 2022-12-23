@@ -1,13 +1,36 @@
-export default function LoadingSpinner() {
+/** @jsxImportSource @emotion/react */
+
+export default function LoadingSpinner(props) {
+  const { width = 20, color = 'white', speed = 3, ...restOfProps } = props;
   return (
-    <svg width='30' viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M34.9976 6.89833C41.4665 14.177 41.8168 25.2866 35.3922 32.9932C28.3142 41.4837 15.6935 42.6287 7.20313 35.5507C-1.28728 28.4727 -2.43228 15.852 4.64571 7.36157C11.0703 -0.345094 22.0616 -1.99985 30.3856 3.05358L26.4776 7.74141C20.7624 4.76623 13.5524 6.05456 9.25769 11.2063C4.30309 17.1496 5.10459 25.9841 11.0479 30.9387C16.9912 35.8933 25.8256 35.0918 30.7802 29.1485C35.075 23.9967 35.0447 16.6726 31.0896 11.5862L34.9976 6.89833Z" fill="url(#paint0_linear_205_233)" />
+    <svg
+      width={width}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      {...restOfProps}
+    >
+      <path
+        opacity=".25"
+        d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
+        fill={color}
+      />
+      {/* <path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" fill={color}> */}
+      <path d="M16 2C16 0.895431 15.1011 -0.0129078 14.0051 0.124785C10.4972 0.565512 7.21278 2.1598 4.68629 4.68629C1.68571 7.68687 0 11.7565 0 16H4C4 12.8174 5.26428 9.76516 7.51472 7.51472C9.29032 5.73912 11.5651 4.57742 14.0092 4.16624C15.0984 3.98299 16 3.10457 16 2V2Z" fill="url(#paint0_linear_209_237)">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 16 16"
+          to="360 16 16"
+          dur={speed}
+          repeatCount="indefinite"
+        />
+      </path>
       <defs>
-        <linearGradient id="paint0_linear_205_233" x1="9.70759" y1="4.41531" x2="32.1935" y2="9.48058" gradientUnits="userSpaceOnUse">
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="white" stop-opacity="0" />
+        <linearGradient id="paint0_linear_209_237" x1="16" y1="2" x2="2.5" y2="13" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#D9D9D9" />
+          <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>
-  )
-}
+  );
+};

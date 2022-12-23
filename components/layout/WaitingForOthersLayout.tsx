@@ -4,7 +4,7 @@ import { spacing } from '../../styles/theme';
 import { ReactNode } from 'react';
 import Players from '../game/Players';
 import { Player } from '../../types';
-import Hand from '../game/Hand';
+import FannedHand from '../game/FannedHand';
 import { TESTING_SAMPLE_HAND } from '../../config/constants';
 
 export default function WaitingOnOthersLayout({
@@ -30,7 +30,7 @@ export default function WaitingOnOthersLayout({
       />
       <h3>Waiting on X players...</h3>
       <div css={{ position: 'fixed', bottom: 0 }}>
-        <Hand cards={TESTING_SAMPLE_HAND} />
+        <FannedHand cards={TESTING_SAMPLE_HAND} />
       </div>
     </div>
   )

@@ -35,16 +35,19 @@ export default function Avatar(
           backgroundSize: 'cover',
         }]}
       >
-        <Flex css={{
-          backgroundColor: '#040126',
-          borderRadius: '100%',
-          width: 'fit-content',
-          padding: spacing.xSmall,
-          position: 'absolute',
-          top: -spacing.small,
-          right: -spacing.small,
-          // height: 30,
-        }} align='center' justify='center'>
+        <Flex
+          css={{
+            backgroundColor: '#040126',
+            borderRadius: '100%',
+            width: 'fit-content',
+            padding: spacing.xSmall,
+            position: 'absolute',
+            top: -spacing.small,
+            right: -spacing.small,
+          }}
+          align='center'
+          justify='center'
+        >
           <PlayerStateIcon state={state} />
         </Flex>
       </div>

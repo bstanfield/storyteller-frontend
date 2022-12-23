@@ -11,8 +11,10 @@ import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
 import WaitingOnOthersLayout from "../../components/layout/WaitingForOthersLayout";
 import { spacing } from "../../styles/theme";
 import ChooseCardLayout from "../../components/layout/ChooseCardLayout";
-import Hand from "../../components/game/Hand";
+import FannedHand from "../../components/game/FannedHand";
 import Clue from "../../components/game/Clue";
+import LoadingSpinner from "../../components/svg/LoadingSpinner";
+import Voting from "../../components/game/Voting";
 
 export default function Game() {
   const [game, setGame] = useState(null);
@@ -24,6 +26,7 @@ export default function Game() {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [clue, setClue] = useState('asdf');
+  const [vote, setVote] = useState('');
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -72,18 +75,25 @@ export default function Game() {
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
 
-  const isStoryteller = false;
-  const isWaiting = false;
 
   if (loading || !socketConnection) {
     return <div />
   }
 
+  const isStoryteller = false;
+  const phase = 'voting';
+  const contendersSubmitted = true;
+  const votingSubmitted = vote;
+
+  // phases: 
+  // clue giving
+  // choosing cards
+  // voting
+  // scoring
 
   // storyteller states:
   // need to give clue
-  // gave clue
-  // waiting for picks
+  // gave clue && waiting for picks
   // waiting for votes
   // score screen
 
@@ -96,9 +106,9 @@ export default function Game() {
   return (
     <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
       {isStoryteller && (
-        clue ? (
+        phase === 'clue' ? (
           <StorytellerChooseCard handleSubmitClue={clue => setClue(clue)} players={players} />
-        ) : (
+        ) : phase === 'choosing' ? (
           <WaitingOnOthersLayout
             topMatter={(
               <div>
@@ -109,11 +119,13 @@ export default function Game() {
             headerText={clue}
             players={players}
           />
-        ))}
+        ) : phase === 'voting' ? (
+          <div />
+        ) : <div />)}
       {!isStoryteller && (
-        clue && !isWaiting ?
+        phase === 'choosing' && !contendersSubmitted ?
           <GuesserChooseCard clue={clue} players={players} />
-          : clue && isWaiting ? (
+          : phase === 'choosing' && contendersSubmitted ? (
             <WaitingOnOthersLayout
               topMatter={(
                 <Clue storyteller={TESTING_STORYTELLER.username} clue={clue} />
@@ -121,17 +133,25 @@ export default function Game() {
               headerText={clue}
               players={players}
             />
-          ) : (
+          ) : phase === 'clue' ? (
             <ChooseCardLayout
               preheaderText='Hang tight.'
               headerText='Waiting for storyteller’s clue...'
               players={players}
             >
               <div css={{ marginTop: spacing.xLarge }}>
-                <Hand cards={TESTING_SAMPLE_HAND} />
+                <FannedHand cards={TESTING_SAMPLE_HAND} />
               </div>
             </ChooseCardLayout>
-          ))}
+          ) : phase === 'voting' ? (
+            <Voting
+              storyteller={players[0].name}
+              players={players}
+              clue={clue}
+              handleSubmitVote={(slug) => setVote(slug)}
+              vote={vote}
+            />
+          ) : <div />)}
     </div>
   )
 }

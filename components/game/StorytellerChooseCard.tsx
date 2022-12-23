@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { TESTING_SAMPLE_HAND } from '../../config/constants';
-import Hand from './Hand';
+import FannedHand from './FannedHand';
 import EnterClue from './lightbox/EnterClue';
 import { spacing } from '../../styles/theme';
 import { useState } from 'react';
@@ -37,7 +37,7 @@ export default function ChooseCard(
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <Hand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
+        <FannedHand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
       </div>
     </ChooseCardLayout>
   )
