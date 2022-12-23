@@ -13,10 +13,12 @@ export default function GuesserChooseCard({
   clue,
   players,
   handleContenderSubmission,
+  cards
 }: {
   clue?: string,
   players: Player[],
   handleContenderSubmission: (slug: string) => void;
+  cards: CardType[]
 }) {
   const [imageToShow, setImageToShow] = useState('');
 
@@ -40,7 +42,7 @@ export default function GuesserChooseCard({
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <FannedHand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
+        <FannedHand cards={cards} handleCardClick={handleCardClick} />
       </div>
     </ChooseCardLayout>
   )

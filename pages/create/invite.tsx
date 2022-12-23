@@ -105,6 +105,12 @@ export default function Invite() {
               readOnly
             />
           </Flex>
+          {/* TODO:  <div
+            css={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(6, 1fr)',
+              margin: `${spacing.large}px 0px`
+            }}> */}
           <Flex justify='space-between' css={{ margin: `${spacing.large}px 0px` }}>
             {players.map((player, index) => (
               <Avatar key={index} username={player.name} avatarUrl={player.imgix_path} />

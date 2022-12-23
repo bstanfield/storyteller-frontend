@@ -11,6 +11,11 @@ export interface Player {
   state?: PlayerState,
 }
 
+export interface CardType {
+  imgix_path: string,
+  id: number,
+}
+
 export interface SubmittedCard {
   imgixPath: string,
   owner: Player,

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
-import { TESTING_INVITEES, TESTING_SAMPLE_HAND, TESTING_STORYTELLER } from '../../config/constants';
+import { TESTING_INVITEES, TESTING_STORYTELLER } from '../../config/constants';
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
@@ -43,10 +43,11 @@ export default function Game() {
   const [playerId, setPlayerId] = useState<any>(false);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
+  const [hand, setHand] = useState([]);
 
   const [roundData, setRoundData] = useState({
-    isStoryteller: false,
-    clue: 'clue',
+    isStoryteller: true,
+    clue: '',
     completedAt: 0 as EpochTimeStamp,
     playerStoryteller: ''
   });
@@ -83,7 +84,8 @@ export default function Game() {
       });
 
       connection.on("hand", (hand) => {
-        console.log('hand: ', hand);
+        console.log('hand', hand)
+        setHand(hand);
       });
 
       connection.on("round", (data) => {
@@ -139,6 +141,7 @@ export default function Game() {
           <StorytellerChooseCard
             handleSubmitClue={clue => setRoundData({ ...roundData, clue })}
             players={players}
+            cards={hand}
           />
         ) : phase === 'choosing' ? (
           <WaitingOnOthersLayout
@@ -162,6 +165,7 @@ export default function Game() {
             clue={roundData.clue}
             players={players}
             handleContenderSubmission={(slug) => setContenderCard(slug)}
+            cards={hand}
           />
           : phase === 'choosing' && contenderCard ? (
             <WaitingOnOthersLayout
@@ -178,7 +182,7 @@ export default function Game() {
               players={players}
             >
               <div css={{ marginTop: spacing.xLarge }}>
-                <FannedHand cards={TESTING_SAMPLE_HAND} />
+                <FannedHand cards={hand} />
               </div>
             </ChooseCardLayout>
           ) : phase === 'voting' ? (

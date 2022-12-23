@@ -4,6 +4,7 @@ import { scale } from '../../styles/scale';
 import Card from './Card';
 import Flex from '../layout/Flex';
 import { CARD_WIDTHS } from '../../config/constants';
+import { CardType } from '../../types';
 
 
 // this mostly works for hands between 5-7 cards large.
@@ -21,7 +22,7 @@ function angleForIndex(index, handSize) {
   return (MAX_ROTATIONAL_ANGLE * 2 / (handSize - 1)) * index - MAX_ROTATIONAL_ANGLE
 }
 
-export default function FannedHand({ cards, handleCardClick }: { cards: string[], handleCardClick?: (slug: string) => void }) {
+export default function FannedHand({ cards, handleCardClick }: { cards: CardType[], handleCardClick?: (slug: string) => void }) {
   return (
     <div css={{ width: '100%' }}>
       <Flex
@@ -42,7 +43,7 @@ export default function FannedHand({ cards, handleCardClick }: { cards: string[]
           return (
             <Card
               key={index}
-              slug={card}
+              slug={card.imgix_path || card} // todo: replace all testing_hands with CardType
               css={scale({
                 left: `${(index * (100 / cards.length))}%`,
                 top: topOffset,

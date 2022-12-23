@@ -6,11 +6,11 @@ import EnterClue from './lightbox/EnterClue';
 import { spacing } from '../../styles/theme';
 import { useState } from 'react';
 import ChooseCardLayout from '../layout/ChooseCardLayout';
-import { Player } from '../../types';
+import { CardType, Player } from '../../types';
 
 export default function ChooseCard(
-  { handleSubmitClue, players }
-    : { handleSubmitClue: (clue: string) => void, players: Player[] }
+  { handleSubmitClue, players, cards }
+    : { handleSubmitClue: (clue: string) => void, players: Player[], cards: CardType[] }
 ) {
   const [imageToShow, setImageToShow] = useState('');
 
@@ -37,7 +37,7 @@ export default function ChooseCard(
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <FannedHand cards={TESTING_SAMPLE_HAND} handleCardClick={handleCardClick} />
+        <FannedHand cards={cards} handleCardClick={handleCardClick} />
       </div>
     </ChooseCardLayout>
   )
