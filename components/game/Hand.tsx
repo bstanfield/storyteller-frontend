@@ -21,7 +21,7 @@ function angleForIndex(index, handSize) {
   return (MAX_ROTATIONAL_ANGLE * 2 / (handSize - 1)) * index - MAX_ROTATIONAL_ANGLE
 }
 
-export default function Hand({ cards }: { cards: string[] }) {
+export default function Hand({ cards, handleCardClick }: { cards: string[], handleCardClick?: (slug: string) => void }) {
   return (
     <div css={{ width: '100%' }}>
       <Flex
@@ -53,6 +53,7 @@ export default function Hand({ cards }: { cards: string[] }) {
                   transform: `rotate(${rotationAngle}deg) scale(1.02)`
                 }
               })}
+              onClick={handleCardClick}
             />
           )
         })}

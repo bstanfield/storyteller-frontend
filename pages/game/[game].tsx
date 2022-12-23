@@ -9,10 +9,11 @@ import Hand from '../../components/game/Hand';
 import Avatar from '../../components/game/Avatar';
 import Flex from "../../components/layout/Flex";
 import GameLayout from "../../components/layout/GameLayout";
-import EnterClue from "../../components/game/lightbox/EnterClue";
-import ConfirmSelection from "../../components/game/lightbox/ConfirmSelection";
+import GuesserChooseCard from "../../components/game/GuesserChooseCard";
+import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
 import { spacing } from "../../styles/theme";
 import Players from "../../components/game/Players";
+import ChooseCardLayout from "../../components/layout/ChooseCardLayout";
 
 export default function Game() {
   const [game, setGame] = useState(null);
@@ -22,6 +23,7 @@ export default function Game() {
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
+  const [clue, setClue] = useState('Im a clue');
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
@@ -78,43 +80,22 @@ export default function Game() {
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
 
+  const isStoryteller = false;
+
   if (loading || !socketConnection) {
-    return (
-      <div css={[{ height: "100vh", width: '100%' }]}>
-        <div>
-          <div>
-            <div></div>
-            <div></div>
-          </div>
-          {username ? (
-            <p>
-              Joining as <b>{username}</b>...
-            </p>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-        <h1>Welcome to game {game}</h1>
-        <h3>Socket ID: {clientId}</h3>
-        <h3>Username: {username}</h3>
-        <Hand cards={TESTING_SAMPLE_HAND} />
-        <Players players={players} css={{
-          position: 'absolute',
-          left: '50%',
-          transform: 'translate(-50%)',
-          bottom: 0,
-          margin: `${spacing.large}px auto`,
-        }} />
-        {/* <EnterClue handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
-        {/* <ConfirmSelection handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
-      </div>
-    )
+    return <div />
   }
+  return (
+    <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
+      {isStoryteller ? (
+        <StorytellerChooseCard handleSubmitClue={clue => setClue(clue)} players={players} />
+      ) : isStoryteller && clue ? (
+        <div />
+      ) : (
+        <GuesserChooseCard clue={clue} players={players} />
+      )}
+    </div>
+  )
 }
 
 // if storyteller:

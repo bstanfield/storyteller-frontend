@@ -7,13 +7,9 @@ import { useState } from "react";
 import TextInput from "../../TextInput";
 import Flex from "../../layout/Flex";
 
-export default function EnterClue({ slug, handleClose }: { slug: string, handleClose: () => void }) {
+export default function EnterClue({ slug, handleClose, handleSubmit }
+  : { slug: string, handleClose: () => void, handleSubmit: (clue: string) => void }) {
   const [clue, setClue] = useState('');
-
-  function handleSubmit() {
-    console.log('clue', clue);
-    handleClose();
-  }
 
   return (
     <Overlay handleClose={handleClose}>
@@ -27,7 +23,7 @@ export default function EnterClue({ slug, handleClose }: { slug: string, handleC
             placeholder="A lucid dream"
           />
           <div css={{ textAlign: 'center' }}>
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={() => handleSubmit(clue)}>Submit</button>
           </div>
         </div>
       </Flex>
