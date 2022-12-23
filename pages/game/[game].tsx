@@ -80,11 +80,26 @@ export default function Game() {
   console.log('connection: ', socketConnection);
 
   const isStoryteller = false;
-  const isWaiting = true;
+  const isWaiting = false;
 
   if (loading || !socketConnection) {
     return <div />
   }
+
+
+  // storyteller states:
+  // need to give clue
+  // gave clue
+  // waiting for picks
+  // waiting for votes
+  // score screen
+
+  // guesser states:
+  // waiting on clue
+  // choosing cards
+  // voting
+  // score screen
+
   return (
     <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
       {isStoryteller && (
@@ -129,15 +144,15 @@ export default function Game() {
 }
 
 // if storyteller:
-// specific text + see your hand screen -- cards are clickable
+// specific text + see your hand screen -- cards are clickable √
 // click card -> enter clue lightbox √
-// jump to shared waiting screen
+// jump to shared waiting screen √
 // players are voting screen -- storyteller specific
 // jump to shared end screen
 
 // if guesser:
-// waiting for storyteller screen
-// choose card text + see hand screen -- cards are clickable
+// waiting for storyteller screen √
+// choose card text + see hand screen -- cards are clickable √
 // click card -> confirm card lightbox √
 // - if 3 person game
 // - choose one more card text + see hand screen -- cards are clickable
@@ -149,8 +164,8 @@ export default function Game() {
 // jump to shared end screen
 
 // shared:
-// waiting for card selections -- cards NOT clickable
-// - some text changes between storyteller and guesser
+// waiting for card selections -- cards NOT clickable √
+// - some text changes between storyteller and guesser √
 // end screen -- cards NOT clickable
 
 Game.getLayout = function getLayout(page) {

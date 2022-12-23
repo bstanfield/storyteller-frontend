@@ -5,7 +5,8 @@ import { Player } from "../../types";
 import Flex from "../layout/Flex";
 import Avatar from "./Avatar";
 
-export default function Players({ players, className }: { players: Player[], className?: any }) {
+export default function Players({ players, className, showStatus = false }
+  : { players: Player[], className?: any, showStatus?: boolean }) {
   return (
     <Flex
       justify='center'
@@ -17,7 +18,7 @@ export default function Players({ players, className }: { players: Player[], cla
             username={player.username}
             avatarUrl={player.avatarUrl}
             score={1}
-            state={player.state}
+            state={showStatus ? player.state : undefined}
           />
         </div>
       ))}
