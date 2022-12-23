@@ -32,7 +32,7 @@ export default function Index() {
   useEffect(() => {
     if (validGameCode) {
       if (username) {
-        window.location.href = `/game/${game}`;
+        window.location.href = `/create/invite?game=${game}`;
       } else {
         window.location.href = `/create/username?game=${game}`;
       }

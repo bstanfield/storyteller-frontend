@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useState } from "react";
 import Header from "../../components/header";
+import socketIOClient from "socket.io-client";
 import TextInput from "../../components/TextInput";
 import Flex from "../../components/layout/Flex";
 import { spacing } from "../../styles/theme";
@@ -22,6 +23,8 @@ export default function Invite() {
   const [username, setUsername] = useState<any>(false);
   const [playerId, setPlayerId] = useState<any>(false);
   const [players, setPlayers] = useState<any>([]);
+  const [socketConnection, setSocketConnection] = useState<any>();
+  const [start, setStart] = useState<any>(false);
 
   const emptyAvatarCount = MAX_PLAYER_COUNT - players.length;
   const emptyAvatars = Array(emptyAvatarCount).fill({});
@@ -35,6 +38,30 @@ export default function Invite() {
   }, []);
 
   useEffect(() => {
+    if (gameSlug && playerId) {
+      const connection = socketIOClient(ENDPOINT);
+      setSocketConnection(connection);
+
+      connection.on("connect", () => {
+        connection.emit("join", { player_id: playerId, game: gameSlug });
+      });
+
+      connection.on("players", (data) => {
+        setPlayers(data);
+      });
+
+      // When the game starts, redirect to the game page
+      connection.on("start", () => {
+        window.location.href = `/game/${gameSlug}`;
+      });
+
+      return () => {
+        connection.disconnect();
+      }
+    }
+  }, [gameSlug, playerId]);
+
+  useEffect(() => {
     setUsername(localStorage.getItem("username"));
     setPlayerId(localStorage.getItem("playerId"));
   }, [])
@@ -46,20 +73,10 @@ export default function Invite() {
   }, [playerId, gameSlug]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (gameSlug) {
-        const getPlayersInGame = async () => {
-          const res = await fetch(`${ENDPOINT}/game/players?game_slug=${gameSlug}`);
-          const data = await res.json();
-          console.log('data: ', data);
-          setPlayers(data.players);
-        }
-        // Get players in game
-        getPlayersInGame();
-      }
-    }, 5000);
-    return () => clearInterval(intervalId);
-  }, [gameSlug]);
+    if (start && socketConnection) {
+      socketConnection.emit("start", { game: gameSlug });
+    }
+  }, [start, socketConnection]);
 
   return (
     <Fragment>
@@ -97,7 +114,7 @@ export default function Invite() {
             ))}
           </Flex>
           {/* if players >= MIN_PLAYER_COUNT, enable button */}
-          <Link href={`/game/${gameSlug}`}><button>Start Game</button></Link>
+          <button onClick={() => setStart(true)}>Start Game</button>
           {players.length < MIN_PLAYER_COUNT
             ? (
               <p>
