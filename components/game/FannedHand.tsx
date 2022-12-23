@@ -25,18 +25,17 @@ export default function FannedHand({ cards, handleCardClick }: { cards: string[]
   return (
     <div css={{ width: '100%' }}>
       <Flex
-        justify='center' align='center'
+        justify='space-between'
+        align='center'
         css={scale({
           position: 'relative',
           maxWidth: '90%',
           width: CARD_WIDTHS.map(width => width * cards.length),
-          aspectRatio: '4/1',
           margin: 'auto',
           boxSizing: 'border-box'
         })}
       >
         {cards.map((card, index) => {
-          const position = index;
           const rotationAngle = angleForIndex(index, cards.length);
           const topOffset = topForIndex(index, cards.length);
 
@@ -45,7 +44,7 @@ export default function FannedHand({ cards, handleCardClick }: { cards: string[]
               key={index}
               slug={card}
               css={scale({
-                left: `${(position * (100 / cards.length))}%`,
+                left: `${(index * (100 / cards.length))}%`,
                 top: topOffset,
                 position: 'absolute',
                 transform: `rotate(${rotationAngle}deg)`,

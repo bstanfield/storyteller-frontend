@@ -46,7 +46,7 @@ export default function Game() {
 
   const [roundData, setRoundData] = useState({
     isStoryteller: false,
-    clue: 'great clue',
+    clue: 'clue',
     completedAt: 0 as EpochTimeStamp,
     playerStoryteller: ''
   });

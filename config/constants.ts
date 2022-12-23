@@ -1,3 +1,5 @@
+import { Player } from "../types";
+
 export const MIN_PLAYER_COUNT = 3;
 export const MAX_PLAYER_COUNT = 6;
 
@@ -15,7 +17,7 @@ export const TESTING_IMAGES = [
 
 export const TESTING_SAMPLE_HAND = TESTING_IMAGES.slice(0, 6);
 
-export const TESTING_INVITEES = [
+export const TESTING_INVITEES: Partial<Player>[] = [
   {
     avatarUrl: 'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
     username: 'ben',
@@ -35,8 +37,9 @@ export const TESTING_INVITEES = [
 
 export const TESTING_STORYTELLER = TESTING_INVITEES[0];
 
-export const CARD_WIDTHS = [160, 160, 216, 232];
-export const SMALL_CARD_WIDTHS = [140, 150, 180, 190];
+export const CARD_WIDTHS = [160, 160, 180, 200];
+export const SMALL_CARD_WIDTHS = [140, 150, 170, 190];
+export const LIGHTBOX_CARD_WIDTHS = [160, 200, 260, 300];
 
 
 export const TESTING_VOTING_HAND = [

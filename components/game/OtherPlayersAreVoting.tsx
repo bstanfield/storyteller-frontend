@@ -9,7 +9,6 @@ import Submissions from './Submissions';
 export default function OtherPlayersAreVoting({
   players,
 }: {
-  clue: string,
   players: Player[]
 }) {
 
