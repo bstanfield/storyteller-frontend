@@ -5,15 +5,11 @@ import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
 import smoothscroll from "smoothscroll-polyfill";
 import { TESTING_IMAGES, TESTING_INVITEES, TESTING_SAMPLE_HAND } from '../../config/constants';
-import Hand from '../../components/game/Hand';
-import Avatar from '../../components/game/Avatar';
-import Flex from "../../components/layout/Flex";
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
+import WaitingOnOthersLayout from "../../components/layout/WaitingForOthersLayout";
 import { spacing } from "../../styles/theme";
-import Players from "../../components/game/Players";
-import ChooseCardLayout from "../../components/layout/ChooseCardLayout";
 
 export default function Game() {
   const [game, setGame] = useState(null);
@@ -23,7 +19,7 @@ export default function Game() {
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
-  const [clue, setClue] = useState('Im a clue');
+  const [clue, setClue] = useState('');
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
@@ -80,17 +76,26 @@ export default function Game() {
   console.log('loading: ', loading);
   console.log('connection: ', socketConnection);
 
-  const isStoryteller = false;
+  const isStoryteller = true;
 
   if (loading || !socketConnection) {
     return <div />
   }
   return (
     <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-      {isStoryteller ? (
+      {isStoryteller && !clue ? (
         <StorytellerChooseCard handleSubmitClue={clue => setClue(clue)} players={players} />
       ) : isStoryteller && clue ? (
-        <div />
+        <WaitingOnOthersLayout
+          topMatter={(
+            <div>
+              <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
+              <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{clue}”</h1>
+            </div>
+          )}
+          headerText={clue}
+          players={players}
+        />
       ) : (
         <GuesserChooseCard clue={clue} players={players} />
       )}
