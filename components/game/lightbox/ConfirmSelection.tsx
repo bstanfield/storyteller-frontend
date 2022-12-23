@@ -6,12 +6,10 @@ import Flex from "../../layout/Flex";
 
 import { spacing } from "../../../styles/theme";
 
-export default function EnterClue({ slug, handleClose }: { slug: string, handleClose: () => void }) {
-
-  function handleSubmit() {
-    console.log('do something here');
-    handleClose();
-  }
+export default function ConfirmSelection(
+  { slug, handleClose, handleSubmit }:
+    { slug: string, handleClose: () => void, handleSubmit: () => void }
+) {
 
   return (
     <Overlay handleClose={handleClose}>
