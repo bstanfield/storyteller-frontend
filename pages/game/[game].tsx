@@ -10,6 +10,7 @@ import Avatar from '../../components/game/Avatar';
 import Flex from "../../components/layout/Flex";
 import GameLayout from "../../components/layout/GameLayout";
 import EnterClue from "../../components/lightbox/EnterClue";
+import ConfirmSelection from "../../components/lightbox/ConfirmSelection";
 import { spacing } from "../../styles/theme";
 
 export default function Game() {
@@ -117,10 +118,36 @@ export default function Game() {
           ))}
         </Flex>
         {/* <EnterClue handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
+        {/* <ConfirmSelection handleClose={() => 'void'} slug={TESTING_IMAGES[0]} /> */}
       </div>
     )
   }
 }
+
+// if storyteller:
+// specific text + see your hand screen -- cards are clickable
+// click card -> enter clue lightbox √
+// jump to shared waiting screen
+// players are voting screen -- storyteller specific
+// jump to shared end screen
+
+// if guesser:
+// waiting for storyteller screen
+// choose card text + see hand screen -- cards are clickable
+// click card -> confirm card lightbox √
+// - if 3 person game
+// - choose one more card text + see hand screen -- cards are clickable
+// - click card -> confirm card lightbox √
+// jump to shared waiting screen
+// place your vote -- cards are clickable
+// click card -> confirm card lightbox √
+// your vote is in -- cards NOT clickable
+// jump to shared end screen
+
+// shared:
+// waiting for card selections -- cards NOT clickable
+// - some text changes between storyteller and guesser
+// end screen -- cards NOT clickable
 
 Game.getLayout = function getLayout(page) {
   return (
