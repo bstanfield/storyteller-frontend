@@ -20,13 +20,10 @@ export default function Game() {
   const [socketConnection, setSocketConnection] = useState();
   const [clientId, setClientId] = useState(false);
   const [players, setPlayers] = useState(TESTING_INVITEES);
+  const [playerId, setPlayerId] = useState<any>(false);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [clue, setClue] = useState('asdf');
-
-  useEffect(() => {
-    setUsername(localStorage.getItem("username"));
-  }, [])
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -36,44 +33,40 @@ export default function Game() {
       setGame(game);
     }
 
-    const connection = socketIOClient(ENDPOINT);
-    setSocketConnection(connection);
+    setUsername(localStorage.getItem("username"));
+    setPlayerId(localStorage.getItem("playerId"));
+  }, [])
 
-    smoothscroll.polyfill();
+  useEffect(() => {
+    if (playerId && game) {
+      const connection = socketIOClient(ENDPOINT);
+      setSocketConnection(connection);
 
-    // connection.on("reject", () => {
-    //   window.location.href = `/`;
-    // });
+      connection.on("connect", () => {
+        connection.emit("join", { player_id: playerId, game });
+      });
 
-    connection.on("connect", () => {
-      connection.emit("join", game);
+      connection.on("id", (id) => {
+        setClientId(id);
+      });
 
-      if (username) {
-        connection.emit("name", username);
+      connection.on("data", (gameData) => {
+        setData(gameData);
+      });
+
+      connection.on("loading", (boolean) => {
+        setLoading(boolean);
+      });
+
+      connection.on("players", (data) => {
+        setPlayers(data);
+      });
+
+      return () => {
+        connection.disconnect();
       }
-    });
-
-    connection.on("id", (id) => {
-      setClientId(id);
-    });
-
-    connection.on("data", (gameData) => {
-      setData(gameData);
-    });
-
-    connection.on("loading", (boolean) => {
-      setLoading(boolean);
-    });
-
-    // Good
-    connection.on("newPlayer", (data) => {
-      setPlayers(data);
-    });
-
-    return () => {
-      connection.disconnect();
     }
-  }, [username]);
+  }, [playerId, game]);
 
   console.log('data: ', data);
   console.log('loading: ', loading);
