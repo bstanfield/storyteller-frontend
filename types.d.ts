@@ -1,6 +1,6 @@
 export type PlayerState = 'choosing' | 'guessing' | 'done';
 
-export interface Player {
+export interface PlayerType {
   playerId?: string, // uuid 
   name?: string,
   username?: string,
@@ -18,7 +18,7 @@ export interface CardType {
 
 export interface SubmittedCard {
   imgixPath: string,
-  owner: Player,
-  voters: Player[],
+  owner: PlayerType,
+  voters: PlayerType[],
   isStoryteller: boolean,
 }

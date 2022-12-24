@@ -5,6 +5,9 @@ import Card from './Card';
 import { spacing } from '../../styles/theme';
 import { SMALL_CARD_WIDTHS } from '../../config/constants';
 import { SubmittedCard } from '../../types';
+import Players from './Players';
+import Avatar from './Avatar';
+import Flex from '../layout/Flex';
 
 const ownerCaption = {
   position: 'relative',
@@ -18,6 +21,7 @@ const ownerCaption = {
 export default function Submissions({ cards, handleCardClick }
   : { cards: SubmittedCard[], handleCardClick?: (slug: string) => void }
 ) {
+  console.log('cards', cards)
   return (
     <div
       css={scale({
@@ -34,7 +38,7 @@ export default function Submissions({ cards, handleCardClick }
     >
       {cards.map((card, index) => {
         return (
-          <div key={index}>
+          <div key={index} css={{ position: 'relative' }}>
             <Card
               slug={card.imgixPath}
               onClick={handleCardClick}
@@ -69,6 +73,35 @@ export default function Submissions({ cards, handleCardClick }
                 </caption>
               }
             </Card>
+            {card.voters &&
+              <Flex
+                align='center'
+                css={{
+                  position: 'absolute',
+                  bottom: -spacing.xLarge,
+                  left: '50%',
+                  transform: 'translate(-50%)',
+                }}
+              >
+                {card.voters.map((voter) =>
+                  <div key={index} css={{ margin: `0px ${spacing.default}px` }}>
+                    <Avatar
+                      username={voter.username}
+                      avatarUrl={voter.avatarUrl}
+                      css={scale({
+                        '.avatar': {
+                          width: [40, 40, 50, 50],
+                        },
+                        p: {
+                          marginTop: spacing.xSmall,
+                          fontSize: '11px',
+                        }
+                      })}
+                    />
+                  </div>
+                )}
+              </Flex>
+            }
           </div>
         )
       })}

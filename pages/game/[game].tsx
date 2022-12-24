@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
-import { TESTING_INVITEES, TESTING_STORYTELLER } from '../../config/constants';
+import { TESTING_INVITEES } from '../../config/constants';
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
@@ -14,24 +14,41 @@ import FannedHand from "../../components/game/FannedHand";
 import Clue from "../../components/game/Clue";
 import Voting from "../../components/game/Voting";
 import OtherPlayersAreVoting from "../../components/game/OtherPlayersAreVoting";
+import EndOfTurn from "../../components/game/EndOfTurn";
 
-function getPhaseFromRoundData({
-  isStoryteller,
-  clue,
-  completedAt,
-  playerStoryteller,
-}: {
-  isStoryteller: boolean,
-  clue: string,
-  completedAt: EpochTimeStamp,
-  playerStoryteller: string
-}) {
+function getPhaseFromRoundData(
+  playerId,
+  {
+    isStoryteller,
+    clue,
+    completedAt,
+    playerStoryteller,
+    submissions
+  }: {
+    isStoryteller: boolean,
+    clue: string,
+    completedAt: EpochTimeStamp,
+    playerStoryteller: string
+    submissions: any
+  }) {
+
+  console.log('playerId: ', playerId);
+  console.log('bool: ', submissions?.playersThatHaveSubmitted.includes(playerId));
+  if (submissions?.playersThatHaveSubmitted) {
+    for (let submission of submissions?.playersThatHaveSubmitted) {
+      if (submission.playerId === playerId) {
+        return 'voting';
+      }
+    }
+  }
+
   if (completedAt) {
     return 'score'
   }
   if (clue) {
     return 'choosing' // or voting if submissions are in / cards have been played
   }
+
   else return 'clue'
 }
 
@@ -49,11 +66,15 @@ export default function Game() {
     isStoryteller: true,
     clue: '',
     completedAt: 0 as EpochTimeStamp,
-    playerStoryteller: ''
+    playerStoryteller: '',
+    storyteller: {}
   });
   const [phase, setPhase] = useState('');
   const [contenderCard, setContenderCard] = useState('');
   const [vote, setVote] = useState('');
+
+  // Added by Ben:
+  const [submittedCards, setSubmittedCards] = useState([]);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -89,28 +110,18 @@ export default function Game() {
       });
 
       connection.on("round", (data) => {
-        const { playerStoryteller, clue, completedAt } = data;
+        const { playerStoryteller } = data;
         if (playerStoryteller === playerId) {
           setRoundData({
-            playerStoryteller,
-            clue,
-            completedAt,
+            ...data,
             isStoryteller: true
           });
         } else {
           setRoundData({
-            playerStoryteller,
-            clue,
-            completedAt,
+            ...data,
             isStoryteller: false
           });
         }
-      });
-
-      connection.on("submitted card", (data) => {
-        const { card, player } = data;
-        alert('Card submitted!');
-        console.log('Card was submitted! ', card, player);
       });
 
       connection.on("loading", (boolean) => {
@@ -131,22 +142,27 @@ export default function Game() {
     }
   }, [playerId, game]);
 
-  function handleSubmitClue(clue) {
+  function handleSubmitClue(clue, imgixPath) {
     socketConnection.emit('clue', { clue, game });
+    socketConnection.emit('submit card', { imgixPath, playerId, game });
     setRoundData({ ...roundData, clue });
   }
 
   function handleContenderSubmission(imgixPath) {
     socketConnection.emit('submit card', { imgixPath, playerId, game });
+    setContenderCard(imgixPath);
+  }
+
+  // do something here
+  function handleStartNextTurn() {
+    socketConnection.emit('new round', { game });
   }
 
   useEffect(() => {
-    const phase = getPhaseFromRoundData(roundData);
+    const phase = getPhaseFromRoundData(playerId, roundData);
     setPhase(phase);
   }, [roundData]);
 
-  console.log('loading: ', loading);
-  console.log('connection: ', socketConnection);
   console.log('phase: ', phase);
 
   if (loading || !socketConnection) {
@@ -154,98 +170,77 @@ export default function Game() {
   }
 
   return (
-    <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-      {roundData.isStoryteller && (
-        phase === 'clue' ? (
-          <StorytellerChooseCard
-            handleSubmitClue={clue => handleSubmitClue(clue)}
-            players={players}
-            cards={hand}
-          />
-        ) : phase === 'choosing' ? (
-          <WaitingOnOthersLayout
-            topMatter={(
-              <div>
-                <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
-                <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
-              </div>
-            )}
-            players={players}
-            cards={hand}
-          />
-        ) : phase === 'voting' ? (
-          <OtherPlayersAreVoting
-            players={players}
-          />
-        ) : <div />)}
-      {!roundData.isStoryteller && (
-        phase === 'choosing' && !contenderCard ?
-          <GuesserChooseCard
-            clue={roundData.clue}
-            players={players}
-            handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
-            cards={hand}
-          />
-          : phase === 'choosing' && contenderCard ? (
-            <WaitingOnOthersLayout
-              topMatter={(
-                <Clue storyteller={TESTING_STORYTELLER.username} clue={roundData.clue} />
-              )}
+    <GameLayout>
+      <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
+        {roundData.isStoryteller && (
+          phase === 'clue' ? (
+            <StorytellerChooseCard
+              handleSubmitClue={(clue, imgixPath) => handleSubmitClue(clue, imgixPath)}
               players={players}
               cards={hand}
             />
-          ) : phase === 'clue' ? (
-            <ChooseCardLayout
-              preheaderText='Hang tight.'
-              headerText='Waiting for storyteller’s clue...'
+          ) : phase === 'choosing' ? (
+            <WaitingOnOthersLayout
+              topMatter={(
+                <div>
+                  <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
+                  <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
+                </div>
+              )}
               players={players}
-            >
-              <div css={{ marginTop: spacing.xLarge }}>
-                <FannedHand cards={hand} />
-              </div>
-            </ChooseCardLayout>
+              cards={hand}
+              round={roundData}
+            />
           ) : phase === 'voting' ? (
-            <Voting
-              storyteller={players[0].name}
+            <OtherPlayersAreVoting
               players={players}
-              clue={roundData.clue}
-              handleSubmitVote={(slug) => setVote(slug)}
-              vote={vote}
             />
           ) : <div />)}
-    </div>
-  )
-}
-
-// if storyteller:
-// specific text + see your hand screen -- cards are clickable √
-// click card -> enter clue lightbox √
-// jump to shared waiting screen √
-// players are voting screen -- storyteller specific
-// jump to shared end screen
-
-// if guesser:
-// waiting for storyteller screen √
-// choose card text + see hand screen -- cards are clickable √
-// click card -> confirm card lightbox √
-// - if 3 person game
-// - choose one more card text + see hand screen -- cards are clickable
-// - click card -> confirm card lightbox √
-// jump to shared waiting screen
-// place your vote -- cards are clickable
-// click card -> confirm card lightbox √
-// your vote is in -- cards NOT clickable
-// jump to shared end screen
-
-// shared:
-// waiting for card selections -- cards NOT clickable √
-// - some text changes between storyteller and guesser √
-// end screen -- cards NOT clickable
-
-Game.getLayout = function getLayout(page) {
-  return (
-    <GameLayout>
-      {page}
+        {!roundData.isStoryteller && (
+          phase === 'choosing' && !contenderCard ?
+            <GuesserChooseCard
+              roundData={roundData}
+              players={players}
+              handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
+              cards={hand}
+            />
+            : phase === 'choosing' && contenderCard ? (
+              <WaitingOnOthersLayout
+                topMatter={(
+                  <Clue
+                    storyteller={roundData.storyteller.name}
+                    clue={roundData.clue}
+                  />
+                )}
+                players={players}
+                cards={hand}
+              />
+            ) : phase === 'clue' ? (
+              <ChooseCardLayout
+                preheaderText='Hang tight.'
+                headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
+                players={players}
+              >
+                <div css={{ marginTop: spacing.xLarge }}>
+                  <FannedHand cards={hand} />
+                </div>
+              </ChooseCardLayout>
+            ) : phase === 'voting' ? (
+              <Voting
+                storyteller={players[0].name}
+                players={players}
+                clue={roundData.clue}
+                handleSubmitVote={(slug) => setVote(slug)}
+                vote={vote}
+              />
+            ) : <div />)}
+        {phase === 'score' && (
+          <EndOfTurn
+            handleStartNextTurn={() => handleStartNextTurn()}
+            players={players}
+          />
+        )}
+      </div>
     </GameLayout>
   )
 }

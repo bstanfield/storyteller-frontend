@@ -3,7 +3,7 @@
 import { spacing } from '../../styles/theme';
 import { ReactNode } from 'react';
 import Players from '../game/Players';
-import { Player } from '../../types';
+import { PlayerType } from '../../types';
 
 export default function ChooseCardLayout({
   children,
@@ -16,7 +16,7 @@ export default function ChooseCardLayout({
   preheaderText?: string,
   headerText: string,
   topMatter?: ReactNode,
-  players: Player[]
+  players: PlayerType[]
 }) {
 
   return (

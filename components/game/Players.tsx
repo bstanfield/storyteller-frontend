@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
 import { spacing } from "../../styles/theme";
-import { Player } from "../../types";
+import { PlayerType } from "../../types";
 import Flex from "../layout/Flex";
 import Avatar from "./Avatar";
 
 export default function Players({ players, className, showStatus = false }
-  : { players: Player[], className?: any, showStatus?: boolean }) {
+  : { players: PlayerType[], className?: any, showStatus?: boolean }) {
   return (
     <Flex
       justify='center'

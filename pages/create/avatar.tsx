@@ -64,6 +64,8 @@ export default function ChooseAvatar() {
         >
           <h1>Hi, {username}.</h1>
           <h1>Choose an avatar:</h1>
+          <br />
+          <br />
           <Flex wrap justify='space-around' css={{ margin: `${spacing.medium}px 0px` }}>
             {avatars?.map((avatar, index) => (
               <Avatar

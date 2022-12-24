@@ -10,11 +10,13 @@ export default function WaitingOnOthersLayout({
   topMatter,
   players,
   cards,
+  round,
 }: {
   children?: ReactNode,
   topMatter?: ReactNode,
   players: Player[]
   cards: CardType[]
+  round: any,
 }) {
 
   return (
@@ -27,7 +29,7 @@ export default function WaitingOnOthersLayout({
           margin: `${spacing.large}px auto`,
         }}
       />
-      <h3 css={{ opacity: 0.5 }}>Waiting on X players...</h3>
+      <h3 css={{ opacity: 0.5 }}>Waiting on {round.submissions.playersThatHaveNotSubmitted.length} players...</h3>
       <div css={{
         // position: 'fixed', bottom: 100
         marginTop: spacing.large

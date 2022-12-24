@@ -1,4 +1,4 @@
-import { Player } from "../types";
+import { PlayerType } from "../types";
 
 export const MIN_PLAYER_COUNT = 3;
 export const MAX_PLAYER_COUNT = 6;
@@ -25,7 +25,7 @@ export const TESTING_SAMPLE_HAND = [
   {id: 56, imgix_path: 'Suspect_Jesse_pie_overgrown_magical_forest_owl_wol…James_Je_072700af-22c8-454d-bb3c-55f344443dd8.png'}
 ];
 
-export const TESTING_INVITEES: Partial<Player>[] = [
+export const TESTING_INVITEES: Partial<PlayerType>[] = [
   {
     avatarUrl: 'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
     username: 'ben',
@@ -69,7 +69,7 @@ export const TESTING_VOTING_HAND = [
     id: 3,
     imgixPath: 'Joseph_Is_Great_pixel_art_harbor_by_a_small_town_at_sunset_cada5b57-24db-40f7-92c7-72d7df5a3cdc.png',
     owner: TESTING_INVITEES[1],
-    voters: [],
+    voters: [TESTING_INVITEES[2]],
     isStoryteller: false,
   }, 
   {
