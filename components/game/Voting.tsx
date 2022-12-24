@@ -2,8 +2,8 @@
 
 import { spacing } from '../../styles/theme';
 import Players from './Players';
-import { Player } from '../../types';
-import { TESTING_SAMPLE_HAND, TESTING_VOTING_HAND } from '../../config/constants';
+import { PlayerType } from '../../types';
+import { TESTING_VOTING_HAND } from '../../config/constants';
 import Clue from './Clue';
 import Submissions from './Submissions';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ export default function Voting({
   vote,
 }: {
   clue: string,
-  players: Player[]
+  players: PlayerType[]
   storyteller: string,
   handleSubmitVote: (slug: string) => void;
 }) {

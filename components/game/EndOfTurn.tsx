@@ -6,15 +6,16 @@ import { PlayerType } from '../../types';
 import { TESTING_VOTING_HAND } from '../../config/constants';
 import Submissions from './Submissions';
 
-export default function OtherPlayersAreVoting({
+export default function EndOfTurn({
   players,
+  handleStartNextTurn,
 }: {
   players: PlayerType[]
+  handleStartNextTurn: () => void;
 }) {
 
   return (
     <div css={{ textAlign: 'center', padding: spacing.medium, position: 'relative', width: '100%', height: '100vh' }}>
-      <h1>Other players are voting...</h1>
       <Players
         players={players}
         showStatus
@@ -25,6 +26,9 @@ export default function OtherPlayersAreVoting({
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
         <Submissions cards={TESTING_VOTING_HAND} />
       </div>
+      <button onClick={handleStartNextTurn}>
+        Start next turn
+      </button>
     </div>
   )
 }

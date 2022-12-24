@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
-import { TESTING_INVITEES, TESTING_STORYTELLER } from '../../config/constants';
+import { TESTING_INVITEES } from '../../config/constants';
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
@@ -49,7 +49,8 @@ export default function Game() {
     isStoryteller: true,
     clue: '',
     completedAt: 0 as EpochTimeStamp,
-    playerStoryteller: ''
+    playerStoryteller: '',
+    storyteller: {}
   });
   const [phase, setPhase] = useState('');
   const [contenderCard, setContenderCard] = useState('');
@@ -89,19 +90,15 @@ export default function Game() {
       });
 
       connection.on("round", (data) => {
-        const { playerStoryteller, clue, completedAt } = data;
+        const { playerStoryteller } = data;
         if (playerStoryteller === playerId) {
           setRoundData({
-            playerStoryteller,
-            clue,
-            completedAt,
+            ...data,
             isStoryteller: true
           });
         } else {
           setRoundData({
-            playerStoryteller,
-            clue,
-            completedAt,
+            ...data,
             isStoryteller: false
           });
         }
@@ -171,7 +168,7 @@ export default function Game() {
       {!roundData.isStoryteller && (
         phase === 'choosing' && !contenderCard ?
           <GuesserChooseCard
-            clue={roundData.clue}
+            roundData={roundData}
             players={players}
             handleContenderSubmission={(slug) => setContenderCard(slug)}
             cards={hand}
@@ -179,7 +176,10 @@ export default function Game() {
           : phase === 'choosing' && contenderCard ? (
             <WaitingOnOthersLayout
               topMatter={(
-                <Clue storyteller={TESTING_STORYTELLER.username} clue={roundData.clue} />
+                <Clue
+                  storyteller={roundData.storyteller.name}
+                  clue={roundData.clue}
+                />
               )}
               players={players}
               cards={hand}
@@ -187,7 +187,7 @@ export default function Game() {
           ) : phase === 'clue' ? (
             <ChooseCardLayout
               preheaderText='Hang tight.'
-              headerText='Waiting for storyteller’s clue...'
+              headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
               players={players}
             >
               <div css={{ marginTop: spacing.xLarge }}>

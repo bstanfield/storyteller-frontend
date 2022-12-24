@@ -1,24 +1,23 @@
 /** @jsxImportSource @emotion/react */
 
-import { TESTING_SAMPLE_HAND } from '../../config/constants';
 import FannedHand from './FannedHand';
 import { spacing } from '../../styles/theme';
 import { useState } from 'react';
 import ChooseCardLayout from '../layout/ChooseCardLayout';
 import ConfirmSelection from './lightbox/ConfirmSelection';
 import Clue from './Clue';
-import { Player } from '../../types';
+import { PlayerType } from '../../types';
 
 export default function GuesserChooseCard({
-  clue,
   players,
   handleContenderSubmission,
-  cards
+  cards,
+  roundData,
 }: {
-  clue?: string,
-  players: Player[],
+  players: PlayerType[],
   handleContenderSubmission: (slug: string) => void;
-  cards: CardType[]
+  cards: CardType[],
+  roundData
 }) {
   const [imageToShow, setImageToShow] = useState('');
 
@@ -30,8 +29,11 @@ export default function GuesserChooseCard({
     <ChooseCardLayout
       headerText={players.length === 3 ? 'Pick two cards:' : 'Pick one card:'}
       players={players}
-      topMatter={clue && (
-        <Clue storyteller={players[0].username} clue={clue} />
+      topMatter={roundData.clue && (
+        <Clue
+          storyteller={roundData.storyteller.name}
+          clue={roundData.clue}
+        />
       )}
     >
       {imageToShow &&
