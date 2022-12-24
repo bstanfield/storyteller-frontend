@@ -69,7 +69,7 @@ export const TESTING_VOTING_HAND = [
     id: 3,
     imgixPath: 'Joseph_Is_Great_pixel_art_harbor_by_a_small_town_at_sunset_cada5b57-24db-40f7-92c7-72d7df5a3cdc.png',
     owner: TESTING_INVITEES[1],
-    voters: [],
+    voters: [TESTING_INVITEES[2]],
     isStoryteller: false,
   }, 
   {

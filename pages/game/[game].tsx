@@ -14,6 +14,7 @@ import FannedHand from "../../components/game/FannedHand";
 import Clue from "../../components/game/Clue";
 import Voting from "../../components/game/Voting";
 import OtherPlayersAreVoting from "../../components/game/OtherPlayersAreVoting";
+import EndOfTurn from "../../components/game/EndOfTurn";
 
 function getPhaseFromRoundData({
   isStoryteller,
@@ -26,6 +27,7 @@ function getPhaseFromRoundData({
   completedAt: EpochTimeStamp,
   playerStoryteller: string
 }) {
+  return 'score';
   if (completedAt) {
     return 'score'
   }
@@ -127,13 +129,16 @@ export default function Game() {
     setRoundData({ ...roundData, clue });
   }
 
+  // do something here
+  function handleStartNextTurn() {
+    socketConnection.emit('new round', { game });
+  }
+
   useEffect(() => {
     const phase = getPhaseFromRoundData(roundData);
     setPhase(phase);
   }, [roundData]);
 
-  console.log('loading: ', loading);
-  console.log('connection: ', socketConnection);
   console.log('phase: ', phase);
 
   if (loading || !socketConnection) {
@@ -141,101 +146,76 @@ export default function Game() {
   }
 
   return (
-    <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-      {roundData.isStoryteller && (
-        phase === 'clue' ? (
-          <StorytellerChooseCard
-            handleSubmitClue={clue => handleSubmitClue(clue)}
-            players={players}
-            cards={hand}
-          />
-        ) : phase === 'choosing' ? (
-          <WaitingOnOthersLayout
-            topMatter={(
-              <div>
-                <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
-                <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
-              </div>
-            )}
-            players={players}
-            cards={hand}
-          />
-        ) : phase === 'voting' ? (
-          <OtherPlayersAreVoting
-            players={players}
-          />
-        ) : <div />)}
-      {!roundData.isStoryteller && (
-        phase === 'choosing' && !contenderCard ?
-          <GuesserChooseCard
-            roundData={roundData}
-            players={players}
-            handleContenderSubmission={(slug) => setContenderCard(slug)}
-            cards={hand}
-          />
-          : phase === 'choosing' && contenderCard ? (
+    <GameLayout>
+      <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
+        {roundData.isStoryteller && (
+          phase === 'clue' ? (
+            <StorytellerChooseCard
+              handleSubmitClue={clue => handleSubmitClue(clue)}
+              players={players}
+              cards={hand}
+            />
+          ) : phase === 'choosing' ? (
             <WaitingOnOthersLayout
               topMatter={(
-                <Clue
-                  storyteller={roundData.storyteller.name}
-                  clue={roundData.clue}
-                />
+                <div>
+                  <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
+                  <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
+                </div>
               )}
               players={players}
               cards={hand}
             />
-          ) : phase === 'clue' ? (
-            <ChooseCardLayout
-              preheaderText='Hang tight.'
-              headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
-              players={players}
-            >
-              <div css={{ marginTop: spacing.xLarge }}>
-                <FannedHand cards={hand} />
-              </div>
-            </ChooseCardLayout>
           ) : phase === 'voting' ? (
-            <Voting
-              storyteller={players[0].name}
+            <OtherPlayersAreVoting
               players={players}
-              clue={roundData.clue}
-              handleSubmitVote={(slug) => setVote(slug)}
-              vote={vote}
             />
           ) : <div />)}
-    </div>
-  )
-}
-
-// if storyteller:
-// specific text + see your hand screen -- cards are clickable √
-// click card -> enter clue lightbox √
-// jump to shared waiting screen √
-// players are voting screen -- storyteller specific
-// jump to shared end screen
-
-// if guesser:
-// waiting for storyteller screen √
-// choose card text + see hand screen -- cards are clickable √
-// click card -> confirm card lightbox √
-// - if 3 person game
-// - choose one more card text + see hand screen -- cards are clickable
-// - click card -> confirm card lightbox √
-// jump to shared waiting screen
-// place your vote -- cards are clickable
-// click card -> confirm card lightbox √
-// your vote is in -- cards NOT clickable
-// jump to shared end screen
-
-// shared:
-// waiting for card selections -- cards NOT clickable √
-// - some text changes between storyteller and guesser √
-// end screen -- cards NOT clickable
-
-Game.getLayout = function getLayout(page) {
-  return (
-    <GameLayout>
-      {page}
+        {!roundData.isStoryteller && (
+          phase === 'choosing' && !contenderCard ?
+            <GuesserChooseCard
+              roundData={roundData}
+              players={players}
+              handleContenderSubmission={(slug) => setContenderCard(slug)}
+              cards={hand}
+            />
+            : phase === 'choosing' && contenderCard ? (
+              <WaitingOnOthersLayout
+                topMatter={(
+                  <Clue
+                    storyteller={roundData.storyteller.name}
+                    clue={roundData.clue}
+                  />
+                )}
+                players={players}
+                cards={hand}
+              />
+            ) : phase === 'clue' ? (
+              <ChooseCardLayout
+                preheaderText='Hang tight.'
+                headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
+                players={players}
+              >
+                <div css={{ marginTop: spacing.xLarge }}>
+                  <FannedHand cards={hand} />
+                </div>
+              </ChooseCardLayout>
+            ) : phase === 'voting' ? (
+              <Voting
+                storyteller={players[0].name}
+                players={players}
+                clue={roundData.clue}
+                handleSubmitVote={(slug) => setVote(slug)}
+                vote={vote}
+              />
+            ) : <div />)}
+        {phase === 'score' && (
+          <EndOfTurn
+            handleStartNextTurn={() => handleStartNextTurn()}
+            players={players}
+          />
+        )}
+      </div>
     </GameLayout>
   )
 }

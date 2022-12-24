@@ -26,7 +26,7 @@ export default function EndOfTurn({
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
         <Submissions cards={TESTING_VOTING_HAND} />
       </div>
-      <button onClick={handleStartNextTurn}>
+      <button onClick={handleStartNextTurn} css={{ marginTop: spacing.xxLarge, marginBottom: spacing.medium }}>
         Start next turn
       </button>
     </div>
