@@ -23,6 +23,7 @@ function angleForIndex(index, handSize) {
 }
 
 export default function FannedHand({ cards, handleCardClick }: { cards: CardType[], handleCardClick?: (slug: string) => void }) {
+
   return (
     <div css={{ width: '100%' }}>
       <Flex
@@ -43,7 +44,7 @@ export default function FannedHand({ cards, handleCardClick }: { cards: CardType
           return (
             <Card
               key={index}
-              slug={card.imgix_path || card} // todo: replace all testing_hands with CardType
+              slug={card.imgix_path}
               css={scale({
                 left: `${(index * (100 / cards.length))}%`,
                 top: topOffset,

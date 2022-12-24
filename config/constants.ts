@@ -15,7 +15,15 @@ export const TESTING_IMAGES = [
   'BrandonMc_A_medieval_anthropomorphic_ragdoll_calico_cat_wizard__e50274ac-cd5c-41d5-b6bf-51e37567dd21.png',
 ]
 
-export const TESTING_SAMPLE_HAND = TESTING_IMAGES.slice(0, 6);
+export const TESTING_SAMPLE_HAND = [
+  {id: 83, imgix_path: 'pickersberry_a_shakespeare_stage_play_yellow_mist_…pheric_s_ba0547e4-b101-4022-a7e5-757ce64f2f50.png'},
+  {id: 64, imgix_path: 'ajohnsonbarroso_giant_house_cat_rising_from_the_se…tasy_col_240c3472-89e4-499b-9582-aa3f01d3b2df.png'},
+  {id: 87, imgix_path: 'rrteam_frozen_heaven_abstract_undertones_intricate…ils_beau_96c26598-524c-4dc8-8d49-92e93abcccb8.png'},
+  {id: 53, imgix_path: 'SirKyleQ_a_cinematic_wide_shot_in_a_wes_anderson_f…f_a_cybo_a84cb358-30c4-4493-849a-bb01dc942b4e.png'},
+  {id: 29, imgix_path: 'Joseph_Is_Great_pixel_art_harbor_by_a_small_town_at_sunset_cada5b57-24db-40f7-92c7-72d7df5a3cdc.png'},
+  {id: 7, imgix_path: 'Bluejay_Jesus_has_flame_sacred_heart_painting_by_M…l_Parkes_d17f16e9-b2b9-4656-ba45-683fe296eed9.png'},
+  {id: 56, imgix_path: 'Suspect_Jesse_pie_overgrown_magical_forest_owl_wol…James_Je_072700af-22c8-454d-bb3c-55f344443dd8.png'}
+];
 
 export const TESTING_INVITEES: Partial<Player>[] = [
   {

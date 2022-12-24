@@ -115,11 +115,20 @@ export default function Game() {
         setPlayers(data);
       });
 
+      connection.on("clue", (clue) => {
+        setRoundData({ ...roundData, clue });
+      });
+
       return () => {
         connection.disconnect();
       }
     }
   }, [playerId, game]);
+
+  function handleSubmitClue(clue) {
+    socketConnection.emit('clue', { clue, game });
+    setRoundData({ ...roundData, clue });
+  }
 
   useEffect(() => {
     const phase = getPhaseFromRoundData(roundData);
@@ -139,7 +148,7 @@ export default function Game() {
       {roundData.isStoryteller && (
         phase === 'clue' ? (
           <StorytellerChooseCard
-            handleSubmitClue={clue => setRoundData({ ...roundData, clue })}
+            handleSubmitClue={clue => handleSubmitClue(clue)}
             players={players}
             cards={hand}
           />
@@ -151,8 +160,8 @@ export default function Game() {
                 <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
               </div>
             )}
-            headerText={roundData.clue}
             players={players}
+            cards={hand}
           />
         ) : phase === 'voting' ? (
           <OtherPlayersAreVoting
@@ -172,8 +181,8 @@ export default function Game() {
               topMatter={(
                 <Clue storyteller={TESTING_STORYTELLER.username} clue={roundData.clue} />
               )}
-              headerText={roundData.clue}
               players={players}
+              cards={hand}
             />
           ) : phase === 'clue' ? (
             <ChooseCardLayout

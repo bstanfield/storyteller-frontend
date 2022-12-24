@@ -3,19 +3,18 @@
 import { spacing } from '../../styles/theme';
 import { ReactNode } from 'react';
 import Players from '../game/Players';
-import { Player } from '../../types';
+import { CardType, Player } from '../../types';
 import FannedHand from '../game/FannedHand';
-import { TESTING_SAMPLE_HAND } from '../../config/constants';
 
 export default function WaitingOnOthersLayout({
   topMatter,
   players,
+  cards,
 }: {
   children?: ReactNode,
-  preheaderText?: string,
-  headerText: string,
   topMatter?: ReactNode,
   players: Player[]
+  cards: CardType[]
 }) {
 
   return (
@@ -29,8 +28,11 @@ export default function WaitingOnOthersLayout({
         }}
       />
       <h3 css={{ opacity: 0.5 }}>Waiting on X players...</h3>
-      <div css={{ position: 'fixed', bottom: 0 }}>
-        <FannedHand cards={TESTING_SAMPLE_HAND} />
+      <div css={{
+        // position: 'fixed', bottom: 100
+        marginTop: spacing.large
+      }}>
+        <FannedHand cards={cards} />
       </div>
     </div>
   )
