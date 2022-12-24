@@ -107,6 +107,12 @@ export default function Game() {
         }
       });
 
+      connection.on("submitted card", (data) => {
+        const { card, player } = data;
+        alert('Card submitted!');
+        console.log('Card was submitted! ', card, player);
+      });
+
       connection.on("loading", (boolean) => {
         setLoading(boolean);
       });
@@ -128,6 +134,10 @@ export default function Game() {
   function handleSubmitClue(clue) {
     socketConnection.emit('clue', { clue, game });
     setRoundData({ ...roundData, clue });
+  }
+
+  function handleContenderSubmission(imgixPath) {
+    socketConnection.emit('submit card', { imgixPath, playerId, game });
   }
 
   useEffect(() => {
@@ -173,7 +183,7 @@ export default function Game() {
           <GuesserChooseCard
             clue={roundData.clue}
             players={players}
-            handleContenderSubmission={(slug) => setContenderCard(slug)}
+            handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
             cards={hand}
           />
           : phase === 'choosing' && contenderCard ? (

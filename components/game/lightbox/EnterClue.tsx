@@ -3,7 +3,7 @@
 import Card from "../Card";
 import { spacing } from "../../../styles/theme";
 import Overlay from "../../layout/Overlay";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../../TextInput";
 import Flex from "../../layout/Flex";
 import { scale } from "../../../styles/scale";

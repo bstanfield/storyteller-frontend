@@ -22,6 +22,7 @@ export default function GuesserChooseCard({
 }) {
   const [imageToShow, setImageToShow] = useState('');
 
+  // Perhaps this needs to get moved to top-level?
   function handleCardClick(slug) {
     setImageToShow(slug);
   }
