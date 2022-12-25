@@ -32,8 +32,14 @@ function getPhaseFromRoundData(
     submissions: any
   }) {
 
-  console.log('playerId: ', playerId);
-  console.log('bool: ', submissions?.playersThatHaveSubmitted.includes(playerId));
+  if (isStoryteller) {
+    if (clue) {
+      return 'choosing'
+    }
+    else return 'clue'
+  }
+
+  // TODO: Need a state between choosing and voting, like "waiting", for people that have submitted early
   if (submissions?.playersThatHaveSubmitted) {
     for (let submission of submissions?.playersThatHaveSubmitted) {
       if (submission.playerId === playerId) {
@@ -45,6 +51,7 @@ function getPhaseFromRoundData(
   if (completedAt) {
     return 'score'
   }
+
   if (clue) {
     return 'choosing' // or voting if submissions are in / cards have been played
   }
