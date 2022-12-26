@@ -71,7 +71,7 @@ export default function ChooseAvatar() {
               <Avatar
                 key={index}
                 handleAvatarClick={() => addAvatarToPlayer(playerId, avatar.id, gameId)}
-                avatarUrl={avatar.imgix_path}
+                avatarUrl={avatar.imgixPath}
               />
             ))}
           </Flex>

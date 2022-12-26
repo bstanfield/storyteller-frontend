@@ -7,11 +7,9 @@ import LoadingSpinner from "../svg/LoadingSpinner";
 export default function PlayerStateIcon({ state }: { state: PlayerState }) {
 
   switch (state) {
-    case 'done':
+    case 'waiting':
       return <Checkmark />
-    case 'choosing':
-      return <LoadingSpinner />
-    case 'guessing':
+    case 'playing':
       return <LoadingSpinner />
     default: return <div />;
   }

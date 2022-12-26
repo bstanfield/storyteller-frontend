@@ -1,11 +1,11 @@
-export type PlayerState = 'choosing' | 'guessing' | 'done';
+export type PlayerState = 'playing' | 'waiting';
 
 export interface PlayerType {
   playerId?: string, // uuid 
   name?: string,
   username?: string,
   avatarUrl?: string,
-  imgix_path?: string,
+  imgixPath?: string,
   score?: number,
   isStoryteller?: boolean,
   state?: PlayerState,

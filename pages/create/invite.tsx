@@ -113,7 +113,7 @@ export default function Invite() {
             }}> */}
           <Flex justify='space-between' css={{ margin: `${spacing.large}px 0px` }}>
             {players.map((player, index) => (
-              <Avatar key={index} username={player.name} avatarUrl={player.imgix_path} />
+              <Avatar key={index} username={player.name} avatarUrl={player.imgixPath} />
             ))}
             {emptyAvatars.map((player, index) => (
               <Avatar key={index} />
