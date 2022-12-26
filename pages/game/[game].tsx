@@ -32,24 +32,39 @@ function getPhaseFromRoundData(
     submissions: any
   }) {
 
-  if (isStoryteller) {
-    if (clue) {
-      return 'choosing'
-    }
-    else return 'clue'
-  }
-
-  // TODO: Need a state between choosing and voting, like "waiting", for people that have submitted early
-  if (submissions?.playersThatHaveSubmitted) {
-    for (let submission of submissions?.playersThatHaveSubmitted) {
-      if (submission.playerId === playerId) {
-        return 'voting';
-      }
-    }
-  }
-
   if (completedAt) {
     return 'score'
+  }
+
+  if (isStoryteller) {
+    if (clue) {
+      'choosing'
+    }
+    'clue'
+  }
+
+  if (submissions?.playersThatHaveVoted) {
+    const playerHasVoted = submissions.playersThatHaveVoted.find(submissions =>
+      submissions.playerId === playerId)
+    if (playerHasVoted) {
+      // storyteller will always be in playersThatHaveNotSubmitted?
+      if (submissions.playersThatHaveNotVoted.length > 0) {
+        return 'voting waiting'
+      }
+      else return 'voting'
+    }
+  }
+
+  if (submissions?.playersThatHaveSubmitted) {
+    const playerHasSubmitted = submissions.playersThatHaveSubmitted.find(submissions =>
+      submissions.playerId === playerId)
+    if (playerHasSubmitted) {
+      // storyteller will always be in playersThatHaveNotSubmitted?
+      if (submissions.playersThatHaveNotSubmitted.length > 0) {
+        return 'choosing waiting'
+      }
+      else return 'voting'
+    }
   }
 
   if (clue) {
@@ -83,6 +98,7 @@ export default function Game() {
   // Added by Ben:
   const [submittedCards, setSubmittedCards] = useState([]);
 
+  console.log('roundData', roundData)
   useEffect(() => {
     const path = window.location.pathname;
     let game = '';
@@ -204,14 +220,14 @@ export default function Game() {
             />
           ) : <div />)}
         {!roundData.isStoryteller && (
-          phase === 'choosing' && !contenderCard ?
+          phase === 'choosing' ?
             <GuesserChooseCard
               roundData={roundData}
               players={players}
               handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
               cards={hand}
             />
-            : phase === 'choosing' && contenderCard ? (
+            : phase === 'choosing waiting' ? (
               <WaitingOnOthersLayout
                 topMatter={(
                   <Clue
@@ -219,6 +235,7 @@ export default function Game() {
                     clue={roundData.clue}
                   />
                 )}
+                round={roundData}
                 players={players}
                 cards={hand}
               />
