@@ -36,39 +36,12 @@ function getPhaseFromRoundData(
     return 'score'
   }
 
-  if (isStoryteller) {
-    if (clue) {
-      'choosing'
-    }
-    'clue'
-  }
-
-  if (submissions?.playersThatHaveVoted) {
-    const playerHasVoted = submissions.playersThatHaveVoted.find(submissions =>
-      submissions.playerId === playerId)
-    if (playerHasVoted) {
-      // storyteller will always be in playersThatHaveNotSubmitted?
-      if (submissions.playersThatHaveNotVoted.length > 0) {
-        return 'voting waiting'
-      }
-      else return 'voting'
-    }
-  }
-
-  if (submissions?.playersThatHaveSubmitted) {
-    const playerHasSubmitted = submissions.playersThatHaveSubmitted.find(submissions =>
-      submissions.playerId === playerId)
-    if (playerHasSubmitted) {
-      // storyteller will always be in playersThatHaveNotSubmitted?
-      if (submissions.playersThatHaveNotSubmitted.length > 0) {
-        return 'choosing waiting'
-      }
-      else return 'voting'
-    }
+  if (submissions.playersThatHaveNotSubmitted.length === 0) {
+    return 'voting'
   }
 
   if (clue) {
-    return 'choosing' // or voting if submissions are in / cards have been played
+    return 'choosing'
   }
 
   else return 'clue'
@@ -78,6 +51,7 @@ export default function Game() {
   const [game, setGame] = useState(null);
   const [socketConnection, setSocketConnection] = useState<any>();
   const [clientId, setClientId] = useState(false);
+  const [player, setPlayer] = useState(TESTING_INVITEES[0]);
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [playerId, setPlayerId] = useState<any>(false);
   const [loading, setLoading] = useState(false);
@@ -152,6 +126,9 @@ export default function Game() {
       });
 
       connection.on("players", (data) => {
+        const player = data.find(player => player.playerId === playerId);
+        console.log('data', data)
+        setPlayer(player);
         setPlayers(data);
       });
 
@@ -220,44 +197,44 @@ export default function Game() {
             />
           ) : <div />)}
         {!roundData.isStoryteller && (
-          phase === 'choosing' ?
+          phase === 'clue' ? (
+            <ChooseCardLayout
+              preheaderText='Hang tight.'
+              headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
+              players={players}
+            >
+              <div css={{ marginTop: spacing.xLarge }}>
+                <FannedHand cards={hand} />
+              </div>
+            </ChooseCardLayout>
+          ) : phase === 'choosing' && player.status === 'playing' ? (
             <GuesserChooseCard
               roundData={roundData}
               players={players}
               handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
               cards={hand}
             />
-            : phase === 'choosing waiting' ? (
-              <WaitingOnOthersLayout
-                topMatter={(
-                  <Clue
-                    storyteller={roundData.storyteller.name}
-                    clue={roundData.clue}
-                  />
-                )}
-                round={roundData}
-                players={players}
-                cards={hand}
-              />
-            ) : phase === 'clue' ? (
-              <ChooseCardLayout
-                preheaderText='Hang tight.'
-                headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
-                players={players}
-              >
-                <div css={{ marginTop: spacing.xLarge }}>
-                  <FannedHand cards={hand} />
-                </div>
-              </ChooseCardLayout>
-            ) : phase === 'voting' ? (
-              <Voting
-                storyteller={players[0].name}
-                players={players}
-                clue={roundData.clue}
-                handleSubmitVote={(slug) => setVote(slug)}
-                vote={vote}
-              />
-            ) : <div />)}
+          ) : phase === 'choosing' && player.status === 'waiting' ? (
+            <WaitingOnOthersLayout
+              topMatter={(
+                <Clue
+                  storyteller={roundData.storyteller.name}
+                  clue={roundData.clue}
+                />
+              )}
+              round={roundData}
+              players={players}
+              cards={hand}
+            />
+          ) : phase === 'voting' ? (
+            <Voting
+              storyteller={players[0].name}
+              players={players}
+              clue={roundData.clue}
+              handleSubmitVote={(slug) => setVote(slug)}
+              vote={vote}
+            />
+          ) : <div />)}
         {phase === 'score' && (
           <EndOfTurn
             handleStartNextTurn={() => handleStartNextTurn()}

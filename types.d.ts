@@ -8,7 +8,7 @@ export interface PlayerType {
   imgixPath?: string,
   score?: number,
   isStoryteller?: boolean,
-  state?: PlayerState,
+  status?: PlayerState,
 }
 
 export interface CardType {
