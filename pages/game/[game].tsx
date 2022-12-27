@@ -182,6 +182,14 @@ export default function Game() {
   }
 
   useEffect(() => {
+    if (vote !== '') {
+      console.log('submitting vote!');
+      socketConnection.emit('submit vote', { imagePath: vote, playerId, game });
+    }
+  }, [vote])
+
+  useEffect(() => {
+    console.log('round data: ', roundData);
     const phase = getPhaseFromRoundData(playerId, roundData);
     setPhase(phase);
   }, [roundData]);
@@ -217,6 +225,7 @@ export default function Game() {
           ) : phase === 'voting' ? (
             <OtherPlayersAreVoting
               players={players}
+              submissions={roundData.submissions.playersThatHaveSubmitted}
             />
           ) : <div />)}
         {!roundData.isStoryteller && (
@@ -253,6 +262,7 @@ export default function Game() {
               <Voting
                 storyteller={players[0].name}
                 players={players}
+                submissions={roundData.submissions.playersThatHaveSubmitted}
                 clue={roundData.clue}
                 handleSubmitVote={(slug) => setVote(slug)}
                 vote={vote}

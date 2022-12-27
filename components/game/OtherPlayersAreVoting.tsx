@@ -8,6 +8,7 @@ import Submissions from './Submissions';
 
 export default function OtherPlayersAreVoting({
   players,
+  submissions
 }: {
   players: PlayerType[]
 }) {
@@ -23,7 +24,7 @@ export default function OtherPlayersAreVoting({
         }}
       />
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
-        <Submissions cards={TESTING_VOTING_HAND} />
+        <Submissions cards={submissions} />
       </div>
     </div>
   )

@@ -14,11 +14,13 @@ export default function Voting({
   storyteller,
   clue,
   handleSubmitVote,
+  submissions,
   vote,
 }: {
   clue: string,
   players: PlayerType[]
   storyteller: string,
+  submissions: string[],
   handleSubmitVote: (slug: string) => void;
 }) {
   const [imageToShow, setImageToShow] = useState('');
@@ -28,7 +30,9 @@ export default function Voting({
   }
 
   function handleSubmit() {
+    console.log('RUNNING HANDLE SUBMIT');
     setImageToShow('');
+    console.log('submitting vote as ', imageToShow);
     handleSubmitVote(imageToShow);
   }
 
@@ -52,7 +56,7 @@ export default function Voting({
         </>
       )}
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
-        <Submissions cards={TESTING_VOTING_HAND} handleCardClick={handleCardClick} />
+        <Submissions cards={submissions} handleCardClick={handleCardClick} />
       </div>
       <Players
         players={players}
