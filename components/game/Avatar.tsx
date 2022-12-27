@@ -15,9 +15,6 @@ const avatarStyle = scale({
   borderRadius: '100%',
   margin: 'auto',
   transition: 'transform 0.2s ease-in-out',
-  ':hover': {
-    transform: 'scale(1.05)',
-  }
 });
 
 
@@ -25,13 +22,13 @@ const boldText = { textTransform: 'uppercase', fontWeight: 700, margin: 0 };
 
 
 export default function Avatar(
-  { avatarUrl, username, score, handleAvatarClick, state, className }:
+  { avatarUrl, username, score, handleAvatarClick, status, className }:
     {
       avatarUrl?: string,
       username?: string,
       score?: number,
       handleAvatarClick?: () => void,
-      state?: PlayerState,
+      status?: PlayerState,
       className?: any,
     }
 ) {
@@ -49,10 +46,13 @@ export default function Avatar(
           backgroundImage: `url(${staticImageUrl(`cards/${avatarUrl}`, { w: 160 })})`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
-          cursor: 'pointer',
+          cursor: handleAvatarClick ? 'pointer' : 'default',
+          ':hover': {
+            transform: handleAvatarClick ? 'scale(1.05)' : 'none',
+          }
         }]}
       >
-        {state &&
+        {status &&
           <Flex
             css={{
               backgroundColor: '#040126',
@@ -66,7 +66,7 @@ export default function Avatar(
             align='center'
             justify='center'
           >
-            <PlayerStateIcon state={state} />
+            <PlayerStateIcon state={status} />
           </Flex>
         }
       </div>
