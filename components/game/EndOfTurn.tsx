@@ -9,6 +9,9 @@ import Submissions from './Submissions';
 export default function EndOfTurn({
   players,
   handleStartNextTurn,
+  votes,
+  submissions,
+  storyteller,
 }: {
   players: PlayerType[]
   handleStartNextTurn: () => void;
@@ -24,7 +27,7 @@ export default function EndOfTurn({
         }}
       />
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
-        <Submissions cards={TESTING_VOTING_HAND} />
+        <Submissions votes={votes}  storyteller={storyteller}  cards={submissions} />
       </div>
       <button onClick={handleStartNextTurn} css={{ marginTop: spacing.xxLarge, marginBottom: spacing.medium }}>
         Start next turn

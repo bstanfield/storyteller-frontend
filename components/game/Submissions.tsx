@@ -18,10 +18,10 @@ const ownerCaption = {
   color: 'white',
 };
 
-export default function Submissions({ cards, handleCardClick }
+export default function Submissions({ cards, storyteller, votes, handleCardClick }
   : { cards: SubmittedCard[], handleCardClick?: (slug: string) => void }
 ) {
-  console.log('cards', cards)
+  console.log('votes', votes)
   return (
     <div
       css={scale({
@@ -48,7 +48,7 @@ export default function Submissions({ cards, handleCardClick }
                 border: card.isStoryteller && '5px solid #5D24FF'
               })}
             >
-              {card.owner && !card.isStoryteller && (
+              {card.name !== storyteller  && (
                 <>
                   <div
                     css={{
@@ -63,13 +63,13 @@ export default function Submissions({ cards, handleCardClick }
                     marginLeft: spacing.small,
                     paddingTop: spacing.small,
                   }]}>
-                    {card.owner.username}’s card
+                    {card.name}’s card
                   </caption>
                 </>
               )}
-              {card.isStoryteller &&
+              {storyteller === card.name &&
                 <caption css={[ownerCaption, { position: 'absolute', top: -24 }]}>
-                  {card.owner.username}’s card
+                  {card.name}’s card
                 </caption>
               }
             </Card>

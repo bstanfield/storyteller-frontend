@@ -238,7 +238,7 @@ export default function Game() {
             />
           ) : phase === 'voting' ? (
             <Voting
-              storyteller={players[0].name}
+              storyteller={roundData.storyteller.name}
               players={players}
               clue={roundData.clue}
               submissions={roundData.submissions.playersThatHaveSubmitted}
@@ -250,6 +250,9 @@ export default function Game() {
           <EndOfTurn
             handleStartNextTurn={() => handleStartNextTurn()}
             players={players}
+            storyteller={roundData.storyteller.name}
+            submissions={roundData.submissions.playersThatHaveSubmitted}
+            votes={roundData.votes.playersThatHaveVoted}
           />
         )}
       </div>
