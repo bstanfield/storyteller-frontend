@@ -18,7 +18,7 @@ export default function Players({ players, className, showStatus = false }
             username={player.name}
             avatarUrl={player.imgixPath}
             score={player.score}
-            status={showStatus ? player.status : undefined}
+            status={player.status}
           />
         </div>
       ))}
