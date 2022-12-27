@@ -11,6 +11,8 @@ export default function PlayerStateIcon({ state }: { state: PlayerState }) {
       return <Checkmark />
     case 'playing':
       return <LoadingSpinner />
+    case 'hidden':
+      return <div />
     default: return <div />;
   }
 }

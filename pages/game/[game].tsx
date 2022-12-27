@@ -86,10 +86,6 @@ export default function Game() {
   }, [])
 
   useEffect(() => {
-    console.log('players', players);
-  }, [players])
-
-  useEffect(() => {
     if (playerId && game) {
       const connection = socketIOClient(ENDPOINT);
       setSocketConnection(connection);
@@ -106,9 +102,18 @@ export default function Game() {
       });
 
       connection.on("hand", (hand) => {
-        console.log('hand', hand)
         setHand(hand);
       });
+
+      // Deals out to all players, filter to just what client needs
+      connection.on("fresh hands", (hands) => {
+        // For each hand of hands, find the one that matches the current player's id
+        const relevantHandObj = hands.filter(handObj => handObj.playerId === playerId);
+       
+        if (relevantHandObj.length > 0) {
+          setHand(relevantHandObj[0].hand);
+        }
+      })
 
       connection.on("round", (data) => {
         const { playerStoryteller } = data;
@@ -131,7 +136,6 @@ export default function Game() {
 
       connection.on("players", (data) => {
         const player = data.find(player => player.playerId === playerId);
-        console.log('data', data)
         setPlayer(player);
         setPlayers(data);
       });
@@ -170,12 +174,9 @@ export default function Game() {
   }, [vote])
 
   useEffect(() => {
-    console.log('round data: ', roundData);
     const phase = getPhaseFromRoundData(playerId, roundData);
     setPhase(phase);
   }, [roundData]);
-
-  console.log('phase: ', phase);
 
   if (loading || !socketConnection) {
     return <div />

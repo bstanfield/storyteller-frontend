@@ -1,4 +1,4 @@
-export type PlayerState = 'playing' | 'waiting';
+export type PlayerState = 'playing' | 'waiting' | 'hidden';
 
 export interface PlayerType {
   playerId?: string, // uuid 

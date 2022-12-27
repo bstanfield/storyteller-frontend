@@ -44,7 +44,7 @@ export default function FannedHand({ cards, handleCardClick }: { cards: CardType
           return (
             <Card
               key={index}
-              slug={card.imgix_path}
+              slug={card.imgixPath}
               css={scale({
                 left: `${(index * (100 / cards.length))}%`,
                 top: topOffset,

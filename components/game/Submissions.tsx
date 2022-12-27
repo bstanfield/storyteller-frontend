@@ -21,8 +21,6 @@ const ownerCaption = (show) => ({
 export default function Submissions({ cards, players, storyteller, votes, handleCardClick }
   : { cards: SubmittedCard[], handleCardClick?: (slug: string) => void }
 ) {
-  console.log('votes', votes);
-  console.log('cards: ', cards);
   return (
     <div
       css={scale({
