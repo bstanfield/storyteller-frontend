@@ -27,7 +27,7 @@ export default function EndOfTurn({
         }}
       />
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
-        <Submissions votes={votes}  storyteller={storyteller}  cards={submissions} />
+        <Submissions players={players}  votes={votes}  storyteller={storyteller}  cards={submissions} />
       </div>
       <button onClick={handleStartNextTurn} css={{ marginTop: spacing.xxLarge, marginBottom: spacing.medium }}>
         Start next turn

@@ -73,7 +73,6 @@ export default function Game() {
   // Added by Ben:
   const [submittedCards, setSubmittedCards] = useState([]);
 
-  console.log('roundData', roundData)
   useEffect(() => {
     const path = window.location.pathname;
     let game = '';
@@ -85,6 +84,10 @@ export default function Game() {
     setUsername(localStorage.getItem("username"));
     setPlayerId(localStorage.getItem("playerId"));
   }, [])
+
+  useEffect(() => {
+    console.log('players', players);
+  }, [players])
 
   useEffect(() => {
     if (playerId && game) {

@@ -9,19 +9,20 @@ import Players from './Players';
 import Avatar from './Avatar';
 import Flex from '../layout/Flex';
 
-const ownerCaption = {
+const ownerCaption = (show) => ({
   position: 'relative',
   fontSize: 12,
-  display: 'block',
+  display: show ? 'block' : 'none',
   textTransform: 'uppercase',
   fontWeight: 700,
   color: 'white',
-};
+});
 
-export default function Submissions({ cards, storyteller, votes, handleCardClick }
+export default function Submissions({ cards, players, storyteller, votes, handleCardClick }
   : { cards: SubmittedCard[], handleCardClick?: (slug: string) => void }
 ) {
-  console.log('votes', votes)
+  console.log('votes', votes);
+  console.log('cards: ', cards);
   return (
     <div
       css={scale({
@@ -58,7 +59,7 @@ export default function Submissions({ cards, storyteller, votes, handleCardClick
                       backgroundColor: 'rgba(0,0,0,0.3)',
                     }}
                   />
-                  <caption css={[ownerCaption, {
+                  <caption css={[ownerCaption(votes), {
                     textAlign: 'left',
                     marginLeft: spacing.small,
                     paddingTop: spacing.small,
@@ -68,12 +69,12 @@ export default function Submissions({ cards, storyteller, votes, handleCardClick
                 </>
               )}
               {storyteller === card.name &&
-                <caption css={[ownerCaption, { position: 'absolute', top: -24 }]}>
+                <caption css={[ownerCaption(votes), { position: 'absolute', top: -24 }]}>
                   {card.name}’s card
                 </caption>
               }
             </Card>
-            {card.voters &&
+            {players && votes &&
               <Flex
                 align='center'
                 css={{
@@ -83,11 +84,11 @@ export default function Submissions({ cards, storyteller, votes, handleCardClick
                   transform: 'translate(-50%)',
                 }}
               >
-                {card.voters.map((voter) =>
+                {votes.map((vote) =>
                   <div key={index} css={{ margin: `0px ${spacing.default}px` }}>
-                    <Avatar
-                      username={voter.username}
-                      avatarUrl={voter.avatarUrl}
+                    {vote.submitterPlayerGamesId === card.playerGamesId && <Avatar
+                      username={players.find((player) => player.playerGamesId === vote.voterPlayerGamesId).name}
+                      avatarUrl={players.find((player) => player.playerGamesId === vote.voterPlayerGamesId).imgixPath}
                       css={scale({
                         '.avatar': {
                           width: [40, 40, 50, 50],
@@ -97,7 +98,7 @@ export default function Submissions({ cards, storyteller, votes, handleCardClick
                           fontSize: '11px',
                         }
                       })}
-                    />
+                    />}
                   </div>
                 )}
               </Flex>

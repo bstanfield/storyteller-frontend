@@ -30,9 +30,7 @@ export default function Voting({
   }
 
   function handleSubmit() {
-    console.log('RUNNING HANDLE SUBMIT');
     setImageToShow('');
-    console.log('submitting vote as ', imageToShow);
     handleSubmitVote(imageToShow);
   }
 
