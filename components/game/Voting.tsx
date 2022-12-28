@@ -34,8 +34,6 @@ export default function Voting({
     handleSubmitVote(imageToShow);
   }
 
-  console.log('players: ', players);
-
   return (
     <div css={{ textAlign: 'center', padding: spacing.medium, position: 'relative', width: '100%', height: '100vh' }}>
 

@@ -21,7 +21,7 @@ export default function EndOfTurn({
     <div css={{ textAlign: 'center', padding: spacing.medium, position: 'relative', width: '100%', height: '100vh' }}>
       <Players
         players={players}
-        showStatus
+        showStatus={false}
         css={{
           margin: `${spacing.large}px auto`,
         }}

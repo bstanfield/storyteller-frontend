@@ -18,6 +18,7 @@ const cardStyles = (slug, onClick) => scale({
   transition: '0.25s all ease',
   '&:hover': {
     transform: 'scale(1.02)',
+    zIndex: 2,
   }
 })
 
