@@ -27,6 +27,7 @@ export default function TextInput({
   value,
   placeholder,
   readOnly = false,
+  handleEnter,
 }: {
   autofocus?: boolean,
   onChange?: (i: string) => void;
@@ -39,10 +40,14 @@ export default function TextInput({
       autoFocus={autofocus}
       css={textInput}
       value={value}
+      onKeyDown={(e) => handleEnter(e)}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       type="text"
       readOnly={readOnly}
+      autoCorrect="off"
+      autoCapitalize="off"
+      spellCheck="false"
     />
   );
 }

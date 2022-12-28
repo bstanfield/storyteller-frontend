@@ -49,7 +49,7 @@ export default function Voting({
         <h1>Your vote is in!</h1>
       ) : (
         <>
-          <h1>Which card is {storyteller}’s?</h1>
+          <h1>Pick the original "{clue}"</h1>
           <h3 css={{ opacity: 0.5 }}>Choose one.</h3>
         </>
       )}

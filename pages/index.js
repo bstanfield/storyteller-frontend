@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState, Fragment } from "react";
-import { ENDPOINT } from "../lib/helpers";
-import TextInput from "../components/TextInput";
-import Header from "../components/header";
-import Card from "../components/game/Card";
-import { spacing } from "../styles/theme";
+import { useEffect, useState, Fragment } from 'react';
+import { ENDPOINT } from '../lib/helpers';
+import TextInput from '../components/TextInput';
+import Header from '../components/header';
+import Card from '../components/game/Card';
+import { spacing } from '../styles/theme';
 
 const images = [
   'zast_turtle_ninja_Baby_full_body_in_action_epic_scene_cinematic_3da00e06-aab3-48e0-982c-9e4a14a4a5f9.png',
@@ -20,14 +20,14 @@ const images = [
 ];
 
 export default function Index() {
-  const [game, setGame] = useState("");
+  const [game, setGame] = useState('');
   const [validGameCode, setValidGameCode] = useState(false);
   const [username, setUsername] = useState(false);
   const [validNewGame, setValidNewGame] = useState(false);
 
   useEffect(() => {
-    setUsername(localStorage.getItem("username"));
-  }, [])
+    setUsername(localStorage.getItem('username'));
+  }, []);
 
   useEffect(() => {
     if (validGameCode) {
@@ -53,8 +53,8 @@ export default function Index() {
     const res = await fetch(`${ENDPOINT}/secret?game=${game}`);
     const data = await res.json();
     if (data.error) {
-      alert("Invalid game");
-      setGame("");
+      alert('Invalid game');
+      setGame('');
     } else {
       setGame(game);
       setValidGameCode(true);
@@ -65,10 +65,17 @@ export default function Index() {
     const res = await fetch(`${ENDPOINT}/create`);
     const data = await res.json();
     if (data.error) {
-      alert("Error creating game");
+      alert('Error creating game');
     }
     setGame(data.slug);
     setValidNewGame(true);
+  };
+
+  // When the user presses the "Enter" key, check the game code
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      checkGame(game);
+    }
   };
 
   return (
@@ -76,7 +83,7 @@ export default function Index() {
       <Header />
       <div
         css={{
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <div
@@ -87,13 +94,22 @@ export default function Index() {
         >
           <div
             css={{
-              textAlign: "center",
-              margin: "auto",
-              width: 400
+              textAlign: 'center',
+              margin: 'auto',
+              width: 400,
             }}
           >
-            <img css={{ marginBottom: -30, width: 300 }} src="https://storyteller.imgix.net/storyteller-logo.png?w=450"></img>
-            <h3 css={{ opacity: 0.9, marginBottom: 60 }}><i>Tell stories that match<br />AI-generated cards!</i></h3>
+            <img
+              css={{ marginBottom: -30, width: 300 }}
+              src="https://storyteller.imgix.net/storyteller-logo.png?w=450"
+            ></img>
+            <h3 css={{ opacity: 0.9, marginBottom: 60 }}>
+              <i>
+                Tell stories that match
+                <br />
+                AI-generated cards!
+              </i>
+            </h3>
 
             <h3>Create a new game</h3>
             <button onClick={() => createGame()}>Create game</button>
@@ -104,11 +120,16 @@ export default function Index() {
             <TextInput
               autoFocus
               value={game}
+              handleEnter={handleEnter}
               onChange={(i) => setGame(i)}
               placeholder="Enter code"
             />
-            <button onClick={() => checkGame(game)} className="btn-purple">Join game</button>
-            <p>Playing as <a href="">{username}</a></p>
+            <button onClick={() => checkGame(game)} className="btn-purple">
+              Join game
+            </button>
+            <p>
+              Playing as <a href="">{username}</a>
+            </p>
           </div>
         </div>
         <div
@@ -116,13 +137,17 @@ export default function Index() {
             height: '100vh',
           }}
         >
-          <div css={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            gridGap: spacing.default,
-            gridTemplateRows: 'masonry',
-          }}>
-            {images.map((image, index) => <Card key={index} slug={image} />)}
+          <div
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr',
+              gridGap: spacing.default,
+              gridTemplateRows: 'masonry',
+            }}
+          >
+            {images.map((image, index) => (
+              <Card key={index} slug={image} />
+            ))}
           </div>
         </div>
       </div>
