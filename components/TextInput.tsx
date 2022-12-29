@@ -27,7 +27,7 @@ export default function TextInput({
   value,
   placeholder,
   readOnly = false,
-  handleEnter,
+  handleEnter = () => {},
 }: {
   autofocus?: boolean,
   onChange?: (i: string) => void;

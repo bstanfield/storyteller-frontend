@@ -120,7 +120,7 @@ export default function Invite() {
             ))}
           </Flex>
           {/* if players >= MIN_PLAYER_COUNT, enable button */}
-          <button onClick={() => setStart(true)}>Start Game</button>
+          <button onClick={() => players.length < 2 ? alert('Not enough players!') : setStart(true)}>Start Game</button>
           {players.length < MIN_PLAYER_COUNT
             ? (
               <p>

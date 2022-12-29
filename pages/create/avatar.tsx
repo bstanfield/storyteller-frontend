@@ -31,13 +31,13 @@ export default function ChooseAvatar() {
 
   useEffect(() => {
     const getAvatars = async () => {
-      const res = await fetch(`${ENDPOINT}/avatars`);
+      const res = await fetch(`${ENDPOINT}/avatars?game=${gameId}`);
       const data = await res.json();
       setAvatars(data.avatars);
     }
 
     getAvatars();
-  }, []);
+  }, [gameId]);
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
