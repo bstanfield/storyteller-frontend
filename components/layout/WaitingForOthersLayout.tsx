@@ -11,6 +11,7 @@ export default function WaitingOnOthersLayout({
   players,
   cards,
   round,
+  cardModePreference,
 }: {
   children?: ReactNode,
   topMatter?: ReactNode,
@@ -34,7 +35,7 @@ export default function WaitingOnOthersLayout({
         // position: 'fixed', bottom: 100
         marginTop: spacing.large
       }}>
-        <FannedHand cards={cards} />
+        <FannedHand cards={cards} cardModePreference={cardModePreference} />
       </div>
     </div>
   )

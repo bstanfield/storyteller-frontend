@@ -5,7 +5,7 @@ import Card from './Card';
 import Flex from '../layout/Flex';
 import { CARD_WIDTHS } from '../../config/constants';
 import { CardType } from '../../types';
-
+import { useEffect, useState } from 'react';
 
 // this mostly works for hands between 5-7 cards large.
 // no guarantees for smaller or larger hand sizes!
@@ -22,17 +22,17 @@ function angleForIndex(index, handSize) {
   return (MAX_ROTATIONAL_ANGLE * 2 / (handSize - 1)) * index - MAX_ROTATIONAL_ANGLE
 }
 
-export default function FannedHand({ cards, handleCardClick }: { cards: CardType[], handleCardClick?: (slug: string) => void }) {
-
+export default function FannedHand({ cards, cardModePreference, handleCardClick }: { cards: CardType[], handleCardClick?: (slug: string) => void }) {
+  console.log('card mode preference: ', cardModePreference);
   return (
-    <div css={{ width: '100%' }}>
+    <div css={{  overflowX: cardModePreference === 'fanned' ? 'visible' : 'scroll', width: '100%' }}>
       <Flex
         justify='space-between'
         align='center'
         css={scale({
           position: 'relative',
-          maxWidth: '90%',
-          width: CARD_WIDTHS.map(width => width * cards.length),
+          maxWidth: cardModePreference === 'fanned' ? '90%' : 'none',
+          width: cardModePreference === 'fanned' ? CARD_WIDTHS.map(width => width * cards.length) : 'fit-content',
           margin: 'auto',
           boxSizing: 'border-box'
         })}
@@ -41,8 +41,21 @@ export default function FannedHand({ cards, handleCardClick }: { cards: CardType
           const rotationAngle = angleForIndex(index, cards.length);
           const topOffset = topForIndex(index, cards.length);
 
+          if (cardModePreference === 'jumbo') {
+            return (
+              <Card
+                size="jumbo"
+                key={index}
+                slug={card.imgixPath}
+                onClick={handleCardClick}
+              />
+            )
+          }
+
+          // Default fanned card layout
           return (
             <Card
+              type="fanned"
               key={index}
               slug={card.imgixPath}
               css={scale({

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { ReactNode, useState } from "react";
+import { Fragment, ReactNode, useState } from "react";
 import { spacing } from "../../styles/theme";
 import OpenBook from "../svg/OpenBook";
 import Flex from "./Flex";
@@ -9,6 +9,7 @@ import Menu from "../svg/Menu";
 import Overlay from "./Overlay";
 import Link from "next/link";
 import Home from "../svg/Home";
+import CardModeToggle from "../game/CardModeToggle";
 
 function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
   const [showHowToPlay, toggleHowToPlay] = useState(false);
@@ -47,16 +48,19 @@ export function GameNav() {
       {showMenu ?
         <ExpandedMenu handleClose={() => toggleMenu(false)} />
         : (
-          <Flex
-            align='center'
-            css={{ position: 'absolute', left: spacing.large, cursor: 'pointer' }}
-            onClick={() => toggleMenu(true)}
-          >
-            <Menu />
-            <h4 css={{ marginLeft: spacing.xSmall }}>
-              MENU
-            </h4>
-          </Flex>
+          <Fragment>
+            <Flex
+              align='center'
+              css={{ position: 'absolute', left: spacing.large, cursor: 'pointer' }}
+              onClick={() => toggleMenu(true)}
+            >
+              <Menu />
+              <h4 css={{ marginLeft: spacing.xSmall }}>
+                MENU
+              </h4>
+            </Flex>
+            <CardModeToggle />
+          </Fragment>
         )}
     </div>
   )

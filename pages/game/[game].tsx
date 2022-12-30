@@ -70,8 +70,17 @@ export default function Game() {
   const [contenderCard, setContenderCard] = useState('');
   const [vote, setVote] = useState('');
 
-  // Added by Ben:
-  const [submittedCards, setSubmittedCards] = useState([]);
+  const [cardModePreference, setCardModePreference] = useState('fanned');
+  
+  useEffect(() => {
+    // Check if cardModePreference exists in localStorage
+    const preference = localStorage.getItem('cardModePreference');
+    if (preference) {
+      setCardModePreference(preference);
+    } else {
+      setCardModePreference('fanned');
+    }
+  }, [])
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -184,13 +193,14 @@ export default function Game() {
 
   return (
     <GameLayout>
-      <div css={{ textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
+      <div css={{ overflow: 'auto', textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
         {roundData.isStoryteller && (
           phase === 'clue' ? (
             <StorytellerChooseCard
               handleSubmitClue={(clue, imgixPath) => handleSubmitClue(clue, imgixPath)}
               players={players}
               cards={hand}
+              cardModePreference={cardModePreference}
             />
           ) : phase === 'choosing' ? (
             <WaitingOnOthersLayout
@@ -216,9 +226,10 @@ export default function Game() {
               preheaderText='Hang tight.'
               headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
               players={players}
+              cardModePreference={cardModePreference}
             >
               <div css={{ marginTop: spacing.xLarge }}>
-                <FannedHand cards={hand} />
+                <FannedHand cards={hand} cardModePreference={cardModePreference} />
               </div>
             </ChooseCardLayout>
           ) : phase === 'choosing' && player.status === 'playing' ? (
@@ -226,6 +237,7 @@ export default function Game() {
               roundData={roundData}
               players={players}
               handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
+              cardModePreference={cardModePreference}
               cards={hand}
             />
           ) : phase === 'choosing' && player.status === 'waiting' ? (
@@ -238,6 +250,7 @@ export default function Game() {
               )}
               round={roundData}
               players={players}
+              cardModePreference={cardModePreference}
               cards={hand}
             />
           ) : phase === 'voting' ? (

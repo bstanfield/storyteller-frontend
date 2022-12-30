@@ -9,7 +9,7 @@ import ChooseCardLayout from '../layout/ChooseCardLayout';
 import { CardType, PlayerType } from '../../types';
 
 export default function ChooseCard(
-  { handleSubmitClue, players, cards }
+  { handleSubmitClue, players, cards, cardModePreference }
     : {
       handleSubmitClue: (clue: string, imgixPath: string) => void,
       players: PlayerType[],
@@ -41,7 +41,7 @@ export default function ChooseCard(
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <FannedHand cards={cards} handleCardClick={handleCardClick} />
+        <FannedHand cards={cards} handleCardClick={handleCardClick} cardModePreference={cardModePreference} />
       </div>
     </ChooseCardLayout>
   )

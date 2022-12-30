@@ -13,6 +13,7 @@ export default function GuesserChooseCard({
   handleContenderSubmission,
   cards,
   roundData,
+  cardModePreference,
 }: {
   players: PlayerType[],
   handleContenderSubmission: (slug: string) => void;
@@ -30,8 +31,6 @@ export default function GuesserChooseCard({
     handleContenderSubmission(imageToShow);
     setImageToShow('');
   }
-
-  console.log('round data: ', roundData);
 
   return (
     <ChooseCardLayout
@@ -52,7 +51,7 @@ export default function GuesserChooseCard({
         />
       }
       <div css={{ marginTop: spacing.xLarge }}>
-        <FannedHand cards={cards} handleCardClick={handleCardClick} />
+        <FannedHand cards={cards} handleCardClick={handleCardClick} cardModePreference={cardModePreference} />
       </div>
     </ChooseCardLayout>
   )
