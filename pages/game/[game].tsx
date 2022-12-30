@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { ENDPOINT } from "../../lib/helpers";
-import { TESTING_INVITEES } from '../../config/constants';
+import { TESTING_INVITEES } from "../../config/constants";
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
 import StorytellerChooseCard from "../../components/game/StorytellerChooseCard";
@@ -15,6 +15,7 @@ import Clue from "../../components/game/Clue";
 import Voting from "../../components/game/Voting";
 import OtherPlayersAreVoting from "../../components/game/OtherPlayersAreVoting";
 import EndOfTurn from "../../components/game/EndOfTurn";
+import Header from "../../components/header";
 
 // All to-do's:
 // - Prevent voting on your own card
@@ -22,8 +23,8 @@ import EndOfTurn from "../../components/game/EndOfTurn";
 // - Provide a delta between the new score and previous score
 // - Smooth out the animations on Safari
 // - Allow players to leave the game
-// - Ensure storyteller picking is consistent (I think there's an issue where the storyteller is sometimes 
-  // the same person twice in a row during the first two rounds)
+// - Ensure storyteller picking is consistent (I think there's an issue where the storyteller is sometimes
+// the same person twice in a row during the first two rounds)
 // - Mobile layout
 // - Listen to "esc" key to close modals
 // - Create a detailed score screen w/ progress bars
@@ -39,28 +40,26 @@ function getPhaseFromRoundData(
     clue,
     completedAt,
     playerStoryteller,
-    submissions
+    submissions,
   }: {
-    isStoryteller: boolean,
-    clue: string,
-    completedAt: EpochTimeStamp,
-    playerStoryteller: string
-    submissions: any
-  }) {
-
+    isStoryteller: boolean;
+    clue: string;
+    completedAt: EpochTimeStamp;
+    playerStoryteller: string;
+    submissions: any;
+  }
+) {
   if (completedAt) {
-    return 'score'
+    return "score";
   }
 
   if (submissions.playersThatHaveNotSubmitted?.length === 0) {
-    return 'voting'
+    return "voting";
   }
 
   if (clue) {
-    return 'choosing'
-  }
-
-  else return 'clue'
+    return "choosing";
+  } else return "clue";
 }
 
 export default function Game() {
@@ -71,36 +70,36 @@ export default function Game() {
   const [players, setPlayers] = useState(TESTING_INVITEES);
   const [playerId, setPlayerId] = useState<any>(false);
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const [hand, setHand] = useState([]);
 
   const [roundData, setRoundData] = useState({
     isStoryteller: true,
-    clue: '',
+    clue: "",
     completedAt: 0 as EpochTimeStamp,
-    playerStoryteller: '',
+    playerStoryteller: "",
     submissions: [],
-    storyteller: {}
+    storyteller: {},
   });
-  const [phase, setPhase] = useState('');
-  const [contenderCard, setContenderCard] = useState('');
-  const [vote, setVote] = useState('');
+  const [phase, setPhase] = useState("");
+  const [contenderCard, setContenderCard] = useState("");
+  const [vote, setVote] = useState("");
 
-  const [cardModePreference, setCardModePreference] = useState('fanned');
-  
+  const [cardModePreference, setCardModePreference] = useState("fanned");
+
   useEffect(() => {
     // Check if cardModePreference exists in localStorage
-    const preference = localStorage.getItem('cardModePreference');
+    const preference = localStorage.getItem("cardModePreference");
     if (preference) {
       setCardModePreference(preference);
     } else {
-      setCardModePreference('fanned');
+      setCardModePreference("fanned");
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const path = window.location.pathname;
-    let game = '';
+    let game = "";
     if (path) {
       game = path.split("/")[2];
       setGame(game);
@@ -108,7 +107,7 @@ export default function Game() {
 
     setUsername(localStorage.getItem("username"));
     setPlayerId(localStorage.getItem("playerId"));
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (playerId && game) {
@@ -133,24 +132,26 @@ export default function Game() {
       // Deals out to all players, filter to just what client needs
       connection.on("fresh hands", (hands) => {
         // For each hand of hands, find the one that matches the current player's id
-        const relevantHandObj = hands.filter(handObj => handObj.playerId === playerId);
-       
+        const relevantHandObj = hands.filter(
+          (handObj) => handObj.playerId === playerId
+        );
+
         if (relevantHandObj.length > 0) {
           setHand(relevantHandObj[0].hand);
         }
-      })
+      });
 
       connection.on("round", (data) => {
         const { playerStoryteller } = data;
         if (playerStoryteller === playerId) {
           setRoundData({
             ...data,
-            isStoryteller: true
+            isStoryteller: true,
           });
         } else {
           setRoundData({
             ...data,
-            isStoryteller: false
+            isStoryteller: false,
           });
         }
       });
@@ -160,7 +161,7 @@ export default function Game() {
       });
 
       connection.on("players", (data) => {
-        const player = data.find(player => player.playerId === playerId);
+        const player = data.find((player) => player.playerId === playerId);
         setPlayer(player);
         setPlayers(data);
       });
@@ -171,32 +172,32 @@ export default function Game() {
 
       return () => {
         connection.disconnect();
-      }
+      };
     }
   }, [playerId, game]);
 
   function handleSubmitClue(clue, imgixPath) {
-    socketConnection.emit('clue', { clue, game });
-    socketConnection.emit('submit card', { imgixPath, playerId, game });
+    socketConnection.emit("clue", { clue, game });
+    socketConnection.emit("submit card", { imgixPath, playerId, game });
     setRoundData({ ...roundData, clue });
   }
 
   function handleContenderSubmission(imgixPath) {
-    socketConnection.emit('submit card', { imgixPath, playerId, game });
+    socketConnection.emit("submit card", { imgixPath, playerId, game });
     setContenderCard(imgixPath);
   }
 
   // do something here
   function handleStartNextTurn() {
-    socketConnection.emit('new round', { game });
+    socketConnection.emit("new round", { game });
   }
 
   useEffect(() => {
-    if (vote !== '') {
-      console.log('submitting vote!');
-      socketConnection.emit('submit vote', { imagePath: vote, playerId, game });
+    if (vote !== "") {
+      console.log("submitting vote!");
+      socketConnection.emit("submit vote", { imagePath: vote, playerId, game });
     }
-  }, [vote])
+  }, [vote]);
 
   useEffect(() => {
     const phase = getPhaseFromRoundData(playerId, roundData);
@@ -204,115 +205,150 @@ export default function Game() {
   }, [roundData]);
 
   if (loading || !socketConnection) {
-    return <div />
+    return <div />;
   }
 
   const handleCardModePreference = () => {
     if (!cardModePreference) {
-      setCardModePreference('fanned')
-      localStorage.setItem('cardModePreference', 'fanned')
-    } else if (cardModePreference === 'fanned') {
-      setCardModePreference('jumbo')
-      localStorage.setItem('cardModePreference', 'jumbo')
+      setCardModePreference("fanned");
+      localStorage.setItem("cardModePreference", "fanned");
+    } else if (cardModePreference === "fanned") {
+      setCardModePreference("jumbo");
+      localStorage.setItem("cardModePreference", "jumbo");
     } else {
-      setCardModePreference('fanned')
-      localStorage.setItem('cardModePreference', 'fanned')
+      setCardModePreference("fanned");
+      localStorage.setItem("cardModePreference", "fanned");
     }
-  }
+  };
 
   return (
-    <GameLayout cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference}>
-      <div css={{ overflow: 'auto', textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
-        {roundData.isStoryteller && (
-          phase === 'clue' ? (
-            <StorytellerChooseCard
-              handleSubmitClue={(clue, imgixPath) => handleSubmitClue(clue, imgixPath)}
-              players={players}
-              cards={hand}
-              cardModePreference={cardModePreference}
-              localUser={username}
-            />
-          ) : phase === 'choosing' ? (
-            <WaitingOnOthersLayout
-              topMatter={(
-                <div>
-                  <h4 css={{ fontWeight: 800, opacity: 0.5, margin: spacing.small }}>YOUR CLUE:</h4>
-                  <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>“{roundData.clue}”</h1>
+    <Fragment>
+      <Header />
+      <GameLayout
+        cardModePreference={cardModePreference}
+        handleCardModePreference={handleCardModePreference}
+      >
+        <div
+          css={{
+            overflow: "auto",
+            textAlign: "center",
+            position: "relative",
+            width: "100%",
+            height: "100vh",
+          }}
+        >
+          {roundData.isStoryteller &&
+            (phase === "clue" ? (
+              <StorytellerChooseCard
+                handleSubmitClue={(clue, imgixPath) =>
+                  handleSubmitClue(clue, imgixPath)
+                }
+                players={players}
+                cards={hand}
+                cardModePreference={cardModePreference}
+                localUser={username}
+              />
+            ) : phase === "choosing" ? (
+              <WaitingOnOthersLayout
+                topMatter={
+                  <div>
+                    <h4
+                      css={{
+                        fontWeight: 800,
+                        opacity: 0.5,
+                        margin: spacing.small,
+                      }}
+                    >
+                      YOUR CLUE:
+                    </h4>
+                    <h1 css={{ marginTop: spacing.xSmall, margin: 0 }}>
+                      “{roundData.clue}”
+                    </h1>
+                  </div>
+                }
+                players={players}
+                cards={hand}
+                round={roundData}
+                localUser={username}
+                cardModePreference={cardModePreference}
+              />
+            ) : phase === "voting" ? (
+              <OtherPlayersAreVoting
+                players={players}
+                submissions={roundData.submissions.playersThatHaveSubmitted}
+                localUser={username}
+              />
+            ) : (
+              <div />
+            ))}
+          {!roundData.isStoryteller &&
+            (phase === "clue" ? (
+              <ChooseCardLayout
+                preheaderText="Hang tight."
+                headerText={`Waiting for ${roundData.storyteller.name}’s clue...`}
+                players={players}
+                cardModePreference={cardModePreference}
+                localUser={username}
+              >
+                <div css={{ marginTop: spacing.xLarge }}>
+                  <FannedHand
+                    cards={hand}
+                    cardModePreference={cardModePreference}
+                  />
                 </div>
-              )}
+              </ChooseCardLayout>
+            ) : phase === "choosing" && player.status === "playing" ? (
+              <GuesserChooseCard
+                roundData={roundData}
+                players={players}
+                handleContenderSubmission={(imgixPath) =>
+                  handleContenderSubmission(imgixPath)
+                }
+                cardModePreference={cardModePreference}
+                cards={hand}
+                localUser={username}
+              />
+            ) : phase === "choosing" && player.status === "waiting" ? (
+              <WaitingOnOthersLayout
+                localUser={username}
+                topMatter={
+                  <Clue
+                    storyteller={roundData.storyteller.name}
+                    clue={roundData.clue}
+                  />
+                }
+                round={roundData}
+                players={players}
+                cardModePreference={cardModePreference}
+                cards={hand}
+                localUser={username}
+              />
+            ) : phase === "voting" ? (
+              <Voting
+                storyteller={roundData.storyteller.name}
+                players={players}
+                clue={roundData.clue}
+                submissions={roundData.submissions.playersThatHaveSubmitted}
+                handleSubmitVote={(slug) => setVote(slug)}
+                vote={vote}
+                localUser={username}
+              />
+            ) : (
+              <div />
+            ))}
+          {phase === "score" && (
+            <EndOfTurn
+              handleStartNextTurn={() => handleStartNextTurn()}
               players={players}
-              cards={hand}
-              round={roundData}
-              localUser={username}
-              cardModePreference={cardModePreference}
-            />
-          ) : phase === 'voting' ? (
-            <OtherPlayersAreVoting
-              players={players}
-              submissions={roundData.submissions.playersThatHaveSubmitted}
-              localUser={username}
-            />
-          ) : <div />)}
-        {!roundData.isStoryteller && (
-          phase === 'clue' ? (
-            <ChooseCardLayout
-              preheaderText='Hang tight.'
-              headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
-              players={players}
-              cardModePreference={cardModePreference}
-              localUser={username}
-            >
-              <div css={{ marginTop: spacing.xLarge }}>
-                <FannedHand cards={hand} cardModePreference={cardModePreference} />
-              </div>
-            </ChooseCardLayout>
-          ) : phase === 'choosing' && player.status === 'playing' ? (
-            <GuesserChooseCard
-              roundData={roundData}
-              players={players}
-              handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
-              cardModePreference={cardModePreference}
-              cards={hand}
-              localUser={username}
-            />
-          ) : phase === 'choosing' && player.status === 'waiting' ? (
-            <WaitingOnOthersLayout
-              localUser={username}
-              topMatter={(
-                <Clue
-                  storyteller={roundData.storyteller.name}
-                  clue={roundData.clue}
-                />
-              )}
-              round={roundData}
-              players={players}
-              cardModePreference={cardModePreference}
-              cards={hand}
-              localUser={username}
-            />
-          ) : phase === 'voting' ? (
-            <Voting
               storyteller={roundData.storyteller.name}
-              players={players}
-              clue={roundData.clue}
               submissions={roundData.submissions.playersThatHaveSubmitted}
-              handleSubmitVote={(slug) => setVote(slug)}
-              vote={vote}
+              votes={roundData.votes.playersThatHaveVoted}
               localUser={username}
+              clue={roundData.clue}
             />
-          ) : <div />)}
-        {phase === 'score' && (
-          <EndOfTurn
-            handleStartNextTurn={() => handleStartNextTurn()}
-            players={players}
-            storyteller={roundData.storyteller.name}
-            submissions={roundData.submissions.playersThatHaveSubmitted}
-            votes={roundData.votes.playersThatHaveVoted}
-            localUser={username}
-            clue={roundData.clue}
-          />
-        )}
-      </div>
-    </GameLayout>
-  )
+          )}
+        </div>
+      </GameLayout>
+    </Fragment>
+  );
 }

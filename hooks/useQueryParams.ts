@@ -1,5 +1,5 @@
-import { useLocation } from 'react-router-dom';
-import { useRouter } from 'next/router'
+import { useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 
 export default function useQueryParams() {
   const location = useLocation();

@@ -13,64 +13,83 @@ import CardModeToggle from "../game/CardModeToggle";
 
 function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
   const [showHowToPlay, toggleHowToPlay] = useState(false);
-  return (
-    showHowToPlay ?
-      <HowToPlay handleClose={() => toggleHowToPlay(false)} />
-      : (
-        <Overlay handleClose={handleClose}>
-          <h1 css={{ textAlign: 'center', paddingTop: spacing.large }}>MENU</h1>
-          <div css={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-            <Link href="/">
-              <Flex align='center'>
-                <Home />
-                <h2 css={{ marginLeft: spacing.xSmall }}>
-                  Create new game
-                </h2>
-              </Flex>
-            </Link>
-            <Flex align='center' css={{ cursor: 'pointer' }} onClick={() => toggleHowToPlay(true)}>
-              <OpenBook />
-              <h2 css={{ marginLeft: spacing.xSmall }}>
-                How to play
-              </h2>
-            </Flex>
-          </div>
-        </Overlay>
-      )
-  )
+  return showHowToPlay ? (
+    <HowToPlay handleClose={() => toggleHowToPlay(false)} />
+  ) : (
+    <Overlay handleClose={handleClose}>
+      <h1 css={{ textAlign: "center", paddingTop: spacing.large }}>MENU</h1>
+      <div
+        css={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <Link href="/">
+          <Flex align="center">
+            <Home />
+            <h2 css={{ marginLeft: spacing.xSmall }}>Create new game</h2>
+          </Flex>
+        </Link>
+        <Flex
+          align="center"
+          css={{ cursor: "pointer" }}
+          onClick={() => toggleHowToPlay(true)}
+        >
+          <OpenBook />
+          <h2 css={{ marginLeft: spacing.xSmall }}>How to play</h2>
+        </Flex>
+      </div>
+    </Overlay>
+  );
 }
 
 export function GameNav({ cardModePreference, handleCardModePreference }) {
   const [showMenu, toggleMenu] = useState(false);
 
   return (
-    <div css={{ position: 'relative', width: '100%', zIndex: 1 }}>
-      {showMenu ?
+    <div css={{ position: "relative", width: "100%", zIndex: 1 }}>
+      {showMenu ? (
         <ExpandedMenu handleClose={() => toggleMenu(false)} />
-        : (
-          <Fragment>
-            <Flex
-              align='center'
-              css={{ position: 'absolute', left: spacing.large, cursor: 'pointer' }}
-              onClick={() => toggleMenu(true)}
-            >
-              <Menu />
-              <h4 css={{ marginLeft: spacing.xSmall }}>
-                MENU
-              </h4>
-            </Flex>
-            <CardModeToggle cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference} />
-          </Fragment>
-        )}
+      ) : (
+        <Fragment>
+          <Flex
+            align="center"
+            css={{
+              position: "absolute",
+              left: spacing.large,
+              cursor: "pointer",
+            }}
+            onClick={() => toggleMenu(true)}
+          >
+            <Menu />
+            <h4 css={{ marginLeft: spacing.xSmall }}>MENU</h4>
+          </Flex>
+          <CardModeToggle
+            cardModePreference={cardModePreference}
+            handleCardModePreference={handleCardModePreference}
+          />
+        </Fragment>
+      )}
     </div>
-  )
+  );
 }
 
-export default function GameLayout({ cardModePreference, handleCardModePreference, children }: { children: ReactNode }) {
+export default function GameLayout({
+  cardModePreference,
+  handleCardModePreference,
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <div>
-      <GameNav cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference} />
+      <GameNav
+        cardModePreference={cardModePreference}
+        handleCardModePreference={handleCardModePreference}
+      />
       {children}
     </div>
-  )
+  );
 }

@@ -1,4 +1,3 @@
-
 export const formatTime = (seconds) => {
   let days = 0;
   let hours = 0;
@@ -39,12 +38,14 @@ export const formatTime = (seconds) => {
 
   if (hours > 24) {
     days = hours / 24;
-    return `${Math.floor(days)} day${days > 1 ? "s" : ""} and ${hours % 24
-      } hour${hours > 1 ? "s" : ""}`;
+    return `${Math.floor(days)} day${days > 1 ? "s" : ""} and ${
+      hours % 24
+    } hour${hours > 1 ? "s" : ""}`;
   }
 
-  return `${hours > 0 ? `${leadingHour}${hours} hour(s),` : ""
-    } ${leadingMinute}${minutes} minutes, and ${leadingSecond}${Math.round(
-      remainingSeconds
-    )} seconds`;
+  return `${
+    hours > 0 ? `${leadingHour}${hours} hour(s),` : ""
+  } ${leadingMinute}${minutes} minutes, and ${leadingSecond}${Math.round(
+    remainingSeconds
+  )} seconds`;
 };

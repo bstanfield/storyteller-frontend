@@ -8,15 +8,21 @@ import Flex from "../../components/layout/Flex";
 import { spacing } from "../../styles/theme";
 import { ENDPOINT } from "../../lib/helpers";
 import Avatar from "../../components/game/Avatar";
-import { MAX_PLAYER_COUNT, MIN_PLAYER_COUNT, TESTING_INVITEES } from "../../config/constants";
+import {
+  MAX_PLAYER_COUNT,
+  MIN_PLAYER_COUNT,
+  TESTING_INVITEES,
+} from "../../config/constants";
 import CreateGameLayout from "../../components/layout/CreateGameLayout";
 import queryString from "query-string";
 import Link from "next/link";
 
 const addPlayerToGame = async (gameSlug, playerId) => {
-  const res = await fetch(`${ENDPOINT}/game/add-player?game_slug=${gameSlug}&player_id=${playerId}`);
+  const res = await fetch(
+    `${ENDPOINT}/game/add-player?game_slug=${gameSlug}&player_id=${playerId}`
+  );
   return res;
-}
+};
 
 export default function Invite() {
   const [gameSlug, setGameSlug] = useState<any>(false);
@@ -57,14 +63,14 @@ export default function Invite() {
 
       return () => {
         connection.disconnect();
-      }
+      };
     }
   }, [gameSlug, playerId]);
 
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
     setPlayerId(localStorage.getItem("playerId"));
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (playerId && gameSlug) {
@@ -83,27 +89,24 @@ export default function Invite() {
       <Header />
       <div
         css={{
-          width: '100%',
-          height: ' 100vh',
-          display: 'flex',
-          alignItems: 'center',
+          width: "100%",
+          height: " 100vh",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <div
           css={{
             textAlign: "center",
             margin: "auto",
-            width: 900
+            width: 900,
           }}
         >
           <h1>Invite your friends!</h1>
 
-          <Flex justify='center'>
+          <Flex justify="center">
             <h3 css={{ marginRight: spacing.default }}>Invite link:</h3>
-            <TextInput
-              value={`storyteller.ai/${gameSlug}`}
-              readOnly
-            />
+            <TextInput value={`storyteller.ai/${gameSlug}`} readOnly />
           </Flex>
           {/* TODO:  <div
             css={{
@@ -111,25 +114,37 @@ export default function Invite() {
               gridTemplateColumns: 'repeat(6, 1fr)',
               margin: `${spacing.large}px 0px`
             }}> */}
-          <Flex justify='space-between' css={{ margin: `${spacing.large}px 0px` }}>
+          <Flex
+            justify="space-between"
+            css={{ margin: `${spacing.large}px 0px` }}
+          >
             {players.map((player, index) => (
-              <Avatar key={index} username={player.name} avatarUrl={player.imgixPath} />
+              <Avatar
+                key={index}
+                username={player.name}
+                avatarUrl={player.imgixPath}
+              />
             ))}
             {emptyAvatars.map((player, index) => (
               <Avatar key={index} />
             ))}
           </Flex>
           {/* if players >= MIN_PLAYER_COUNT, enable button */}
-          <button onClick={() => players.length < 2 ? alert('Not enough players!') : setStart(true)}>Start Game</button>
-          {players.length < MIN_PLAYER_COUNT
-            ? (
-              <p>
-                Need at least {MIN_PLAYER_COUNT - players.length} more player{MIN_PLAYER_COUNT - players.length > 1 ? 's' : ''}
-              </p>
-            ) : (
-              <p>{MAX_PLAYER_COUNT} player maximum.</p>
-            )
-          }
+          <button
+            onClick={() =>
+              players.length < 2 ? alert("Not enough players!") : setStart(true)
+            }
+          >
+            Start Game
+          </button>
+          {players.length < MIN_PLAYER_COUNT ? (
+            <p>
+              Need at least {MIN_PLAYER_COUNT - players.length} more player
+              {MIN_PLAYER_COUNT - players.length > 1 ? "s" : ""}
+            </p>
+          ) : (
+            <p>{MAX_PLAYER_COUNT} player maximum.</p>
+          )}
         </div>
       </div>
     </Fragment>
@@ -137,9 +152,5 @@ export default function Invite() {
 }
 
 Invite.getLayout = function getLayout(page) {
-  return (
-    <CreateGameLayout>
-      {page}
-    </CreateGameLayout>
-  )
-}
+  return <CreateGameLayout>{page}</CreateGameLayout>;
+};

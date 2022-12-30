@@ -9,8 +9,8 @@ import { ENDPOINT } from "../../lib/helpers";
 import queryString from "query-string";
 
 export default function Username() {
-  const [name, setName] = useState('');
-  const [gameSlug, setGameSlug] = useState<any>('');
+  const [name, setName] = useState("");
+  const [gameSlug, setGameSlug] = useState<any>("");
 
   // Get game id from url
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Username() {
       const data = await res.json();
       if (data.error) {
         alert("Error creating user");
-        setName('');
+        setName("");
       } else {
         // Replace with cookie system later
         localStorage.setItem("username", data.username);
@@ -41,17 +41,17 @@ export default function Username() {
       <Header />
       <div
         css={{
-          width: '100%',
-          height: ' 100vh',
-          display: 'flex',
-          alignItems: 'center',
+          width: "100%",
+          height: " 100vh",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <div
           css={{
             textAlign: "center",
             margin: "auto",
-            width: 400
+            width: 400,
           }}
         >
           <h1>What's your name?</h1>
@@ -69,9 +69,5 @@ export default function Username() {
 }
 
 Username.getLayout = function getLayout(page) {
-  return (
-    <CreateGameLayout>
-      {page}
-    </CreateGameLayout>
-  )
-}
+  return <CreateGameLayout>{page}</CreateGameLayout>;
+};

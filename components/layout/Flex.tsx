@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
-import { HTMLAttributes, ReactNode } from 'react';
-import { scale } from '../../styles/scale';
+import { HTMLAttributes, ReactNode } from "react";
+import { scale } from "../../styles/scale";
 
 export type FlexProps = {
   align?: string;
@@ -24,7 +24,7 @@ export default function Flex({
   mobileJustify = justify,
   wrap,
   inline = false,
-  direction = 'row',
+  direction = "row",
   mobileDirection = direction,
   gap,
   children,
@@ -33,11 +33,11 @@ export default function Flex({
   return (
     <div
       css={scale({
-        display: inline ? 'inline-flex' : 'flex',
+        display: inline ? "inline-flex" : "flex",
         alignItems: [mobileAlign, mobileAlign, align, align],
         justifyContent: [mobileJustify, mobileJustify, justify, justify],
         flexDirection: [mobileDirection, mobileDirection, direction, direction],
-        flexWrap: wrap === true ? 'wrap' : wrap,
+        flexWrap: wrap === true ? "wrap" : wrap,
         gap,
       })}
       {...props}
