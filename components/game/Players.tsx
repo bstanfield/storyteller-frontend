@@ -5,7 +5,7 @@ import { PlayerType } from "../../types";
 import Flex from "../layout/Flex";
 import Avatar from "./Avatar";
 
-export default function Players({ players, className, showStatus = false }
+export default function Players({ localUser, players, className, showStatus = false }
   : { players: PlayerType[], className?: any, showStatus?: boolean }) {
   return (
     <Flex
@@ -19,6 +19,7 @@ export default function Players({ players, className, showStatus = false }
             avatarUrl={player.imgixPath}
             score={player.score}
             status={player.status}
+            localUser={localUser}
           />
         </div>
       ))}

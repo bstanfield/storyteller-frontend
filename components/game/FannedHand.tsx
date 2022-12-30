@@ -23,7 +23,7 @@ function angleForIndex(index, handSize) {
 }
 
 export default function FannedHand({ cards, cardModePreference, handleCardClick }: { cards: CardType[], handleCardClick?: (slug: string) => void }) {
-  console.log('card mode preference: ', cardModePreference);
+  // console.log('card mode preference: ', cardModePreference);
   return (
     <div css={{  overflowX: cardModePreference === 'fanned' ? 'visible' : 'scroll', width: '100%' }}>
       <Flex
@@ -44,7 +44,6 @@ export default function FannedHand({ cards, cardModePreference, handleCardClick 
           if (cardModePreference === 'jumbo') {
             return (
               <Card
-                size="jumbo"
                 key={index}
                 slug={card.imgixPath}
                 onClick={handleCardClick}
@@ -55,7 +54,7 @@ export default function FannedHand({ cards, cardModePreference, handleCardClick 
           // Default fanned card layout
           return (
             <Card
-              type="fanned"
+              cardModePreference="fanned"
               key={index}
               slug={card.imgixPath}
               css={scale({

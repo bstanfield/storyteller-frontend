@@ -40,7 +40,7 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
   )
 }
 
-export function GameNav() {
+export function GameNav({ cardModePreference, handleCardModePreference }) {
   const [showMenu, toggleMenu] = useState(false);
 
   return (
@@ -59,17 +59,17 @@ export function GameNav() {
                 MENU
               </h4>
             </Flex>
-            <CardModeToggle />
+            <CardModeToggle cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference} />
           </Fragment>
         )}
     </div>
   )
 }
 
-export default function GameLayout({ children }: { children: ReactNode }) {
+export default function GameLayout({ cardModePreference, handleCardModePreference, children }: { children: ReactNode }) {
   return (
     <div>
-      <GameNav />
+      <GameNav cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference} />
       {children}
     </div>
   )

@@ -16,6 +16,19 @@ import Voting from "../../components/game/Voting";
 import OtherPlayersAreVoting from "../../components/game/OtherPlayersAreVoting";
 import EndOfTurn from "../../components/game/EndOfTurn";
 
+// All to-do's:
+// - Prevent voting on your own card
+// - Hide status indicators on score screen
+// - Provide a delta between the new score and previous score
+// - Smooth out the animations on Safari
+// - Allow players to leave the game
+// - Ensure storyteller picking is consistent (I think there's an issue where the storyteller is sometimes 
+  // the same person twice in a row during the first two rounds)
+// - Mobile layout
+// - Listen to "esc" key to close modals
+// - Create a detailed score screen w/ progress bars
+// - Cards are too dark on the voting screens...
+
 function getPhaseFromRoundData(
   playerId,
   {
@@ -191,8 +204,21 @@ export default function Game() {
     return <div />
   }
 
+  const handleCardModePreference = () => {
+    if (!cardModePreference) {
+      setCardModePreference('fanned')
+      localStorage.setItem('cardModePreference', 'fanned')
+    } else if (cardModePreference === 'fanned') {
+      setCardModePreference('jumbo')
+      localStorage.setItem('cardModePreference', 'jumbo')
+    } else {
+      setCardModePreference('fanned')
+      localStorage.setItem('cardModePreference', 'fanned')
+    }
+  }
+
   return (
-    <GameLayout>
+    <GameLayout cardModePreference={cardModePreference}  handleCardModePreference={handleCardModePreference}>
       <div css={{ overflow: 'auto', textAlign: 'center', position: 'relative', width: '100%', height: '100vh' }}>
         {roundData.isStoryteller && (
           phase === 'clue' ? (
@@ -201,6 +227,7 @@ export default function Game() {
               players={players}
               cards={hand}
               cardModePreference={cardModePreference}
+              localUser={username}
             />
           ) : phase === 'choosing' ? (
             <WaitingOnOthersLayout
@@ -213,11 +240,14 @@ export default function Game() {
               players={players}
               cards={hand}
               round={roundData}
+              localUser={username}
+              cardModePreference={cardModePreference}
             />
           ) : phase === 'voting' ? (
             <OtherPlayersAreVoting
               players={players}
               submissions={roundData.submissions.playersThatHaveSubmitted}
+              localUser={username}
             />
           ) : <div />)}
         {!roundData.isStoryteller && (
@@ -227,6 +257,7 @@ export default function Game() {
               headerText={`Waiting for ${roundData.storyteller.name}'s clue...`}
               players={players}
               cardModePreference={cardModePreference}
+              localUser={username}
             >
               <div css={{ marginTop: spacing.xLarge }}>
                 <FannedHand cards={hand} cardModePreference={cardModePreference} />
@@ -239,9 +270,11 @@ export default function Game() {
               handleContenderSubmission={imgixPath => handleContenderSubmission(imgixPath)}
               cardModePreference={cardModePreference}
               cards={hand}
+              localUser={username}
             />
           ) : phase === 'choosing' && player.status === 'waiting' ? (
             <WaitingOnOthersLayout
+              localUser={username}
               topMatter={(
                 <Clue
                   storyteller={roundData.storyteller.name}
@@ -252,6 +285,7 @@ export default function Game() {
               players={players}
               cardModePreference={cardModePreference}
               cards={hand}
+              localUser={username}
             />
           ) : phase === 'voting' ? (
             <Voting
@@ -261,6 +295,7 @@ export default function Game() {
               submissions={roundData.submissions.playersThatHaveSubmitted}
               handleSubmitVote={(slug) => setVote(slug)}
               vote={vote}
+              localUser={username}
             />
           ) : <div />)}
         {phase === 'score' && (
@@ -270,6 +305,7 @@ export default function Game() {
             storyteller={roundData.storyteller.name}
             submissions={roundData.submissions.playersThatHaveSubmitted}
             votes={roundData.votes.playersThatHaveVoted}
+            localUser={username}
           />
         )}
       </div>

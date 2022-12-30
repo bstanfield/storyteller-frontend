@@ -12,6 +12,7 @@ export default function WaitingOnOthersLayout({
   cards,
   round,
   cardModePreference,
+  localUser
 }: {
   children?: ReactNode,
   topMatter?: ReactNode,
@@ -26,6 +27,7 @@ export default function WaitingOnOthersLayout({
       <Players
         players={players}
         showStatus
+        localUser={localUser}
         css={{
           margin: `${spacing.large}px auto`,
         }}

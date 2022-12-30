@@ -16,6 +16,7 @@ export default function Voting({
   handleSubmitVote,
   submissions,
   vote,
+  localUser
 }: {
   clue: string,
   players: PlayerType[]
@@ -62,6 +63,7 @@ export default function Voting({
         css={{
           margin: `${spacing.large}px auto`,
         }}
+        localUser={localUser}
       />
     </div>
   )

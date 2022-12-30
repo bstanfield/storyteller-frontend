@@ -8,7 +8,8 @@ import Submissions from './Submissions';
 
 export default function OtherPlayersAreVoting({
   players,
-  submissions
+  submissions,
+  localUser
 }: {
   players: PlayerType[]
 }) {
@@ -19,6 +20,7 @@ export default function OtherPlayersAreVoting({
       <Players
         players={players}
         showStatus
+        localUser={localUser}
         css={{
           margin: `${spacing.large}px auto`,
         }}

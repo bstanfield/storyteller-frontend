@@ -27,8 +27,8 @@ export default function LoadingSpinner(props) {
       </path>
       <defs>
         <linearGradient id="paint0_linear_209_237" x1="16" y1="2" x2="2.5" y2="13" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#D9D9D9" />
-          <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
+          <stop stopColor="#D9D9D9" />
+          <stop offset="1" stopColor="#D9D9D9" stopOpacity="0" />
         </linearGradient>
       </defs>
     </svg>

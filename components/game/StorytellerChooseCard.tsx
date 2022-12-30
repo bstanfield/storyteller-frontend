@@ -9,7 +9,7 @@ import ChooseCardLayout from '../layout/ChooseCardLayout';
 import { CardType, PlayerType } from '../../types';
 
 export default function ChooseCard(
-  { handleSubmitClue, players, cards, cardModePreference }
+  { handleSubmitClue, players, cards, cardModePreference, localUser }
     : {
       handleSubmitClue: (clue: string, imgixPath: string) => void,
       players: PlayerType[],
@@ -32,6 +32,7 @@ export default function ChooseCard(
       preheaderText='You’re the storyteller!'
       headerText='Choose a card:'
       players={players}
+      localUser={localUser}
     >
       {imageToShow &&
         <EnterClue

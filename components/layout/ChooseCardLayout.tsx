@@ -12,6 +12,7 @@ export default function ChooseCardLayout({
   topMatter,
   players,
   cardModePreference,
+  localUser,
 }: {
   children?: ReactNode,
   preheaderText?: string,
@@ -26,7 +27,7 @@ export default function ChooseCardLayout({
       <h1 css={{ opacity: 0.5, margin: 0 }}>{preheaderText}</h1>
       <h1 css={{ marginTop: spacing.xSmall }}>{headerText}</h1>
       {children}
-      <Players players={players} css={{
+      <Players localUser={localUser} players={players} css={{
         position: 'absolute',
         left: '50%',
         transform: 'translate(-50%)',

@@ -14,6 +14,7 @@ export default function GuesserChooseCard({
   cards,
   roundData,
   cardModePreference,
+  localUser
 }: {
   players: PlayerType[],
   handleContenderSubmission: (slug: string) => void;
@@ -34,6 +35,7 @@ export default function GuesserChooseCard({
 
   return (
     <ChooseCardLayout
+      localUser={localUser}
       headerText={players.length === 3 ? 'Pick two cards:' : 'Pick one card:'}
       players={players}
       topMatter={roundData.clue && (

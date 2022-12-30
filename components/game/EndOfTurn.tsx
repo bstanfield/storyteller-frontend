@@ -12,6 +12,7 @@ export default function EndOfTurn({
   votes,
   submissions,
   storyteller,
+  localUser,
 }: {
   players: PlayerType[]
   handleStartNextTurn: () => void;
@@ -25,6 +26,7 @@ export default function EndOfTurn({
         css={{
           margin: `${spacing.large}px auto`,
         }}
+        localUser={localUser}
       />
       <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
         <Submissions players={players}  votes={votes}  storyteller={storyteller}  cards={submissions} />

@@ -22,7 +22,7 @@ const boldText = { textTransform: 'uppercase', fontWeight: 700, margin: 0 };
 
 
 export default function Avatar(
-  { avatarUrl, username, score, handleAvatarClick, status, className }:
+  { avatarUrl, username, score, handleAvatarClick, status, localUser, className }:
     {
       avatarUrl?: string,
       username?: string,
@@ -72,7 +72,7 @@ export default function Avatar(
       </div>
       {username &&
         <p css={[boldText, { marginTop: spacing.small }]}>
-          {username}
+          {username} {localUser === username && <span css={{ color: 'green' }}>(you)</span>}
         </p>
       }
       {score && <p css={boldText}>{score}</p>}
