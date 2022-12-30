@@ -18,7 +18,7 @@ export default function Players({ localUser, players, className, showStatus = fa
             username={player.name}
             avatarUrl={player.imgixPath}
             score={player.score}
-            status={player.status}
+            status={showStatus ? player.status : false}
             localUser={localUser}
           />
         </div>

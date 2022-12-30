@@ -28,6 +28,9 @@ import EndOfTurn from "../../components/game/EndOfTurn";
 // - Listen to "esc" key to close modals
 // - Create a detailed score screen w/ progress bars
 // - Cards are too dark on the voting screens...
+// - Add a partially loaded image state using imgix (blurry -> full image)
+// - Change "start game" to "join game" for new entries to the game
+// - Pulse important text
 
 function getPhaseFromRoundData(
   playerId,
@@ -306,6 +309,7 @@ export default function Game() {
             submissions={roundData.submissions.playersThatHaveSubmitted}
             votes={roundData.votes.playersThatHaveVoted}
             localUser={username}
+            clue={roundData.clue}
           />
         )}
       </div>

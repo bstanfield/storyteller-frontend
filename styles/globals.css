@@ -67,3 +67,16 @@ a:hover {
   color: white;
   box-sizing: border-box;
 }
+
+.pulsing {
+  opacity: 1;
+  animation: fade 3s linear;
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes fade {
+0%,100% { opacity: 0.2 }
+50% { opacity: 1 }
+75% { opacity: 1 }
+}

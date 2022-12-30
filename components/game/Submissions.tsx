@@ -54,7 +54,6 @@ export default function Submissions({ cards, players, storyteller, votes, handle
                       width: '100%',
                       height: '100%',
                       position: 'absolute',
-                      backgroundColor: 'rgba(0,0,0,0.3)',
                     }}
                   />
                   <caption css={[ownerCaption(votes), {

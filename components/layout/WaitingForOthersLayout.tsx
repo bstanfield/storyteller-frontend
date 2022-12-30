@@ -32,7 +32,10 @@ export default function WaitingOnOthersLayout({
           margin: `${spacing.large}px auto`,
         }}
       />
-      {round.submissions.playersThatHaveNotSubmitted && <h3 css={{ opacity: 0.5 }}>Waiting on {round.submissions.playersThatHaveNotSubmitted.length} players...</h3>}
+      {round.submissions.playersThatHaveNotSubmitted &&
+        <h3 className="pulsing">Waiting on {round.submissions.playersThatHaveNotSubmitted.length} player{round.submissions.playersThatHaveNotSubmitted.length > 1 ? 's' : ''}...
+        </h3>
+      }
       <div css={{
         // position: 'fixed', bottom: 100
         marginTop: spacing.large
