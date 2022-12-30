@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
-import { ENDPOINT } from "../../lib/helpers";
+import { ENDPOINT, getPhaseFromRoundData, capitalize } from "../../lib/helpers";
 import { TESTING_INVITEES } from "../../config/constants";
 import GameLayout from "../../components/layout/GameLayout";
 import GuesserChooseCard from "../../components/game/GuesserChooseCard";
@@ -32,35 +32,6 @@ import Header from "../../components/header";
 // - Add a partially loaded image state using imgix (blurry -> full image)
 // - Change "start game" to "join game" for new entries to the game
 // - Pulse important text
-
-function getPhaseFromRoundData(
-  playerId,
-  {
-    isStoryteller,
-    clue,
-    completedAt,
-    playerStoryteller,
-    submissions,
-  }: {
-    isStoryteller: boolean;
-    clue: string;
-    completedAt: EpochTimeStamp;
-    playerStoryteller: string;
-    submissions: any;
-  }
-) {
-  if (completedAt) {
-    return "score";
-  }
-
-  if (submissions.playersThatHaveNotSubmitted?.length === 0) {
-    return "voting";
-  }
-
-  if (clue) {
-    return "choosing";
-  } else return "clue";
-}
 
 export default function Game() {
   const [game, setGame] = useState(null);
@@ -221,6 +192,8 @@ export default function Game() {
     }
   };
 
+  console.log('player: ', player);
+
   return (
     <Fragment>
       <Header />
@@ -285,7 +258,7 @@ export default function Game() {
             (phase === "clue" ? (
               <ChooseCardLayout
                 preheaderText="Hang tight."
-                headerText={`Waiting for ${roundData.storyteller.name}’s clue...`}
+                headerText={`Waiting for ${capitalize(roundData.storyteller.name)}’s clue...`}
                 players={players}
                 cardModePreference={cardModePreference}
                 localUser={username}
@@ -297,7 +270,7 @@ export default function Game() {
                   />
                 </div>
               </ChooseCardLayout>
-            ) : phase === "choosing" && player.status === "playing" ? (
+            ) : phase === "choosing" && player.status.verb === "playing" ? (
               <GuesserChooseCard
                 roundData={roundData}
                 players={players}
@@ -308,12 +281,12 @@ export default function Game() {
                 cards={hand}
                 localUser={username}
               />
-            ) : phase === "choosing" && player.status === "waiting" ? (
+            ) : phase === "choosing" && player.status.verb === "waiting" ? (
               <WaitingOnOthersLayout
                 localUser={username}
                 topMatter={
                   <Clue
-                    storyteller={roundData.storyteller.name}
+                    storyteller={capitalize(roundData.storyteller.name)}
                     clue={roundData.clue}
                   />
                 }
@@ -325,7 +298,7 @@ export default function Game() {
               />
             ) : phase === "voting" ? (
               <Voting
-                storyteller={roundData.storyteller.name}
+                storyteller={capitalize(roundData.storyteller.name)}
                 players={players}
                 clue={roundData.clue}
                 submissions={roundData.submissions.playersThatHaveSubmitted}
@@ -340,7 +313,7 @@ export default function Game() {
             <EndOfTurn
               handleStartNextTurn={() => handleStartNextTurn()}
               players={players}
-              storyteller={roundData.storyteller.name}
+              storyteller={capitalize(roundData.storyteller.name)}
               submissions={roundData.submissions.playersThatHaveSubmitted}
               votes={roundData.votes.playersThatHaveVoted}
               localUser={username}

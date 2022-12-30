@@ -34,7 +34,8 @@ export default function Avatar({
   handleAvatarClick?: () => void;
   status?: PlayerState;
   className?: any;
-}) {
+  }) {
+  
   return avatarUrl ? (
     <div
       onClick={() => {
@@ -61,7 +62,7 @@ export default function Avatar({
           },
         ]}
       >
-        {status && (
+        {status.verb && (
           <Flex
             css={{
               backgroundColor: "#040126",
@@ -75,7 +76,7 @@ export default function Avatar({
             align="center"
             justify="center"
           >
-            <PlayerStateIcon state={status} />
+            <PlayerStateIcon state={status.verb} />
           </Flex>
         )}
       </div>
@@ -88,16 +89,18 @@ export default function Avatar({
             justifyContent: "center",
           }}
         >
-          {username === "footer" && (
+          {status.isStoryteller && (
             <div
               css={{
                 display: "inline-block",
                 position: "relative",
                 backgroundColor: "#FF7A24",
-                width: 30,
-                height: 30,
+                width: 20,
+                height: 20,
                 margin: "auto",
                 borderRadius: "50%",
+                marginRight: 4,
+                border: '1px solid #bb4a00'
               }}
             >
               <span
@@ -106,8 +109,10 @@ export default function Avatar({
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  top: 4,
+                  top: 1,
                   fontWeight: 800,
+                  fontSize: '85%',
+                  color: 'black !important',
                 }}
               >
                 S
