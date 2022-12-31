@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { spacing } from '../../styles/theme'
 import Close from '../svg/Close'
 
@@ -11,6 +11,19 @@ export default function Overlay({
   handleClose: () => void
   children: ReactNode
 }) {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      handleClose()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  })
+
   return (
     <div
       css={{

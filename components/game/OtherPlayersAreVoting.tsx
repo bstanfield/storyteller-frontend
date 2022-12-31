@@ -32,7 +32,13 @@ export default function OtherPlayersAreVoting({
           margin: `${spacing.large}px auto`
         }}
       />
-      <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
+      <div
+        css={{
+          width: 'fit-content',
+          margin: 'auto',
+          marginTop: spacing.xLarge
+        }}
+      >
         <Submissions cards={submissions} />
       </div>
     </div>

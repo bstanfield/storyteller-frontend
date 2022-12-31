@@ -75,7 +75,7 @@ export default function Avatar({
             align="center"
             justify="center"
           >
-            <PlayerStateIcon state={status.verb} />
+            <PlayerStateIcon state={status?.verb} />
           </Flex>
         )}
       </div>
@@ -88,7 +88,7 @@ export default function Avatar({
             justifyContent: 'center'
           }}
         >
-          {status.isStoryteller && (
+          {status?.isStoryteller && (
             <div
               css={{
                 display: 'inline-block',
@@ -131,7 +131,7 @@ export default function Avatar({
               }
             ]}
           >
-            {localUser.username === username && '(you)'}
+            {localUser?.username === username && '(you)'}
           </p>
         </div>
       )}

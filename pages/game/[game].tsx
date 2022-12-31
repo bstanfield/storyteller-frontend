@@ -28,6 +28,7 @@ import Header from '../../components/header'
 // - Change "start game" to "join game" for new entries to the game
 // - Refresh should not auto move on from score screen to next round (I think "Start game" needs to timestamp the round)
 // - Add a "Loading..." screen in between layout shifts
+// - Always order <Players /> to have localUser first
 
 export default function Game() {
   const [game, setGame] = useState(null)
@@ -172,6 +173,7 @@ export default function Game() {
   useEffect(() => {
     const phase = getPhaseFromRoundData(playerId, roundData)
     setPhase(phase)
+    alert(phase)
   }, [roundData])
 
   if (loading || !socketConnection) {

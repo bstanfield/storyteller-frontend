@@ -29,7 +29,6 @@ export default function Submissions({
   cards: SubmittedCard[]
   handleCardClick?: (slug: string) => void
 }) {
-  console.log('cards: ', cards)
   return (
     <div
       css={scale({
@@ -40,7 +39,7 @@ export default function Submissions({
           `repeat(${Math.ceil(cards.length / 2)}, 1fr)`,
           `repeat(${cards.length}, 1fr)`
         ],
-        gridGap: spacing.small,
+        gridGap: 48,
         margin: 'auto'
       })}
     >

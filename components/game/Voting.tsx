@@ -57,13 +57,18 @@ export default function Voting({
         <h1>Your vote is in!</h1>
       ) : (
         <>
-          <h1>
-            Pick {storyteller}’s "{clue}"
-          </h1>
+          <h1>Which card is {storyteller}’s?</h1>
           <h3 css={{ opacity: 0.5 }}>Choose one.</h3>
         </>
       )}
-      <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
+      <div
+        css={{
+          width: 'fit-content',
+          margin: 'auto',
+          marginTop: spacing.xLarge,
+          paddingBottom: 40
+        }}
+      >
         <Submissions
           localUser={localUser}
           cards={submissions}
