@@ -8,6 +8,7 @@ import { SubmittedCard } from '../../types'
 import Players from './Players'
 import Avatar from './Avatar'
 import Flex from '../layout/Flex'
+import { Fragment } from 'react'
 
 const ownerCaption = (show) => ({
   position: 'relative',
@@ -29,6 +30,11 @@ export default function Submissions({
   cards: SubmittedCard[]
   handleCardClick?: (slug: string) => void
 }) {
+  const isStoryteller = (card) =>
+    storyteller?.toLowerCase() === card?.name?.toLowerCase()
+  const isLocalUserCard = (card) => localUser?.playerId === card?.playerId
+
+  console.log('votes: ', votes)
   return (
     <div
       css={scale({
@@ -54,15 +60,12 @@ export default function Submissions({
               css={scale({
                 width: SMALL_CARD_WIDTHS,
                 margin: 'auto',
-                border: card.isStoryteller && '5px solid #5D24FF',
-                opacity: card.playerId === localUser?.playerId ? 0.5 : 1,
-                cursor:
-                  card.playerId === localUser?.playerId
-                    ? 'not-allowed'
-                    : 'pointer'
+                border: isStoryteller(card) && '5px solid #5D24FF',
+                opacity: isLocalUserCard(card) ? 0.5 : 1,
+                cursor: isLocalUserCard(card) ? 'not-allowed' : 'pointer'
               })}
             >
-              {card.name !== storyteller && (
+              {card?.name?.toLowerCase() !== storyteller?.toLowerCase() && (
                 <>
                   <div
                     css={{
@@ -85,15 +88,62 @@ export default function Submissions({
                   </caption>
                 </>
               )}
-              {storyteller === card.name && (
-                <caption
-                  css={[
-                    ownerCaption(votes),
-                    { position: 'absolute', top: -24 }
-                  ]}
-                >
-                  {card.name}’s card
-                </caption>
+              {isStoryteller(card) && (
+                <Fragment>
+                  {isStoryteller(card) && (
+                    <div
+                      css={{
+                        position: 'absolute',
+                        top: -60,
+                        left: 0,
+                        right: 0
+                      }}
+                    >
+                      <div
+                        css={{
+                          display: 'inline-block',
+                          position: 'relative',
+                          backgroundColor: '#FF7A24',
+                          width: 20,
+                          height: 20,
+                          margin: 'auto',
+                          borderRadius: '50%',
+                          marginRight: 4,
+                          border: '1px solid #bb4a00'
+                        }}
+                      >
+                        <span
+                          css={{
+                            position: 'absolute',
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            top: 1,
+                            fontWeight: 800,
+                            fontSize: '70%',
+                            color: 'rgb(3, 0, 37) !important'
+                          }}
+                        >
+                          ★
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  <caption
+                    css={[
+                      ownerCaption(votes),
+                      {
+                        position: 'absolute',
+                        top: -36,
+                        left: 0,
+                        right: 0,
+                        fontSize: '110%'
+                      }
+                    ]}
+                  >
+                    {card.name}’s card
+                  </caption>
+                </Fragment>
               )}
             </Card>
             {players && votes && (

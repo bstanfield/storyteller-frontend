@@ -30,6 +30,10 @@ import Header from '../../components/header'
 // - Add a "Loading..." screen in between layout shifts
 // - Always order <Players /> to have localUser first
 
+// For 3-player
+// - Duplicate vote tokens on EndOfTurn screen
+// - "Choose two" needs better logic
+
 export default function Game() {
   const [game, setGame] = useState(null)
   const [socketConnection, setSocketConnection] = useState<any>()
@@ -173,7 +177,6 @@ export default function Game() {
   useEffect(() => {
     const phase = getPhaseFromRoundData(playerId, roundData)
     setPhase(phase)
-    alert(phase)
   }, [roundData])
 
   if (loading || !socketConnection) {
