@@ -1,29 +1,29 @@
 /** @jsxImportSource @emotion/react */
 
-import { ReactNode, useState } from "react";
-import { spacing } from "../../styles/theme";
-import OpenBook from "../svg/OpenBook";
-import Flex from "./Flex";
-import HowToPlay from "../HowToPlay";
+import { ReactNode, useState } from 'react'
+import { spacing } from '../../styles/theme'
+import OpenBook from '../svg/OpenBook'
+import Flex from './Flex'
+import HowToPlay from '../HowToPlay'
 
 export function CreateGameNav() {
-  const [showHowToPlay, toggleHowToPlay] = useState(false);
+  const [showHowToPlay, toggleHowToPlay] = useState(false)
 
   return (
-    <div css={{ position: "relative", width: "100%" }}>
+    <div css={{ position: 'relative', width: '100%' }}>
       {showHowToPlay ? (
         <HowToPlay handleClose={() => toggleHowToPlay(false)} />
       ) : (
         <Flex
           justify="center"
-          css={{ position: "absolute", top: 0, width: "100%" }}
+          css={{ position: 'absolute', top: 0, width: '100%' }}
         >
           <Flex
             align="center"
             css={{
-              position: "absolute",
+              position: 'absolute',
               left: spacing.large,
-              cursor: "pointer",
+              cursor: 'pointer'
             }}
             onClick={() => toggleHowToPlay(true)}
           >
@@ -34,18 +34,18 @@ export function CreateGameNav() {
         </Flex>
       )}
     </div>
-  );
+  )
 }
 
 export default function CreateGameLayout({
-  children,
+  children
 }: {
-  children: ReactNode;
+  children: ReactNode
 }) {
   return (
     <div>
       <CreateGameNav />
       {children}
     </div>
-  );
+  )
 }

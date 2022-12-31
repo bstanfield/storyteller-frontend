@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
 
-import { spacing } from "../../styles/theme";
-import { PlayerType } from "../../types";
-import Flex from "../layout/Flex";
-import Avatar from "./Avatar";
+import { spacing } from '../../styles/theme'
+import { PlayerType } from '../../types'
+import Flex from '../layout/Flex'
+import Avatar from './Avatar'
 
 export default function Players({
   localUser,
   players,
   className,
-  showStatus = true,
+  showStatus = true
 }: {
-  players: PlayerType[];
-  className?: any;
-  showStatus?: boolean;
+  players: PlayerType[]
+  className?: any
+  showStatus?: boolean
 }) {
   return (
     <Flex justify="center" css={className}>
@@ -29,5 +29,5 @@ export default function Players({
         </div>
       ))}
     </Flex>
-  );
+  )
 }

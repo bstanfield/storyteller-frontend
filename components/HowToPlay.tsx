@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
 
-import { spacing } from "../styles/theme";
-import Overlay from "./layout/Overlay";
+import { spacing } from '../styles/theme'
+import Overlay from './layout/Overlay'
 
 export default function HowToPlay({
-  handleClose,
+  handleClose
 }: {
-  handleClose: () => void;
+  handleClose: () => void
 }) {
   return (
     <Overlay handleClose={handleClose}>
-      <div css={{ maxWidth: 600, margin: "auto" }}>
-        <h1 css={{ textAlign: "center", margin: spacing.xLarge }}>
+      <div css={{ maxWidth: 600, margin: 'auto' }}>
+        <h1 css={{ textAlign: 'center', margin: spacing.xLarge }}>
           How to play
         </h1>
         <h2>1. Create the riddle</h2>
@@ -83,10 +83,10 @@ export default function HowToPlay({
           vote received on their own card.
         </p>
 
-        <div css={{ textAlign: "center", margin: `${spacing.large}px 0px` }}>
+        <div css={{ textAlign: 'center', margin: `${spacing.large}px 0px` }}>
           <button onClick={handleClose}>I get it now!</button>
         </div>
       </div>
     </Overlay>
-  );
+  )
 }

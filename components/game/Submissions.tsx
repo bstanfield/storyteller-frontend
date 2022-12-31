@@ -1,22 +1,22 @@
 /** @jsxImportSource @emotion/react */
 
-import { scale } from "../../styles/scale";
-import Card from "./Card";
-import { spacing } from "../../styles/theme";
-import { SMALL_CARD_WIDTHS } from "../../config/constants";
-import { SubmittedCard } from "../../types";
-import Players from "./Players";
-import Avatar from "./Avatar";
-import Flex from "../layout/Flex";
+import { scale } from '../../styles/scale'
+import Card from './Card'
+import { spacing } from '../../styles/theme'
+import { SMALL_CARD_WIDTHS } from '../../config/constants'
+import { SubmittedCard } from '../../types'
+import Players from './Players'
+import Avatar from './Avatar'
+import Flex from '../layout/Flex'
 
 const ownerCaption = (show) => ({
-  position: "relative",
+  position: 'relative',
   fontSize: 12,
-  display: show ? "block" : "none",
-  textTransform: "uppercase",
+  display: show ? 'block' : 'none',
+  textTransform: 'uppercase',
   fontWeight: 700,
-  color: "white",
-});
+  color: 'white'
+})
 
 export default function Submissions({
   cards,
@@ -24,53 +24,62 @@ export default function Submissions({
   storyteller,
   votes,
   handleCardClick,
+  localUser
 }: {
-  cards: SubmittedCard[];
-  handleCardClick?: (slug: string) => void;
+  cards: SubmittedCard[]
+  handleCardClick?: (slug: string) => void
 }) {
+  console.log('cards: ', cards)
   return (
     <div
       css={scale({
-        display: "grid",
+        display: 'grid',
         gridTemplateColumns: [
-          "repeat(2, 1fr)",
-          "repeat(3, 1fr)",
+          'repeat(2, 1fr)',
+          'repeat(3, 1fr)',
           `repeat(${Math.ceil(cards.length / 2)}, 1fr)`,
-          `repeat(${cards.length}, 1fr)`,
+          `repeat(${cards.length}, 1fr)`
         ],
         gridGap: spacing.small,
-        margin: "auto",
+        margin: 'auto'
       })}
     >
       {cards.map((card, index) => {
         return (
-          <div key={index} css={{ position: "relative" }}>
+          <div key={index} css={{ position: 'relative' }}>
             <Card
               slug={card.imgixPath}
-              onClick={handleCardClick}
+              onClick={
+                card.playerId === localUser?.playerId ? null : handleCardClick
+              }
               css={scale({
                 width: SMALL_CARD_WIDTHS,
-                margin: "auto",
-                border: card.isStoryteller && "5px solid #5D24FF",
+                margin: 'auto',
+                border: card.isStoryteller && '5px solid #5D24FF',
+                opacity: card.playerId === localUser?.playerId ? 0.5 : 1,
+                cursor:
+                  card.playerId === localUser?.playerId
+                    ? 'not-allowed'
+                    : 'pointer'
               })}
             >
               {card.name !== storyteller && (
                 <>
                   <div
                     css={{
-                      width: "100%",
-                      height: "100%",
-                      position: "absolute",
+                      width: '100%',
+                      height: '100%',
+                      position: 'absolute'
                     }}
                   />
                   <caption
                     css={[
                       ownerCaption(votes),
                       {
-                        textAlign: "left",
+                        textAlign: 'left',
                         marginLeft: spacing.small,
-                        paddingTop: spacing.small,
-                      },
+                        paddingTop: spacing.small
+                      }
                     ]}
                   >
                     {card.name}’s card
@@ -81,7 +90,7 @@ export default function Submissions({
                 <caption
                   css={[
                     ownerCaption(votes),
-                    { position: "absolute", top: -24 },
+                    { position: 'absolute', top: -24 }
                   ]}
                 >
                   {card.name}’s card
@@ -92,10 +101,10 @@ export default function Submissions({
               <Flex
                 align="center"
                 css={{
-                  position: "absolute",
+                  position: 'absolute',
                   bottom: -spacing.xLarge,
-                  left: "50%",
-                  transform: "translate(-50%)",
+                  left: '50%',
+                  transform: 'translate(-50%)'
                 }}
               >
                 {votes.map((vote) => (
@@ -115,13 +124,13 @@ export default function Submissions({
                           ).imgixPath
                         }
                         css={scale({
-                          ".avatar": {
-                            width: [40, 40, 50, 50],
+                          '.avatar': {
+                            width: [40, 40, 50, 50]
                           },
                           p: {
                             marginTop: spacing.xSmall,
-                            fontSize: "11px",
-                          },
+                            fontSize: '11px'
+                          }
                         })}
                       />
                     )}
@@ -130,8 +139,8 @@ export default function Submissions({
               </Flex>
             )}
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

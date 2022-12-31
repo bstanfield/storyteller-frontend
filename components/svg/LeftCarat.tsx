@@ -13,5 +13,5 @@ export default function LeftCarat({ className }: { className?: any }) {
         fill="white"
       />
     </svg>
-  );
+  )
 }

@@ -1,29 +1,29 @@
 /** @jsxImportSource @emotion/react */
 
-import { Fragment, ReactNode, useState } from "react";
-import { spacing } from "../../styles/theme";
-import OpenBook from "../svg/OpenBook";
-import Flex from "./Flex";
-import HowToPlay from "../HowToPlay";
-import Menu from "../svg/Menu";
-import Overlay from "./Overlay";
-import Link from "next/link";
-import Home from "../svg/Home";
-import CardModeToggle from "../game/CardModeToggle";
+import { Fragment, ReactNode, useState } from 'react'
+import { spacing } from '../../styles/theme'
+import OpenBook from '../svg/OpenBook'
+import Flex from './Flex'
+import HowToPlay from '../HowToPlay'
+import Menu from '../svg/Menu'
+import Overlay from './Overlay'
+import Link from 'next/link'
+import Home from '../svg/Home'
+import CardModeToggle from '../game/CardModeToggle'
 
 function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
-  const [showHowToPlay, toggleHowToPlay] = useState(false);
+  const [showHowToPlay, toggleHowToPlay] = useState(false)
   return showHowToPlay ? (
     <HowToPlay handleClose={() => toggleHowToPlay(false)} />
   ) : (
     <Overlay handleClose={handleClose}>
-      <h1 css={{ textAlign: "center", paddingTop: spacing.large }}>MENU</h1>
+      <h1 css={{ textAlign: 'center', paddingTop: spacing.large }}>MENU</h1>
       <div
         css={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
         }}
       >
         <Link href="/">
@@ -34,7 +34,7 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
         </Link>
         <Flex
           align="center"
-          css={{ cursor: "pointer" }}
+          css={{ cursor: 'pointer' }}
           onClick={() => toggleHowToPlay(true)}
         >
           <OpenBook />
@@ -42,14 +42,14 @@ function ExpandedMenu({ handleClose }: { handleClose: () => void }) {
         </Flex>
       </div>
     </Overlay>
-  );
+  )
 }
 
 export function GameNav({ cardModePreference, handleCardModePreference }) {
-  const [showMenu, toggleMenu] = useState(false);
+  const [showMenu, toggleMenu] = useState(false)
 
   return (
-    <div css={{ position: "relative", width: "100%", zIndex: 1 }}>
+    <div css={{ position: 'relative', width: '100%', zIndex: 1 }}>
       {showMenu ? (
         <ExpandedMenu handleClose={() => toggleMenu(false)} />
       ) : (
@@ -57,9 +57,9 @@ export function GameNav({ cardModePreference, handleCardModePreference }) {
           <Flex
             align="center"
             css={{
-              position: "absolute",
+              position: 'absolute',
               left: spacing.large,
-              cursor: "pointer",
+              cursor: 'pointer'
             }}
             onClick={() => toggleMenu(true)}
           >
@@ -73,15 +73,15 @@ export function GameNav({ cardModePreference, handleCardModePreference }) {
         </Fragment>
       )}
     </div>
-  );
+  )
 }
 
 export default function GameLayout({
   cardModePreference,
   handleCardModePreference,
-  children,
+  children
 }: {
-  children: ReactNode;
+  children: ReactNode
 }) {
   return (
     <div>
@@ -91,5 +91,5 @@ export default function GameLayout({
       />
       {children}
     </div>
-  );
+  )
 }

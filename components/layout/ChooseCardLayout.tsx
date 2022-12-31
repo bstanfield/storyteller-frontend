@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { spacing } from "../../styles/theme";
-import { ReactNode, useEffect, useState } from "react";
-import Players from "../game/Players";
-import { PlayerType } from "../../types";
+import { spacing } from '../../styles/theme'
+import { ReactNode, useEffect, useState } from 'react'
+import Players from '../game/Players'
+import { PlayerType } from '../../types'
 
 export default function ChooseCardLayout({
   children,
@@ -12,23 +12,23 @@ export default function ChooseCardLayout({
   topMatter,
   players,
   cardModePreference,
-  localUser,
+  localUser
 }: {
-  children?: ReactNode;
-  preheaderText?: string;
-  headerText: string;
-  topMatter?: ReactNode;
-  players: PlayerType[];
+  children?: ReactNode
+  preheaderText?: string
+  headerText: string
+  topMatter?: ReactNode
+  players: PlayerType[]
 }) {
   return (
     <div
       css={{
-        overflowX: cardModePreference !== "fanned" ? "auto" : "hidden",
-        textAlign: "center",
+        overflowX: cardModePreference !== 'fanned' ? 'auto' : 'hidden',
+        textAlign: 'center',
         padding: spacing.medium,
-        position: "relative",
-        width: "100%",
-        height: "100vh",
+        position: 'relative',
+        width: '100%',
+        height: '100vh'
       }}
     >
       {topMatter}
@@ -41,13 +41,13 @@ export default function ChooseCardLayout({
         localUser={localUser}
         players={players}
         css={{
-          position: "absolute",
-          left: "50%",
-          transform: "translate(-50%)",
+          position: 'absolute',
+          left: '50%',
+          transform: 'translate(-50%)',
           bottom: 0,
-          margin: `${spacing.large}px auto`,
+          margin: `${spacing.large}px auto`
         }}
       />
     </div>
-  );
+  )
 }

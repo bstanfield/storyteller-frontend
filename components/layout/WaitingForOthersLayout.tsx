@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
-import { spacing } from "../../styles/theme";
-import { ReactNode } from "react";
-import Players from "../game/Players";
-import { CardType, Player } from "../../types";
-import FannedHand from "../game/FannedHand";
+import { spacing } from '../../styles/theme'
+import { ReactNode } from 'react'
+import Players from '../game/Players'
+import { CardType, Player } from '../../types'
+import FannedHand from '../game/FannedHand'
 
 export default function WaitingOnOthersLayout({
   topMatter,
@@ -12,22 +12,22 @@ export default function WaitingOnOthersLayout({
   cards,
   round,
   cardModePreference,
-  localUser,
+  localUser
 }: {
-  children?: ReactNode;
-  topMatter?: ReactNode;
-  players: Player[];
-  cards: CardType[];
-  round: any;
+  children?: ReactNode
+  topMatter?: ReactNode
+  players: Player[]
+  cards: CardType[]
+  round: any
 }) {
   return (
     <div
       css={{
-        textAlign: "center",
+        textAlign: 'center',
         padding: spacing.medium,
-        position: "relative",
-        width: "100%",
-        height: "100vh",
+        position: 'relative',
+        width: '100%',
+        height: '100vh'
       }}
     >
       {topMatter}
@@ -36,25 +36,25 @@ export default function WaitingOnOthersLayout({
         showStatus
         localUser={localUser}
         css={{
-          margin: `${spacing.large}px auto`,
+          margin: `${spacing.large}px auto`
         }}
       />
       {round.submissions.playersThatHaveNotSubmitted && (
         <h3 className="pulsing">
-          Waiting on {round.submissions.playersThatHaveNotSubmitted.length}{" "}
+          Waiting on {round.submissions.playersThatHaveNotSubmitted.length}{' '}
           player
-          {round.submissions.playersThatHaveNotSubmitted.length > 1 ? "s" : ""}
+          {round.submissions.playersThatHaveNotSubmitted.length > 1 ? 's' : ''}
           ...
         </h3>
       )}
       <div
         css={{
           // position: 'fixed', bottom: 100
-          marginTop: spacing.large,
+          marginTop: spacing.large
         }}
       >
         <FannedHand cards={cards} cardModePreference={cardModePreference} />
       </div>
     </div>
-  );
+  )
 }

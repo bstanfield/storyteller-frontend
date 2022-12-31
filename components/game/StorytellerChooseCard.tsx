@@ -1,33 +1,33 @@
 /** @jsxImportSource @emotion/react */
 
-import { TESTING_SAMPLE_HAND } from "../../config/constants";
-import FannedHand from "./FannedHand";
-import EnterClue from "./lightbox/EnterClue";
-import { spacing } from "../../styles/theme";
-import { useState } from "react";
-import ChooseCardLayout from "../layout/ChooseCardLayout";
-import { CardType, PlayerType } from "../../types";
+import { TESTING_SAMPLE_HAND } from '../../config/constants'
+import FannedHand from './FannedHand'
+import EnterClue from './lightbox/EnterClue'
+import { spacing } from '../../styles/theme'
+import { useState } from 'react'
+import ChooseCardLayout from '../layout/ChooseCardLayout'
+import { CardType, PlayerType } from '../../types'
 
 export default function ChooseCard({
   handleSubmitClue,
   players,
   cards,
   cardModePreference,
-  localUser,
+  localUser
 }: {
-  handleSubmitClue: (clue: string, imgixPath: string) => void;
-  players: PlayerType[];
-  cards: CardType[];
+  handleSubmitClue: (clue: string, imgixPath: string) => void
+  players: PlayerType[]
+  cards: CardType[]
 }) {
-  const [imageToShow, setImageToShow] = useState("");
+  const [imageToShow, setImageToShow] = useState('')
 
   function handleCardClick(slug) {
-    setImageToShow(slug);
+    setImageToShow(slug)
   }
 
   function handleSubmit(clue, imgixPath) {
-    setImageToShow("");
-    handleSubmitClue(clue, imgixPath);
+    setImageToShow('')
+    handleSubmitClue(clue, imgixPath)
   }
 
   return (
@@ -39,7 +39,7 @@ export default function ChooseCard({
     >
       {imageToShow && (
         <EnterClue
-          handleClose={() => setImageToShow("")}
+          handleClose={() => setImageToShow('')}
           handleSubmit={(clue) => handleSubmit(clue, imageToShow)}
           slug={imageToShow}
         />
@@ -52,5 +52,5 @@ export default function ChooseCard({
         />
       </div>
     </ChooseCardLayout>
-  );
+  )
 }

@@ -16,5 +16,5 @@ export default function Home({ className }: { className?: any }) {
         fill="#FF7A24"
       />
     </svg>
-  );
+  )
 }

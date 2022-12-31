@@ -13,5 +13,5 @@ export default function Checkmark({ className }: { className?: any }) {
         fill="#58DA2A"
       />
     </svg>
-  );
+  )
 }

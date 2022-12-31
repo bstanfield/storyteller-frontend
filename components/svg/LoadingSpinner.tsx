@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 export default function LoadingSpinner(props) {
-  const { width = 25, color = "white", speed = 3, ...restOfProps } = props;
+  const { width = 25, color = 'white', speed = 3, ...restOfProps } = props
   return (
     <svg
       width={width}
@@ -42,5 +42,5 @@ export default function LoadingSpinner(props) {
         </linearGradient>
       </defs>
     </svg>
-  );
+  )
 }

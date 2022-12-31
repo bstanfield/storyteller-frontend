@@ -19,5 +19,5 @@ export default function Menu() {
         fill="white"
       />
     </svg>
-  );
+  )
 }

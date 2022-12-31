@@ -74,7 +74,7 @@ a:hover {
 }
 
 .salt {
-  font-feature-settings: "salt";
+  font-feature-settings: 'salt';
 }
 
 @keyframes fade {

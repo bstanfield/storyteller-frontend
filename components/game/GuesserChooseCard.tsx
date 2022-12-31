@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import FannedHand from "./FannedHand";
-import { spacing } from "../../styles/theme";
-import { useState } from "react";
-import ChooseCardLayout from "../layout/ChooseCardLayout";
-import ConfirmSelection from "./lightbox/ConfirmSelection";
-import Clue from "./Clue";
-import { PlayerType } from "../../types";
+import FannedHand from './FannedHand'
+import { spacing } from '../../styles/theme'
+import { useState } from 'react'
+import ChooseCardLayout from '../layout/ChooseCardLayout'
+import ConfirmSelection from './lightbox/ConfirmSelection'
+import Clue from './Clue'
+import { PlayerType } from '../../types'
 
 export default function GuesserChooseCard({
   players,
@@ -14,29 +14,29 @@ export default function GuesserChooseCard({
   cards,
   roundData,
   cardModePreference,
-  localUser,
+  localUser
 }: {
-  players: PlayerType[];
-  handleContenderSubmission: (slug: string) => void;
-  cards: CardType[];
-  roundData;
+  players: PlayerType[]
+  handleContenderSubmission: (slug: string) => void
+  cards: CardType[]
+  roundData
 }) {
-  const [imageToShow, setImageToShow] = useState("");
+  const [imageToShow, setImageToShow] = useState('')
 
   // Perhaps this needs to get moved to top-level?
   function handleCardClick(slug) {
-    setImageToShow(slug);
+    setImageToShow(slug)
   }
 
   function handleConfirmSelection() {
-    handleContenderSubmission(imageToShow);
-    setImageToShow("");
+    handleContenderSubmission(imageToShow)
+    setImageToShow('')
   }
 
   return (
     <ChooseCardLayout
       localUser={localUser}
-      headerText={players.length === 3 ? "Pick two cards:" : "Pick one card:"}
+      headerText={players.length === 3 ? 'Pick two cards:' : 'Pick one card:'}
       players={players}
       topMatter={
         roundData.clue && (
@@ -49,7 +49,7 @@ export default function GuesserChooseCard({
     >
       {imageToShow && (
         <ConfirmSelection
-          handleClose={() => setImageToShow("")}
+          handleClose={() => setImageToShow('')}
           handleSubmit={handleConfirmSelection}
           slug={imageToShow}
         />
@@ -62,5 +62,5 @@ export default function GuesserChooseCard({
         />
       </div>
     </ChooseCardLayout>
-  );
+  )
 }

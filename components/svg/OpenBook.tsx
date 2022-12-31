@@ -12,5 +12,5 @@ export default function OpenBook() {
         fill="#FF7A24"
       />
     </svg>
-  );
+  )
 }

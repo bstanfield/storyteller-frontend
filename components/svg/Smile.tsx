@@ -22,5 +22,5 @@ export default function Smile() {
         fill="white"
       />
     </svg>
-  );
+  )
 }

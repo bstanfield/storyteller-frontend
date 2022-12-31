@@ -15,5 +15,5 @@ export default function Close({ className }: { className?: any }) {
         fill="white"
       />
     </svg>
-  );
+  )
 }
