@@ -39,7 +39,14 @@ export default function EndOfTurn({
       <h1>
         {storyteller}’s “{clue}”
       </h1>
-      <div css={{ width: '90%', margin: 'auto', marginTop: spacing.xLarge }}>
+      <br />
+      <div
+        css={{
+          width: 'fit-content',
+          margin: 'auto',
+          marginTop: spacing.xLarge
+        }}
+      >
         <Submissions
           players={players}
           votes={votes}
@@ -51,7 +58,7 @@ export default function EndOfTurn({
         onClick={handleStartNextTurn}
         css={{ marginTop: spacing.xxLarge, marginBottom: spacing.medium }}
       >
-        Start next turn
+        Start next round
       </button>
     </div>
   )
