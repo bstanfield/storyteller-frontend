@@ -37,6 +37,7 @@ export default function Avatar({
   status?: PlayerState
   className?: any
 }) {
+  console.log('show former score: ', showFormerScore)
   return avatarUrl ? (
     <div
       onClick={() => {
@@ -139,7 +140,7 @@ export default function Avatar({
       )}
       <div>
         {score && <p css={[boldText, { display: 'inline-block' }]}>{score}</p>}
-        {showFormerScore && formerScore && (
+        {showFormerScore && formerScore ? (
           <p
             css={[
               boldText,
@@ -148,7 +149,7 @@ export default function Avatar({
           >
             {score - formerScore > 0 ? `↑${score - formerScore}` : '--'}
           </p>
-        )}
+        ) : null}
       </div>
     </div>
   ) : (
