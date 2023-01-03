@@ -16,6 +16,8 @@ import Voting from '../../components/game/Voting'
 import OtherPlayersAreVoting from '../../components/game/OtherPlayersAreVoting'
 import EndOfTurn from '../../components/game/EndOfTurn'
 import Header from '../../components/header'
+import { scale } from '../../styles/scale'
+import { keyframes } from '@emotion/react'
 
 // All to-do's:
 // - Provide a delta between the new score and previous score
@@ -33,6 +35,57 @@ import Header from '../../components/header'
 // For 3-player
 // - Duplicate vote tokens on EndOfTurn screen
 // - "Choose two" needs better logic
+
+// TODO: MOVE THIS LATER
+const loadingSpinner = () =>
+  scale({
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    margin: 'auto',
+    textAlign: 'center',
+    height: 200,
+    width: 400
+  })
+
+const spinnerAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+  `
+
+const loadingRing = scale({
+  display: 'inline-block',
+  position: 'relative',
+  width: '80px',
+  height: '80px',
+  div: {
+    boxSizing: 'border-box',
+    display: 'block',
+    position: 'absolute',
+    width: '64px',
+    height: '64px',
+    margin: '8px',
+    border: '8px solid #333',
+    borderRadius: '50%',
+    animation: `${spinnerAnimation} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite`,
+    borderColor: 'white transparent transparent transparent'
+  },
+  'div:nth-child(1)': {
+    animationDelay: '-0.45s'
+  },
+  'div:nth-child(2)': {
+    animationDelay: '-0.3s'
+  },
+  'div:nth-child(3)': {
+    animationDelay: '-0.15s'
+  }
+})
 
 export default function Game() {
   const [game, setGame] = useState(null)
@@ -128,10 +181,6 @@ export default function Game() {
         }
       })
 
-      connection.on('loading', (boolean) => {
-        setLoading(boolean)
-      })
-
       connection.on('players', (data) => {
         const player = data.find((player) => player.playerId === playerId)
         setPlayer(player)
@@ -179,8 +228,37 @@ export default function Game() {
     setPhase(phase)
   }, [roundData])
 
-  if (loading || !socketConnection) {
-    return <div />
+  // Whenever phase changes, do something
+  useEffect(() => {
+    if (phase === 'voting' || phase === 'score') {
+      // Use for 'voting' phase = "laying out the cards..."
+      // Use for 'scoring' phase == "tallying votes..."
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+      }, 2500)
+    }
+  }, [phase])
+
+  if (loading) {
+    return (
+      <Fragment>
+        <Header />
+        <div css={{ height: '100vh' }}>
+          <div css={loadingSpinner}>
+            <div css={loadingRing}>
+              <div></div>
+              <div></div>
+            </div>
+            <p css={{ fontWeight: 800, fontSize: 22 }}>
+              {phase === 'voting'
+                ? 'Laying out the cards...'
+                : 'Tallying votes...'}
+            </p>
+          </div>
+        </div>
+      </Fragment>
+    )
   }
 
   const handleCardModePreference = () => {
