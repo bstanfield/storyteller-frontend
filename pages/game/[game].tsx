@@ -106,7 +106,7 @@ export default function Game() {
     submissions: [],
     storyteller: {}
   })
-  const [phase, setPhase] = useState('')
+  const [phase, setPhase] = useState('init')
   const [contenderCard, setContenderCard] = useState('')
   const [vote, setVote] = useState('')
 
@@ -164,6 +164,9 @@ export default function Game() {
         if (relevantHandObj.length > 0) {
           setHand(relevantHandObj[0].hand)
         }
+
+        // Clears old vote string
+        setVote('')
       })
 
       connection.on('round', (data) => {
@@ -230,13 +233,12 @@ export default function Game() {
 
   // Whenever phase changes, do something
   useEffect(() => {
-    if (phase === 'voting' || phase === 'score') {
-      // Use for 'voting' phase = "laying out the cards..."
-      // Use for 'scoring' phase == "tallying votes..."
+    if (phase === 'init' || phase === 'voting' || phase === 'score') {
+      // TODO: Add an in-between-rounds phase
       setLoading(true)
       setTimeout(() => {
         setLoading(false)
-      }, 2500)
+      }, 2000)
     }
   }, [phase])
 
@@ -251,9 +253,9 @@ export default function Game() {
               <div></div>
             </div>
             <p css={{ fontWeight: 800, fontSize: 22 }}>
-              {phase === 'voting'
-                ? 'Laying out the cards...'
-                : 'Tallying votes...'}
+              {phase === 'init' && 'Loading game...'}
+              {phase === 'voting' && 'Laying out the cards...'}
+              {phase === 'score' && 'Tallying votes...'}
             </p>
           </div>
         </div>

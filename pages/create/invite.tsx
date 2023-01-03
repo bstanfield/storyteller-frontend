@@ -105,8 +105,8 @@ export default function Invite() {
           <h1>Invite your friends!</h1>
 
           <Flex justify="center">
-            <h3 css={{ marginRight: spacing.default }}>Invite link:</h3>
-            <TextInput value={`storyteller.ai/${gameSlug}`} readOnly />
+            <h3 css={{ marginRight: spacing.default }}>Game code:</h3>
+            <TextInput value={`${gameSlug}`} readOnly />
           </Flex>
           {/* TODO:  <div
             css={{

@@ -134,9 +134,7 @@ export default function Index() {
             <br />
             <br />
             <br />
-            <p css={{ lineHeight: 1.4 }}>
-              Created by <a href="">Mimi</a> & <a href="">Ben</a>.
-            </p>
+            <p css={{ lineHeight: 1.4 }}>Created by Mimi & Ben.</p>
           </div>
         </div>
         <div
