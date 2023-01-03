@@ -35,6 +35,8 @@ export default function Voting({
     handleSubmitVote(imageToShow)
   }
 
+  console.log('vote: ', vote)
+
   return (
     <div
       css={{
@@ -53,7 +55,7 @@ export default function Voting({
         />
       )}
       <Clue storyteller={storyteller} clue={clue} />
-      {vote ? (
+      {vote !== '' ? (
         <h1>Your vote is in!</h1>
       ) : (
         <>

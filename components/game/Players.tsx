@@ -22,6 +22,8 @@ export default function Players({
           <Avatar
             username={player.name}
             avatarUrl={player.imgixPath}
+            formerScore={player.formerScore}
+            showFormerScore={!showStatus}
             score={player.score}
             status={showStatus ? player.status : false}
             localUser={localUser}

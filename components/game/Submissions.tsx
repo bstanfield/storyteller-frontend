@@ -158,31 +158,32 @@ export default function Submissions({
               >
                 {votes.map((vote) => (
                   <div key={index} css={{ margin: `0px ${spacing.default}px` }}>
-                    {vote.submitterPlayerGamesId === card.playerGamesId && (
-                      <Avatar
-                        username={
-                          players.find(
-                            (player) =>
-                              player.playerGamesId === vote.voterPlayerGamesId
-                          ).name
-                        }
-                        avatarUrl={
-                          players.find(
-                            (player) =>
-                              player.playerGamesId === vote.voterPlayerGamesId
-                          ).imgixPath
-                        }
-                        css={scale({
-                          '.avatar': {
-                            width: [40, 40, 50, 50]
-                          },
-                          p: {
-                            marginTop: spacing.xSmall,
-                            fontSize: '11px'
+                    {vote.submitterPlayerGamesId === card.playerGamesId &&
+                      vote.imgixPath === card.imgixPath && (
+                        <Avatar
+                          username={
+                            players.find(
+                              (player) =>
+                                player.playerGamesId === vote.voterPlayerGamesId
+                            ).name
                           }
-                        })}
-                      />
-                    )}
+                          avatarUrl={
+                            players.find(
+                              (player) =>
+                                player.playerGamesId === vote.voterPlayerGamesId
+                            ).imgixPath
+                          }
+                          css={scale({
+                            '.avatar': {
+                              width: [40, 40, 50, 50]
+                            },
+                            p: {
+                              marginTop: spacing.xSmall,
+                              fontSize: '11px'
+                            }
+                          })}
+                        />
+                      )}
                   </div>
                 ))}
               </Flex>

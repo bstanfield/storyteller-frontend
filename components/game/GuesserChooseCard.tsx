@@ -36,7 +36,15 @@ export default function GuesserChooseCard({
   return (
     <ChooseCardLayout
       localUser={localUser}
-      headerText={players.length === 3 ? 'Pick two cards:' : 'Pick one card:'}
+      headerText={
+        players.length === 3
+          ? roundData.submissions.playersThatHaveSubmitted.filter(
+              (sub) => sub.playerId === localUser.playerId
+            ).length > 0
+            ? 'Pick one more card'
+            : 'Pick two cards'
+          : 'Pick one card:'
+      }
       players={players}
       topMatter={
         roundData.clue && (

@@ -23,8 +23,10 @@ export default function Avatar({
   avatarUrl,
   username,
   score,
+  formerScore,
   handleAvatarClick,
   status,
+  showFormerScore,
   localUser,
   className
 }: {
@@ -135,7 +137,19 @@ export default function Avatar({
           </p>
         </div>
       )}
-      {score && <p css={boldText}>{score}</p>}
+      <div>
+        {score && <p css={[boldText, { display: 'inline-block' }]}>{score}</p>}
+        {showFormerScore && formerScore && (
+          <p
+            css={[
+              boldText,
+              { paddingLeft: 4, display: 'inline-block', color: '#ff6400' }
+            ]}
+          >
+            {score - formerScore > 0 ? `↑${score - formerScore}` : '--'}
+          </p>
+        )}
+      </div>
     </div>
   ) : (
     <div>
