@@ -32,7 +32,10 @@ button {
   max-width: 300px;
   padding: 16px 60px;
   background-color: #ff6400;
-  filter: drop-shadow(0 0 15px rgba(255, 122, 36, 0.5));
+  filter: box-shadow(0 0 15px rgba(255, 122, 36, 0.5));
+  box-shadow: 1px 1px 16px 1px rgba(255, 122, 36, 0.5);
+  -webkit-box-shadow: 1px 1px 16px 1px rgba(255, 122, 36, 0.5);
+  -moz-box-shadow: 1px 1px 16px 1px rgba(255, 122, 36, 0.5);
   border: none;
   border-radius: 8px;
   font-weight: 800;
@@ -49,7 +52,9 @@ button:hover {
 
 .btn-purple {
   background-color: #5d24ff;
-  filter: drop-shadow(0 0 15px rgba(93, 36, 255, 0.5));
+  box-shadow: 1px 1px 16px 1px rgba(93, 36, 255, 0.5);
+  -webkit-box-shadow: 1px 1px 16px 1px rgba(93, 36, 255, 0.5);
+  -moz-box-shadow: 1px 1px 16px 1px rgba(93, 36, 255, 0.5);
 }
 
 a {
@@ -64,6 +69,7 @@ a:hover {
 }
 
 * {
+  -webkit-font-smoothing: antialiased;
   color: white;
   box-sizing: border-box;
 }

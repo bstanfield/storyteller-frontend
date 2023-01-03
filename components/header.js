@@ -4,10 +4,10 @@ export default function Header() {
   return (
     <Head>
       <title>Storyteller</title>
-      <meta property="og:image" content="https://i.imgur.com/NfmSRhc.png" />
+      {/* <meta property="og:image" content="https://i.imgur.com/NfmSRhc.png" /> */}
       <meta
         property="og:description"
-        content="Solve crosswords, collaboratively. Play by yourself, or with up to twenty friends!"
+        content="Tell stories that match AI-generated cards!"
       />
       <meta
         name="viewport"

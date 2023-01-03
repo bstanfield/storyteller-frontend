@@ -83,7 +83,8 @@ export default function Index() {
       <Header />
       <div
         css={{
-          display: 'flex'
+          display: 'flex',
+          overflow: 'hidden'
         }}
       >
         <div
@@ -100,15 +101,13 @@ export default function Index() {
             }}
           >
             <img
-              css={{ marginBottom: -30, width: 300 }}
+              css={{ marginBottom: -30, width: 250 }}
               src="https://storyteller.imgix.net/storyteller-logo.png?w=450"
             ></img>
-            <h3 css={{ opacity: 0.9, marginBottom: 60 }}>
-              <i>
-                Tell stories that match
-                <br />
-                AI-generated cards!
-              </i>
+            <h3 css={{ opacity: 0.8, marginBottom: 60, fontWeight: 400 }}>
+              Tell stories that match
+              <br />
+              AI-generated cards!
             </h3>
 
             <h3>Create a new game</h3>
@@ -127,8 +126,15 @@ export default function Index() {
             <button onClick={() => checkGame(game)} className="btn-purple">
               Join game
             </button>
-            <p>
-              Playing as <a href="">{username}</a>
+            {username && (
+              <p>
+                Playing as <a href="">{username}</a>
+              </p>
+            )}
+            <br />
+            <br />
+            <p css={{ lineHeight: 1.4 }}>
+              Created by <a href="">Mimi</a> & <a href="">Ben</a>.
             </p>
           </div>
         </div>
