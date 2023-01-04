@@ -34,26 +34,25 @@ export default function FannedHand({
   cards: CardType[]
   handleCardClick?: (slug: string) => void
 }) {
-  // console.log('card mode preference: ', cardModePreference);
   return (
     <div
       css={{
-        overflowX: cardModePreference === 'fanned' ? 'visible' : 'scroll',
         width: '100%'
       }}
     >
       <Flex
-        justify="space-between"
+        justify={cardModePreference === 'fanned' ? 'space-between' : 'center'}
         align="center"
         css={scale({
           position: 'relative',
-          maxWidth: cardModePreference === 'fanned' ? '90%' : 'none',
+          maxWidth: cardModePreference === 'fanned' ? '90%' : '1200px',
           width:
             cardModePreference === 'fanned'
               ? CARD_WIDTHS.map((width) => width * cards.length)
-              : 'fit-content',
+              : '100%',
           margin: 'auto',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
+          flexWrap: 'wrap'
         })}
       >
         {cards.map((card, index) => {

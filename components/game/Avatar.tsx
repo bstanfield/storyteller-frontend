@@ -10,7 +10,7 @@ import Flex from '../layout/Flex'
 
 const avatarStyle = scale({
   position: 'relative',
-  width: [60, 60, 60, 80],
+  width: [60, 60, 60, 70],
   aspectRatio: '1 / 1',
   borderRadius: '100%',
   margin: 'auto',
@@ -82,7 +82,7 @@ export default function Avatar({
                 'scale(0.75)',
                 'scale(0.75)',
                 'scale(0.75)',
-                'scale(1)'
+                'scale(0.9)'
               ]
             })}
             align="center"
@@ -150,7 +150,7 @@ export default function Avatar({
       )}
       <div>
         {score && <p css={[boldText, { display: 'inline-block' }]}>{score}</p>}
-        {showFormerScore && formerScore ? (
+        {showFormerScore && formerScore >= 0 ? (
           <p
             css={[
               boldText,

@@ -36,6 +36,7 @@ export default function GuesserChooseCard({
   return (
     <ChooseCardLayout
       localUser={localUser}
+      cardModePreference={cardModePreference}
       headerText={
         players.length === 3
           ? roundData.submissions.playersThatHaveSubmitted.filter(
@@ -62,7 +63,7 @@ export default function GuesserChooseCard({
           slug={imageToShow}
         />
       )}
-      <div css={{ marginTop: spacing.xLarge }}>
+      <div css={{ marginTop: spacing.large }}>
         <FannedHand
           cards={cards}
           handleCardClick={handleCardClick}

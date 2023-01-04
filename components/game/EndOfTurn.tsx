@@ -18,8 +18,6 @@ export default function EndOfTurn({
   players: PlayerType[]
   handleStartNextTurn: () => void
 }) {
-  console.log('submissions: ', submissions)
-  console.log('votes: ', votes)
   return (
     <div
       css={{

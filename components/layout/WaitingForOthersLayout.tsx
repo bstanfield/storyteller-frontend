@@ -33,6 +33,7 @@ export default function WaitingOnOthersLayout({
       {topMatter}
       <Players
         players={players}
+        cardModePreference={cardModePreference}
         showStatus
         localUser={localUser}
         css={{

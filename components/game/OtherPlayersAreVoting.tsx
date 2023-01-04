@@ -23,7 +23,7 @@ export default function OtherPlayersAreVoting({
         height: '100vh'
       }}
     >
-      <h1>Other players are voting...</h1>
+      <h1 className="pulsing">Other players are voting...</h1>
       <Players
         players={players}
         showStatus

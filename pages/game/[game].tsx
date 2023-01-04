@@ -285,10 +285,11 @@ export default function Game() {
       >
         <div
           css={{
-            overflow: 'auto',
             textAlign: 'center',
             position: 'relative',
             width: '100%',
+            maxWidth: 1400,
+            margin: 'auto',
             height: '100vh'
           }}
         >
@@ -385,7 +386,7 @@ export default function Game() {
                 cards={hand}
                 localUser={{ username, playerId }}
               />
-            ) : phase === 'voting' ? (
+            ) : phase === 'voting' && player.status.verb === 'playing' ? (
               <Voting
                 storyteller={capitalize(roundData.storyteller.name)}
                 players={players}
@@ -393,6 +394,12 @@ export default function Game() {
                 submissions={roundData.submissions.playersThatHaveSubmitted}
                 handleSubmitVote={(slug) => setVote(slug)}
                 vote={vote}
+                localUser={{ username, playerId }}
+              />
+            ) : phase === 'voting' && player.status.verb === 'waiting' ? (
+              <OtherPlayersAreVoting
+                players={players}
+                submissions={roundData.submissions.playersThatHaveSubmitted}
                 localUser={{ username, playerId }}
               />
             ) : (

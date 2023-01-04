@@ -23,10 +23,9 @@ export default function ChooseCardLayout({
   return (
     <div
       css={{
-        overflowX: cardModePreference !== 'fanned' ? 'auto' : 'hidden',
         textAlign: 'center',
         padding: spacing.medium,
-        position: 'relative',
+        position: cardModePreference !== 'fanned' ? null : 'relative',
         width: '100%',
         height: '100vh'
       }}
@@ -40,6 +39,7 @@ export default function ChooseCardLayout({
       <Players
         localUser={localUser}
         players={players}
+        cardModePreference={cardModePreference}
         css={{
           position: 'absolute',
           left: 0,

@@ -35,6 +35,7 @@ export default function ChooseCard({
       preheaderText="You’re the storyteller!"
       headerText="Choose a card:"
       players={players}
+      cardModePreference={cardModePreference}
       localUser={localUser}
     >
       {imageToShow && (
@@ -44,7 +45,7 @@ export default function ChooseCard({
           slug={imageToShow}
         />
       )}
-      <div css={{ marginTop: spacing.xLarge }}>
+      <div css={{ marginTop: spacing.large }}>
         <FannedHand
           cards={cards}
           handleCardClick={handleCardClick}

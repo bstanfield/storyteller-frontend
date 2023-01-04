@@ -8,7 +8,7 @@ import { ReactNode } from 'react'
 const cardStyles = (slug, onClick, cardModePreference) =>
   scale({
     width: cardModePreference === 'fanned' ? CARD_WIDTHS : JUMBO_CARD_WIDTHS,
-    margin: cardModePreference === 'fanned' ? 'none' : '0px 36px',
+    margin: cardModePreference === 'fanned' ? 'none' : '16px 16px',
     aspectRatio: '1 / 1.5',
     backgroundColor: 'black',
     borderRadius: 14,
