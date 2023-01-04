@@ -25,6 +25,7 @@ const addPlayerToGame = async (gameSlug, playerId) => {
 }
 
 export default function Invite() {
+  const [url, setUrl] = useState<any>(false)
   const [gameSlug, setGameSlug] = useState<any>(false)
   const [username, setUsername] = useState<any>(false)
   const [playerId, setPlayerId] = useState<any>(false)
@@ -34,6 +35,11 @@ export default function Invite() {
 
   const emptyAvatarCount = MAX_PLAYER_COUNT - players.length
   const emptyAvatars = Array(emptyAvatarCount).fill({})
+
+  // When window is loaded, get the game id from the url
+  useEffect(() => {
+    setUrl(window.location.host)
+  }, [])
 
   // Get game id from url
   useEffect(() => {
@@ -106,7 +112,7 @@ export default function Invite() {
 
           <Flex justify="center">
             <h3 css={{ marginRight: spacing.default }}>Game code:</h3>
-            <TextInput value={`${gameSlug}`} readOnly />
+            {url && <TextInput value={`${url}/${gameSlug}`} readOnly />}
           </Flex>
           {/* TODO:  <div
             css={{

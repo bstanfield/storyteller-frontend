@@ -76,7 +76,7 @@ export const TESTING_INVITEES: Partial<PlayerType>[] = [
 export const TESTING_STORYTELLER = TESTING_INVITEES[0]
 
 export const CARD_WIDTHS = [160, 160, 180, 200]
-export const JUMBO_CARD_WIDTHS = [180, 200, 260, 320]
+export const JUMBO_CARD_WIDTHS = [180, 200, 240, 300]
 export const SMALL_CARD_WIDTHS = [140, 150, 170, 190]
 export const LIGHTBOX_CARD_WIDTHS = [160, 200, 260, 300]
 

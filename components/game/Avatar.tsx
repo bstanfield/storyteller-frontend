@@ -10,12 +10,17 @@ import Flex from '../layout/Flex'
 
 const avatarStyle = scale({
   position: 'relative',
-  width: [80, 80, 90, 90],
+  width: [60, 60, 60, 80],
   aspectRatio: '1 / 1',
   borderRadius: '100%',
   margin: 'auto',
   transition: 'transform 0.2s ease-in-out'
 })
+
+const usernameLengthStyle = (username) =>
+  scale({
+    fontSize: username.length > 6 ? '80%' : 'inherit'
+  })
 
 const boldText = { textTransform: 'uppercase', fontWeight: 700, margin: 0 }
 
@@ -37,7 +42,6 @@ export default function Avatar({
   status?: PlayerState
   className?: any
 }) {
-  console.log('show former score: ', showFormerScore)
   return avatarUrl ? (
     <div
       onClick={() => {
@@ -66,15 +70,21 @@ export default function Avatar({
       >
         {status?.verb && (
           <Flex
-            css={{
+            css={scale({
               backgroundColor: '#040126',
               borderRadius: '100%',
               width: 'fit-content',
               padding: spacing.xSmall,
               position: 'absolute',
               top: -spacing.small,
-              right: -spacing.small
-            }}
+              right: -spacing.small,
+              transform: [
+                'scale(0.75)',
+                'scale(0.75)',
+                'scale(0.75)',
+                'scale(1)'
+              ]
+            })}
             align="center"
             justify="center"
           >
@@ -121,7 +131,7 @@ export default function Avatar({
               </span>
             </div>
           )}
-          <p css={boldText}>{username}</p>
+          <p css={[boldText, usernameLengthStyle(username)]}>{username}</p>
           <p
             css={[
               boldText,

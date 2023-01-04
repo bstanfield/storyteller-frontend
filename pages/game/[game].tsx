@@ -352,7 +352,7 @@ export default function Game() {
                 cardModePreference={cardModePreference}
                 localUser={{ username, playerId }}
               >
-                <div css={{ marginTop: spacing.xLarge }}>
+                <div css={{ marginTop: spacing.large }}>
                   <FannedHand
                     cards={hand}
                     cardModePreference={cardModePreference}

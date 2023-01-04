@@ -42,9 +42,9 @@ export default function ChooseCardLayout({
         players={players}
         css={{
           position: 'absolute',
-          left: '50%',
-          transform: 'translate(-50%)',
+          left: 0,
           bottom: 0,
+          right: 0,
           margin: `${spacing.large}px auto`
         }}
       />
