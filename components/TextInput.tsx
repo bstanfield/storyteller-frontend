@@ -26,7 +26,7 @@ export default function TextInput({
     fontFamily: fonts.monospace,
     color: 'white',
     fontSize: 20,
-    width: stretch ? 330 : '100%',
+    width: stretch ? 340 : '100%',
     maxWidth: stretch ? 'none' : 300,
     marginBottom: 18,
     backgroundColor: colors.input,
