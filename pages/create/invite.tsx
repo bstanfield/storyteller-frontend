@@ -112,9 +112,7 @@ export default function Invite() {
 
           <Flex justify="center">
             <h3 css={{ marginRight: spacing.default }}>Game code:</h3>
-            {url && (
-              <TextInput fitContent value={`${url}/${gameSlug}`} readOnly />
-            )}
+            {url && <TextInput stretch value={`${url}/${gameSlug}`} readOnly />}
           </Flex>
           {/* TODO:  <div
             css={{
