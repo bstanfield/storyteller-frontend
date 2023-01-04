@@ -9,7 +9,7 @@ export default function TextInput({
   onChange,
   value,
   placeholder,
-  fitContent,
+  stretch,
   readOnly = false,
   handleEnter = () => {}
 }: {
@@ -26,8 +26,8 @@ export default function TextInput({
     fontFamily: fonts.monospace,
     color: 'white',
     fontSize: 20,
-    width: '100%',
-    maxWidth: fitContent ? 'fit-content' : 300,
+    width: stretch ? 330 : '100%',
+    maxWidth: stretch ? 'none' : 300,
     marginBottom: 18,
     backgroundColor: colors.input,
     '&::placeholder': {
