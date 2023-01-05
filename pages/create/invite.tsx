@@ -55,7 +55,7 @@ export default function Invite() {
       setSocketConnection(connection)
 
       connection.on('connect', () => {
-        connection.emit('join', { player_id: playerId, game: gameSlug })
+        connection.emit('initial join', { player_id: playerId, game: gameSlug })
       })
 
       connection.on('players', (data) => {
